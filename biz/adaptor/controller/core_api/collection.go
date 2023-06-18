@@ -7,6 +7,8 @@ import (
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/obs/log"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -26,7 +28,8 @@ func GetCatPreviews(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	user := p.Extractor.ExtractUserMeta(ctx, c)
-	resp, err := p.CollectionService.GetCatPreviews(ctx, &req, user)
+	log.Info(util.JSONF(user))
+	resp, err := p.CollectionService.GetCatPreviews(ctx, &req)
 	adaptor.HandlerError(ctx, err, c)
 
 	c.JSON(consts.StatusOK, resp)

@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/constance"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc"
@@ -14,7 +13,7 @@ import (
 )
 
 type ICollectionService interface {
-	GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq, user *meowchat.UserMeta) (*core_api.GetCatPreviewsResp, error)
+	GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error)
 }
 
 type CollectionService struct {
@@ -26,7 +25,7 @@ var CollectionServiceSet = wire.NewSet(
 	wire.Bind(new(ICollectionService), new(*CollectionService)),
 )
 
-func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq, user *meowchat.UserMeta) (*core_api.GetCatPreviewsResp, error) {
+func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error) {
 	resp := new(core_api.GetCatPreviewsResp)
 	pageSize := constance.DefaultPageSize
 	data, err := s.Collection.ListCat(ctx, &pb.ListCatReq{

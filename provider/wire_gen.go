@@ -38,7 +38,9 @@ func NewContainer() (*Provider, error) {
 	applicationApplication := &application.Application{
 		CollectionService: collectionService,
 	}
-	infrastructureInfrastructure := &infrastructure.Infrastructure{}
+	infrastructureInfrastructure := &infrastructure.Infrastructure{
+		Config: configConfig,
+	}
 	providerProvider := &Provider{
 		Adaptor:        adaptorAdaptor,
 		Application:    applicationApplication,

@@ -7,6 +7,7 @@ import (
 )
 
 type Infrastructure struct {
+	*config.Config
 }
 
 var RPCSet = wire.NewSet(

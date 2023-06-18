@@ -1,6 +1,8 @@
 package adaptor
 
-import "github.com/google/wire"
+import (
+	"github.com/google/wire"
+)
 
 type Adaptor struct {
 	Extractor IExtractor

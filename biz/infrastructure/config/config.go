@@ -14,6 +14,9 @@ type Auth struct {
 }
 
 type Config struct {
+	Name          string
+	ListenOn      string
+	LogLevel      string
 	Auth          Auth
 	CdnHost       string
 	AuthRPC       zrpc.RpcClientConf

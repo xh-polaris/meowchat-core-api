@@ -3,24 +3,27 @@
 package main
 
 import (
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/obs/log"
-	"github.com/xh-polaris/meowchat-core-api/provider"
-
 	"github.com/cloudwego/hertz/pkg/app/server"
-	"go.opentelemetry.io/contrib/propagators/b3"
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/propagation"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/obs/log"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/obs/trace"
+	"github.com/xh-polaris/meowchat-core-api/provider"
 )
 
 func Init() {
-	log.Init()
 	provider.Init()
+	log.Init()
+	trace.Init()
 }
 
 func main() {
 	Init()
-	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(b3.New(), propagation.Baggage{}, propagation.TraceContext{}))
-	h := server.Default()
+	c := provider.Get().Config
+	log.SetLevel(c.LogLevel)
+	h := server.Default(
+		server.WithHostPorts(c.ListenOn),
+	)
 	register(h)
+	log.Info("server start")
 	h.Spin()
 }
