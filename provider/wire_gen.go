@@ -8,16 +8,14 @@ package provider
 
 import (
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
-	"github.com/xh-polaris/meowchat-core-api/biz/application"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/service"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc"
 )
 
 // Injectors from wire.go:
 
-func NewContainer() (*Provider, error) {
+func NewProvider() (*Provider, error) {
 	configConfig, err := config.NewConfig()
 	if err != nil {
 		return nil, err
@@ -25,9 +23,7 @@ func NewContainer() (*Provider, error) {
 	extractor := &adaptor.Extractor{
 		Config: configConfig,
 	}
-	adaptorAdaptor := &adaptor.Adaptor{
-		Extractor: extractor,
-	}
+	handler := &adaptor.Handler{}
 	collectionRpc := rpc.NewCollectionRPC(configConfig)
 	meowchatCollection := &rpc.MeowchatCollection{
 		CollectionRpc: collectionRpc,
@@ -35,16 +31,11 @@ func NewContainer() (*Provider, error) {
 	collectionService := &service.CollectionService{
 		Collection: meowchatCollection,
 	}
-	applicationApplication := &application.Application{
-		CollectionService: collectionService,
-	}
-	infrastructureInfrastructure := &infrastructure.Infrastructure{
-		Config: configConfig,
-	}
 	providerProvider := &Provider{
-		Adaptor:        adaptorAdaptor,
-		Application:    applicationApplication,
-		Infrastructure: infrastructureInfrastructure,
+		Extractor:         extractor,
+		Handler:           handler,
+		Config:            configConfig,
+		CollectionService: collectionService,
 	}
 	return providerProvider, nil
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/google/wire"
 )
 
-func NewContainer() (*Provider, error) {
+func NewProvider() (*Provider, error) {
 	wire.Build(
 		AllProvider,
 		wire.Struct(new(Provider), "*"),

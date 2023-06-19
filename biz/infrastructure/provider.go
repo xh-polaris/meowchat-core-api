@@ -6,16 +6,11 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc"
 )
 
-type Infrastructure struct {
-	*config.Config
-}
-
 var RPCSet = wire.NewSet(
 	rpc.MeowchatCollectionSet,
 )
 
 var ProviderSet = wire.NewSet(
-	wire.Struct(new(Infrastructure), "*"),
 	config.ProviderSet,
 	RPCSet,
 )
