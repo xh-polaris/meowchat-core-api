@@ -3,7 +3,6 @@ package provider
 import (
 	"github.com/google/wire"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure"
@@ -22,10 +21,9 @@ func Init() {
 
 // Provider 提供controller依赖的对象
 type Provider struct {
-	Extractor         adaptor.IExtractor
-	Handler           adaptor.IHandler
 	Config            *config.Config
 	CollectionService service.ICollectionService
+	AuthService       service.IAuthService
 }
 
 func Get() *Provider {
@@ -33,7 +31,6 @@ func Get() *Provider {
 }
 
 var AllProvider = wire.NewSet(
-	adaptor.ProviderSet,
 	application.ProviderSet,
 	infrastructure.ProviderSet,
 )

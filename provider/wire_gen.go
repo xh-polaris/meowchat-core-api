@@ -7,10 +7,10 @@
 package provider
 
 import (
-	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_collection"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_authentication"
 )
 
 // Injectors from wire.go:
@@ -20,22 +20,25 @@ func NewProvider() (*Provider, error) {
 	if err != nil {
 		return nil, err
 	}
-	extractor := &adaptor.Extractor{
-		Config: configConfig,
-	}
-	handler := &adaptor.Handler{}
-	collectionRpc := rpc.NewCollectionRPC(configConfig)
-	meowchatCollection := &rpc.MeowchatCollection{
+	collectionRpc := meowchat_collection.NewMeowchatCollection(configConfig)
+	meowchatCollection := &meowchat_collection.MeowchatCollection{
 		CollectionRpc: collectionRpc,
 	}
 	collectionService := &service.CollectionService{
 		Collection: meowchatCollection,
 	}
+	auth := platform_authentication.NewPlatformAuthentication(configConfig)
+	platformAuthentication := &platform_authentication.PlatformAuthentication{
+		Auth: auth,
+	}
+	authService := &service.AuthService{
+		Config:         configConfig,
+		Authentication: platformAuthentication,
+	}
 	providerProvider := &Provider{
-		Extractor:         extractor,
-		Handler:           handler,
 		Config:            configConfig,
 		CollectionService: collectionService,
+		AuthService:       authService,
 	}
 	return providerProvider, nil
 }

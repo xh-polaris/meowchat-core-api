@@ -3,13 +3,13 @@ package service
 import (
 	"context"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/constance"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc"
-
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
 	"github.com/xh-polaris/meowchat-collection-rpc/pb"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_collection"
 )
 
 type ICollectionService interface {
@@ -17,7 +17,7 @@ type ICollectionService interface {
 }
 
 type CollectionService struct {
-	Collection rpc.IMeowchatCollection
+	Collection meowchat_collection.IMeowchatCollection
 }
 
 var CollectionServiceSet = wire.NewSet(
@@ -27,7 +27,7 @@ var CollectionServiceSet = wire.NewSet(
 
 func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error) {
 	resp := new(core_api.GetCatPreviewsResp)
-	pageSize := constance.DefaultPageSize
+	pageSize := consts.DefaultPageSize
 	data, err := s.Collection.ListCat(ctx, &pb.ListCatReq{
 		CommunityId: req.CommunityId,
 		Count:       pageSize,

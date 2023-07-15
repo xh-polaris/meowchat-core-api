@@ -1,9 +1,9 @@
 package config
 
 import (
+	"github.com/zeromicro/go-zero/core/service"
 	"os"
 
-	"github.com/google/wire"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/zrpc"
 )
@@ -14,9 +14,8 @@ type Auth struct {
 }
 
 type Config struct {
-	Name          string
+	service.ServiceConf
 	ListenOn      string
-	LogLevel      string
 	Auth          Auth
 	CdnHost       string
 	AuthRPC       zrpc.RpcClientConf
@@ -37,9 +36,12 @@ func NewConfig() (*Config, error) {
 		path = "etc/config.yaml"
 	}
 	err := conf.Load(path, c)
-	return c, err
+	if err != nil {
+		return nil, err
+	}
+	err = c.SetUp()
+	if err != nil {
+		return nil, err
+	}
+	return c, nil
 }
-
-var ProviderSet = wire.NewSet(
-	NewConfig,
-)

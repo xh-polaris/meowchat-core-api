@@ -4,25 +4,31 @@ package main
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/obs/log"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/obs/trace"
+	"github.com/hertz-contrib/obs-opentelemetry/tracing"
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 	"github.com/xh-polaris/meowchat-core-api/provider"
+	"go.opentelemetry.io/contrib/propagators/b3"
+	"go.opentelemetry.io/otel"
 )
 
 func Init() {
 	provider.Init()
-	log.Init()
-	trace.Init()
+	adaptor.Init()
+	otel.SetTextMapPropagator(b3.New())
 }
 
 func main() {
 	Init()
 	c := provider.Get().Config
-	log.SetLevel(c.LogLevel)
+
+	tracer, cfg := tracing.NewServerTracer()
 	h := server.Default(
 		server.WithHostPorts(c.ListenOn),
+		tracer,
 	)
+	h.Use(tracing.ServerMiddleware(cfg))
+
 	register(h)
 	log.Info("server start")
 	h.Spin()

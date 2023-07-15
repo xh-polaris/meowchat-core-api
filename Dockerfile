@@ -14,16 +14,15 @@ ADD go.mod .
 ADD go.sum .
 RUN go mod download
 COPY . .
-RUN ./build.sh
+RUN sh ./build.sh
 
+FROM alpine
 
-FROM scratch
-
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
+
 ENV TZ Asia/Shanghai
 
 WORKDIR /app
-COPY --from=builder output /app
+COPY --from=builder /build/output /app
 
-CMD ["./bootstrap.sh"]
+CMD ["sh", "./bootstrap.sh"]
