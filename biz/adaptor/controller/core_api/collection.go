@@ -25,7 +25,7 @@ func GetCatPreviews(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.GetCatPreviews(ctx, &req)
-	adaptor.LogAndReturn(ctx, c, &req, resp, err)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetCatDetail .

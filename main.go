@@ -10,12 +10,13 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/provider"
 	"go.opentelemetry.io/contrib/propagators/b3"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/propagation"
 )
 
 func Init() {
 	provider.Init()
 	adaptor.Init()
-	otel.SetTextMapPropagator(b3.New())
+	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(b3.New(), propagation.Baggage{}, propagation.TraceContext{}))
 }
 
 func main() {

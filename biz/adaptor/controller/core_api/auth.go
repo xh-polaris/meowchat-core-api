@@ -4,12 +4,13 @@ package core_api
 
 import (
 	"context"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	core_api "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 )
 
 // SignIn .
@@ -25,7 +26,7 @@ func SignIn(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.AuthService.SignIn(ctx, &req)
-	adaptor.LogAndReturn(ctx, c, &req, resp, err)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // SendVerifyCode .
@@ -41,7 +42,7 @@ func SendVerifyCode(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.AuthService.SendVerifyCode(ctx, &req)
-	adaptor.LogAndReturn(ctx, c, &req, resp, err)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // SetPassword .
@@ -57,5 +58,5 @@ func SetPassword(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.AuthService.SetPassword(ctx, &req)
-	adaptor.LogAndReturn(ctx, c, &req, resp, err)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
