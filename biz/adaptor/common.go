@@ -3,21 +3,21 @@ package adaptor
 import (
 	"context"
 	"errors"
-	"github.com/cloudwego/hertz/pkg/protocol"
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
-	"go.opentelemetry.io/contrib/propagators/b3"
-	"go.opentelemetry.io/otel/propagation"
-	"google.golang.org/grpc/status"
 	"net/http"
 	"reflect"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server/binding"
 	"github.com/cloudwego/hertz/pkg/common/json"
+	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/golang-jwt/jwt/v4"
+	"go.opentelemetry.io/contrib/propagators/b3"
+	"go.opentelemetry.io/otel/propagation"
+	"google.golang.org/grpc/status"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/base/base"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 	"github.com/xh-polaris/meowchat-core-api/provider"
@@ -25,27 +25,27 @@ import (
 
 func Init() {
 	binding.SetLooseZeroMode(true)
-	binding.MustRegTypeUnmarshal(reflect.TypeOf(meowchat.UserMeta{}), func(v string, emptyAsZero bool) (reflect.Value, error) {
+	binding.MustRegTypeUnmarshal(reflect.TypeOf(basic.UserMeta{}), func(v string, emptyAsZero bool) (reflect.Value, error) {
 		if v == "" && emptyAsZero {
-			return reflect.ValueOf(meowchat.UserMeta{}), nil
+			return reflect.ValueOf(basic.UserMeta{}), nil
 		}
 		token, err := jwt.Parse(v, func(_ *jwt.Token) (interface{}, error) {
 			return []byte(provider.Get().Config.Auth.AccessSecret), nil
 		})
 		if err != nil {
-			return reflect.ValueOf(meowchat.UserMeta{}), err
+			return reflect.ValueOf(basic.UserMeta{}), err
 		}
 		if !token.Valid {
-			return reflect.ValueOf(meowchat.UserMeta{}), errors.New("token is not valid")
+			return reflect.ValueOf(basic.UserMeta{}), errors.New("token is not valid")
 		}
 		data, err := json.Marshal(token.Claims)
 		if err != nil {
-			return reflect.ValueOf(meowchat.UserMeta{}), err
+			return reflect.ValueOf(basic.UserMeta{}), err
 		}
-		user := new(meowchat.UserMeta)
+		user := new(basic.UserMeta)
 		err = json.Unmarshal(data, user)
 		if err != nil {
-			return reflect.ValueOf(meowchat.UserMeta{}), err
+			return reflect.ValueOf(basic.UserMeta{}), err
 		}
 		return reflect.ValueOf(*user), nil
 	})
@@ -87,7 +87,7 @@ func Return(ctx context.Context, c *app.RequestContext, req, resp any, err error
 		c.JSON(consts.StatusOK, resp)
 	default:
 		if s, ok := status.FromError(err); ok {
-			c.JSON(http.StatusBadRequest, &basic.Status{
+			c.JSON(http.StatusBadRequest, &base.Status{
 				Code: int64(int(s.Code())),
 				Msg:  s.Message(),
 			})
