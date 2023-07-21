@@ -4,9 +4,9 @@
 // versions:
 // 	protoc-gen-go v1.28.0
 // 	protoc        v4.23.4
-// source: base/http.proto
+// source: http/http.proto
 
-package http
+package base
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -22,14 +22,14 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
+var file_http_http_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
 		ExtensionType: (*string)(nil),
 		Field:         50101,
 		Name:          "http.raw_body",
 		Tag:           "bytes,50101,opt,name=raw_body",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -37,7 +37,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50102,
 		Name:          "http.query",
 		Tag:           "bytes,50102,opt,name=query",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -45,7 +45,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50103,
 		Name:          "http.header",
 		Tag:           "bytes,50103,opt,name=header",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -53,7 +53,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50104,
 		Name:          "http.cookie",
 		Tag:           "bytes,50104,opt,name=cookie",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -61,7 +61,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50105,
 		Name:          "http.body",
 		Tag:           "bytes,50105,opt,name=body",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -69,7 +69,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50106,
 		Name:          "http.path",
 		Tag:           "bytes,50106,opt,name=path",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -77,7 +77,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50107,
 		Name:          "http.vd",
 		Tag:           "bytes,50107,opt,name=vd",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -85,7 +85,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50108,
 		Name:          "http.form",
 		Tag:           "bytes,50108,opt,name=form",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -93,7 +93,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         51001,
 		Name:          "http.go_tag",
 		Tag:           "bytes,51001,opt,name=go_tag",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
@@ -101,7 +101,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50109,
 		Name:          "http.js_conv",
 		Tag:           "bytes,50109,opt,name=js_conv",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -109,7 +109,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50201,
 		Name:          "http.get",
 		Tag:           "bytes,50201,opt,name=get",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -117,7 +117,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50202,
 		Name:          "http.post",
 		Tag:           "bytes,50202,opt,name=post",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -125,7 +125,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50203,
 		Name:          "http.put",
 		Tag:           "bytes,50203,opt,name=put",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -133,7 +133,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50204,
 		Name:          "http.delete",
 		Tag:           "bytes,50204,opt,name=delete",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -141,7 +141,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50205,
 		Name:          "http.patch",
 		Tag:           "bytes,50205,opt,name=patch",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -149,7 +149,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50206,
 		Name:          "http.options",
 		Tag:           "bytes,50206,opt,name=options",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -157,7 +157,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50207,
 		Name:          "http.head",
 		Tag:           "bytes,50207,opt,name=head",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -165,7 +165,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50208,
 		Name:          "http.any",
 		Tag:           "bytes,50208,opt,name=any",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -173,7 +173,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50301,
 		Name:          "http.gen_path",
 		Tag:           "bytes,50301,opt,name=gen_path",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -181,7 +181,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50302,
 		Name:          "http.api_version",
 		Tag:           "bytes,50302,opt,name=api_version",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -189,7 +189,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50303,
 		Name:          "http.tag",
 		Tag:           "bytes,50303,opt,name=tag",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -197,7 +197,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50304,
 		Name:          "http.name",
 		Tag:           "bytes,50304,opt,name=name",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -205,7 +205,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50305,
 		Name:          "http.api_level",
 		Tag:           "bytes,50305,opt,name=api_level",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -213,7 +213,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50306,
 		Name:          "http.serializer",
 		Tag:           "bytes,50306,opt,name=serializer",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -221,7 +221,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50307,
 		Name:          "http.param",
 		Tag:           "bytes,50307,opt,name=param",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
@@ -229,7 +229,7 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50308,
 		Name:          "http.baseurl",
 		Tag:           "bytes,50308,opt,name=baseurl",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 	{
 		ExtendedType:  (*descriptorpb.EnumValueOptions)(nil),
@@ -237,80 +237,80 @@ var file_base_http_proto_extTypes = []protoimpl.ExtensionInfo{
 		Field:         50401,
 		Name:          "http.http_code",
 		Tag:           "varint,50401,opt,name=http_code",
-		Filename:      "base/http.proto",
+		Filename:      "http/http.proto",
 	},
 }
 
 // Extension fields to descriptorpb.FieldOptions.
 var (
 	// optional string raw_body = 50101;
-	E_RawBody = &file_base_http_proto_extTypes[0]
+	E_RawBody = &file_http_http_proto_extTypes[0]
 	// optional string query = 50102;
-	E_Query = &file_base_http_proto_extTypes[1]
+	E_Query = &file_http_http_proto_extTypes[1]
 	// optional string header = 50103;
-	E_Header = &file_base_http_proto_extTypes[2]
+	E_Header = &file_http_http_proto_extTypes[2]
 	// optional string cookie = 50104;
-	E_Cookie = &file_base_http_proto_extTypes[3]
+	E_Cookie = &file_http_http_proto_extTypes[3]
 	// optional string body = 50105;
-	E_Body = &file_base_http_proto_extTypes[4]
+	E_Body = &file_http_http_proto_extTypes[4]
 	// optional string path = 50106;
-	E_Path = &file_base_http_proto_extTypes[5]
+	E_Path = &file_http_http_proto_extTypes[5]
 	// optional string vd = 50107;
-	E_Vd = &file_base_http_proto_extTypes[6]
+	E_Vd = &file_http_http_proto_extTypes[6]
 	// optional string form = 50108;
-	E_Form = &file_base_http_proto_extTypes[7]
+	E_Form = &file_http_http_proto_extTypes[7]
 	// optional string go_tag = 51001;
-	E_GoTag = &file_base_http_proto_extTypes[8]
+	E_GoTag = &file_http_http_proto_extTypes[8]
 	// optional string js_conv = 50109;
-	E_JsConv = &file_base_http_proto_extTypes[9]
+	E_JsConv = &file_http_http_proto_extTypes[9]
 )
 
 // Extension fields to descriptorpb.MethodOptions.
 var (
 	// optional string get = 50201;
-	E_Get = &file_base_http_proto_extTypes[10]
+	E_Get = &file_http_http_proto_extTypes[10]
 	// optional string post = 50202;
-	E_Post = &file_base_http_proto_extTypes[11]
+	E_Post = &file_http_http_proto_extTypes[11]
 	// optional string put = 50203;
-	E_Put = &file_base_http_proto_extTypes[12]
+	E_Put = &file_http_http_proto_extTypes[12]
 	// optional string delete = 50204;
-	E_Delete = &file_base_http_proto_extTypes[13]
+	E_Delete = &file_http_http_proto_extTypes[13]
 	// optional string patch = 50205;
-	E_Patch = &file_base_http_proto_extTypes[14]
+	E_Patch = &file_http_http_proto_extTypes[14]
 	// optional string options = 50206;
-	E_Options = &file_base_http_proto_extTypes[15]
+	E_Options = &file_http_http_proto_extTypes[15]
 	// optional string head = 50207;
-	E_Head = &file_base_http_proto_extTypes[16]
+	E_Head = &file_http_http_proto_extTypes[16]
 	// optional string any = 50208;
-	E_Any = &file_base_http_proto_extTypes[17]
+	E_Any = &file_http_http_proto_extTypes[17]
 	// optional string gen_path = 50301;
-	E_GenPath = &file_base_http_proto_extTypes[18]
+	E_GenPath = &file_http_http_proto_extTypes[18]
 	// optional string api_version = 50302;
-	E_ApiVersion = &file_base_http_proto_extTypes[19]
+	E_ApiVersion = &file_http_http_proto_extTypes[19]
 	// optional string tag = 50303;
-	E_Tag = &file_base_http_proto_extTypes[20]
+	E_Tag = &file_http_http_proto_extTypes[20]
 	// optional string name = 50304;
-	E_Name = &file_base_http_proto_extTypes[21]
+	E_Name = &file_http_http_proto_extTypes[21]
 	// optional string api_level = 50305;
-	E_ApiLevel = &file_base_http_proto_extTypes[22]
+	E_ApiLevel = &file_http_http_proto_extTypes[22]
 	// optional string serializer = 50306;
-	E_Serializer = &file_base_http_proto_extTypes[23]
+	E_Serializer = &file_http_http_proto_extTypes[23]
 	// optional string param = 50307;
-	E_Param = &file_base_http_proto_extTypes[24]
+	E_Param = &file_http_http_proto_extTypes[24]
 	// optional string baseurl = 50308;
-	E_Baseurl = &file_base_http_proto_extTypes[25]
+	E_Baseurl = &file_http_http_proto_extTypes[25]
 )
 
 // Extension fields to descriptorpb.EnumValueOptions.
 var (
 	// optional int32 http_code = 50401;
-	E_HttpCode = &file_base_http_proto_extTypes[26]
+	E_HttpCode = &file_http_http_proto_extTypes[26]
 )
 
-var File_base_http_proto protoreflect.FileDescriptor
+var File_http_http_proto protoreflect.FileDescriptor
 
-var file_base_http_proto_rawDesc = []byte{
-	0x0a, 0x0f, 0x62, 0x61, 0x73, 0x65, 0x2f, 0x68, 0x74, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+var file_http_http_proto_rawDesc = []byte{
+	0x0a, 0x0f, 0x68, 0x74, 0x74, 0x70, 0x2f, 0x68, 0x74, 0x74, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x12, 0x04, 0x68, 0x74, 0x74, 0x70, 0x1a, 0x20, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70,
 	0x74, 0x6f, 0x72, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x3a, 0x3a, 0x0a, 0x08, 0x72, 0x61, 0x77,
@@ -409,19 +409,19 @@ var file_base_http_proto_rawDesc = []byte{
 	0x64, 0x65, 0x12, 0x21, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6e, 0x75, 0x6d, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x4f, 0x70,
 	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0xe1, 0x89, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x68,
-	0x74, 0x74, 0x70, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x47, 0x5a, 0x45, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x74, 0x74, 0x70, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x42, 0x5a, 0x40, 0x67, 0x69, 0x74, 0x68, 0x75,
 	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73,
 	0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61,
 	0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x62, 0x61, 0x73, 0x65, 0x2f, 0x68, 0x74, 0x74, 0x70,
+	0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x62, 0x61, 0x73, 0x65,
 }
 
-var file_base_http_proto_goTypes = []interface{}{
+var file_http_http_proto_goTypes = []interface{}{
 	(*descriptorpb.FieldOptions)(nil),     // 0: google.protobuf.FieldOptions
 	(*descriptorpb.MethodOptions)(nil),    // 1: google.protobuf.MethodOptions
 	(*descriptorpb.EnumValueOptions)(nil), // 2: google.protobuf.EnumValueOptions
 }
-var file_base_http_proto_depIdxs = []int32{
+var file_http_http_proto_depIdxs = []int32{
 	0,  // 0: http.raw_body:extendee -> google.protobuf.FieldOptions
 	0,  // 1: http.query:extendee -> google.protobuf.FieldOptions
 	0,  // 2: http.header:extendee -> google.protobuf.FieldOptions
@@ -456,27 +456,27 @@ var file_base_http_proto_depIdxs = []int32{
 	0,  // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_base_http_proto_init() }
-func file_base_http_proto_init() {
-	if File_base_http_proto != nil {
+func init() { file_http_http_proto_init() }
+func file_http_http_proto_init() {
+	if File_http_http_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_base_http_proto_rawDesc,
+			RawDescriptor: file_http_http_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   0,
 			NumExtensions: 27,
 			NumServices:   0,
 		},
-		GoTypes:           file_base_http_proto_goTypes,
-		DependencyIndexes: file_base_http_proto_depIdxs,
-		ExtensionInfos:    file_base_http_proto_extTypes,
+		GoTypes:           file_http_http_proto_goTypes,
+		DependencyIndexes: file_http_http_proto_depIdxs,
+		ExtensionInfos:    file_http_http_proto_extTypes,
 	}.Build()
-	File_base_http_proto = out.File
-	file_base_http_proto_rawDesc = nil
-	file_base_http_proto_goTypes = nil
-	file_base_http_proto_depIdxs = nil
+	File_http_http_proto = out.File
+	file_http_http_proto_rawDesc = nil
+	file_http_http_proto_goTypes = nil
+	file_http_http_proto_depIdxs = nil
 }

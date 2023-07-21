@@ -16,7 +16,7 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 	"google.golang.org/grpc/status"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/base/base"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/base"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
