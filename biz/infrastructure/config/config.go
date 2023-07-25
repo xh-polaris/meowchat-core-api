@@ -15,18 +15,17 @@ type Auth struct {
 
 type Config struct {
 	service.ServiceConf
-	ListenOn      string
-	Auth          Auth
-	CdnHost       string
-	AuthRPC       zrpc.RpcClientConf
-	CollectionRPC string
-	MomentRPC     zrpc.RpcClientConf
-	SystemRPC     zrpc.RpcClientConf
-	LikeRPC       zrpc.RpcClientConf
-	UserRPC       zrpc.RpcClientConf
-	StsRPC        zrpc.RpcClientConf
-	CommentRPC    zrpc.RpcClientConf
-	PostRPC       zrpc.RpcClientConf
+	ListenOn   string
+	Auth       Auth
+	CdnHost    string
+	AuthRPC    zrpc.RpcClientConf
+	MomentRPC  zrpc.RpcClientConf
+	SystemRPC  zrpc.RpcClientConf
+	LikeRPC    zrpc.RpcClientConf
+	UserRPC    zrpc.RpcClientConf
+	StsRPC     zrpc.RpcClientConf
+	CommentRPC zrpc.RpcClientConf
+	PostRPC    zrpc.RpcClientConf
 }
 
 func NewConfig() (*Config, error) {
