@@ -6,7 +6,6 @@ import (
 	"context"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/base"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 
@@ -27,7 +26,6 @@ func SignIn(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.AuthService.SignIn(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -44,7 +42,6 @@ func SendVerifyCode(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.AuthService.SendVerifyCode(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -61,6 +58,5 @@ func SetPassword(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.AuthService.SetPassword(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }

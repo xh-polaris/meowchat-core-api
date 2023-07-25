@@ -62,8 +62,8 @@ func generateJwtToken(user *pb.User, secret string, expire int64) (string, int64
 	claims["iat"] = iat
 	claims["userID"] = user.UserId
 	claims["sessionUserID"] = user.UserId
-	claims["appID"] = user.AppId
-	claims["sessionAppID"] = user.AppId
+	claims["appID"] = util.ParseInt(user.AppId)
+	claims["sessionAppID"] = util.ParseInt(user.AppId)
 	claims["wechatUserMeta"] = &basic.WechatUserMeta{
 		OpenID:  user.OpenId,
 		UnionID: user.UnionId,

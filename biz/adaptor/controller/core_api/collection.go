@@ -6,7 +6,6 @@ import (
 	"context"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/base"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 
@@ -27,7 +26,6 @@ func GetCatPreviews(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.GetCatPreviews(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -44,7 +42,6 @@ func GetCatDetail(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.GetCatDetail(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -61,7 +58,6 @@ func NewCat(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.NewCat(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -78,7 +74,6 @@ func DeleteCat(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.DeleteCat(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -95,7 +90,6 @@ func SearchCat(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.SearchCat(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -112,7 +106,6 @@ func CreateImage(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.CreateImage(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -129,7 +122,6 @@ func DeleteImage(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.DeleteImage(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -146,6 +138,5 @@ func GetImageByCat(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.GetImageByCat(ctx, &req)
-	resp.Status = new(base.Status)
 	adaptor.Return(ctx, c, &req, resp, err)
 }

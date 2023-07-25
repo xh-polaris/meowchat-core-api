@@ -12,11 +12,11 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/golang-jwt/jwt/v4"
+	bizerrors "github.com/xh-polaris/gopkg/errors"
 	"go.opentelemetry.io/contrib/propagators/b3"
 	"go.opentelemetry.io/otel/propagation"
 	"google.golang.org/grpc/status"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/base"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
@@ -87,8 +87,8 @@ func Return(ctx context.Context, c *app.RequestContext, req, resp any, err error
 		c.JSON(consts.StatusOK, resp)
 	default:
 		if s, ok := status.FromError(err); ok {
-			c.JSON(http.StatusBadRequest, &base.Status{
-				Code: int64(int(s.Code())),
+			c.JSON(http.StatusBadRequest, &bizerrors.BizError{
+				Code: uint32(s.Code()),
 				Msg:  s.Message(),
 			})
 		} else {
