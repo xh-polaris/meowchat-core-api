@@ -8,6 +8,7 @@ package core_api
 
 import (
 	base "github.com/xh-polaris/meowchat-core-api/biz/application/dto/base"
+	_ "github.com/xh-polaris/meowchat-core-api/biz/application/dto/http"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -343,7 +344,6 @@ var file_meowchat_core_api_sts_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_meowchat_core_api_sts_proto_init() }
 func file_meowchat_core_api_sts_proto_init() {
 	if File_meowchat_core_api_sts_proto != nil {
 		return

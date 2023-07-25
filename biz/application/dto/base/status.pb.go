@@ -114,7 +114,6 @@ var file_base_status_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_base_status_proto_init() }
 func file_base_status_proto_init() {
 	if File_base_status_proto != nil {
 		return

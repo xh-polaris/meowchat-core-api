@@ -39,9 +39,9 @@ func GetCatDetail(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetCatDetailResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.CollectionService.GetCatDetail(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // NewCat .
@@ -55,9 +55,9 @@ func NewCat(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.NewCatResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.CollectionService.NewCat(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // DeleteCat .
@@ -71,9 +71,9 @@ func DeleteCat(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DeleteCatResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.CollectionService.DeleteCat(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // SearchCat .
@@ -87,9 +87,9 @@ func SearchCat(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.SearchCatResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.CollectionService.SearchCat(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // CreateImage .
@@ -103,9 +103,9 @@ func CreateImage(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.CreateImageResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.CollectionService.CreateImage(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // DeleteImage .
@@ -119,9 +119,9 @@ func DeleteImage(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DeleteImageResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.CollectionService.DeleteImage(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetImageByCat .
@@ -135,7 +135,7 @@ func GetImageByCat(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetImageByCatResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.CollectionService.GetImageByCat(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }

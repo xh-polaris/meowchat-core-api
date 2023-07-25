@@ -117,7 +117,6 @@ var file_meowchat_like_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_meowchat_like_common_proto_init() }
 func file_meowchat_like_common_proto_init() {
 	if File_meowchat_like_common_proto != nil {
 		return

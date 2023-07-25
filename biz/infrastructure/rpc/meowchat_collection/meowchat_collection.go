@@ -1,24 +1,19 @@
 package meowchat_collection
 
 import (
-	"context"
-
 	"github.com/google/wire"
-	"github.com/xh-polaris/meowchat-collection-rpc/collectionrpc"
-	"github.com/zeromicro/go-zero/zrpc"
-	"google.golang.org/grpc"
+	"github.com/xh-polaris/gopkg/kitex/client"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/collection/collection"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 )
 
 type IMeowchatCollection interface {
-	collectionrpc.CollectionRpc
+	collection.Client
 }
 
 type MeowchatCollection struct {
-	collectionrpc.CollectionRpc
+	collection.Client
 }
 
 var MeowchatCollectionSet = wire.NewSet(
@@ -27,13 +22,6 @@ var MeowchatCollectionSet = wire.NewSet(
 	wire.Bind(new(IMeowchatCollection), new(*MeowchatCollection)),
 )
 
-func NewMeowchatCollection(config *config.Config) collectionrpc.CollectionRpc {
-	return collectionrpc.NewCollectionRpc(zrpc.MustNewClient(
-		config.CollectionRPC,
-		zrpc.WithUnaryClientInterceptor(func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-			err := invoker(ctx, method, req, reply, cc)
-			log.CtxInfo(ctx, "[%s] req=%s, resp=%s, err=%v", method, util.JSONF(req), util.JSONF(reply), err)
-			return err
-		}),
-	))
+func NewMeowchatCollection(config *config.Config) collection.Client {
+	return client.NewClient(config.Name, "meowchat.collection", collection.NewClient)
 }

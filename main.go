@@ -5,12 +5,14 @@ package main
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
-	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
-	"github.com/xh-polaris/meowchat-core-api/provider"
+	"github.com/xh-polaris/gopkg/hertz/middleware"
 	"go.opentelemetry.io/contrib/propagators/b3"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
+	"github.com/xh-polaris/meowchat-core-api/provider"
 )
 
 func Init() {
@@ -28,7 +30,7 @@ func main() {
 		server.WithHostPorts(c.ListenOn),
 		tracer,
 	)
-	h.Use(tracing.ServerMiddleware(cfg))
+	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware)
 
 	register(h)
 	log.Info("server start")

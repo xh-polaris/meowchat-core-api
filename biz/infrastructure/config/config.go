@@ -19,7 +19,7 @@ type Config struct {
 	Auth          Auth
 	CdnHost       string
 	AuthRPC       zrpc.RpcClientConf
-	CollectionRPC zrpc.RpcClientConf
+	CollectionRPC string
 	MomentRPC     zrpc.RpcClientConf
 	SystemRPC     zrpc.RpcClientConf
 	LikeRPC       zrpc.RpcClientConf

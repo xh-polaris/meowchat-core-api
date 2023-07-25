@@ -4,7 +4,7 @@ SERVICE_NAME := meowchat.core-api
 MODULE_NAME := github.com/xh-polaris/meowchat-core-api
 
 HANDLER_DIR := biz/adaptor/controller
-MODEL_DIR := biz/app/dto
+MODEL_DIR := biz/application/dto
 ROUTER_DIR := biz/adaptor/router
 
 IDL_DIR ?= ../service-idl
@@ -28,6 +28,10 @@ wire:
 	wire ./provider
 update:
 	hz update $(IDL_OPTIONS) --mod $(MODULE_NAME) $(EXTRA_OPTIONS)
+	@files=$$(find biz/application/dto -type f); \
+	for file in $$files; do \
+  	  sed -i  -e 's/func init\(\).*//' $$file; \
+  	done
 new:
 	hz new $(IDL_OPTIONS) $(OUTPUT_OPTIONS) --service $(SERVICE_NAME) --mod $(MODULE_NAME) $(EXTRA_OPTIONS)
 clean:

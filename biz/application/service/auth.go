@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/basic"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -63,8 +64,10 @@ func generateJwtToken(user *pb.User, secret string, expire int64) (string, int64
 	claims["sessionUserID"] = user.UserId
 	claims["appID"] = user.AppId
 	claims["sessionAppID"] = user.AppId
-	claims["unionID"] = user.UnionId
-	claims["openID"] = user.OpenId
+	claims["wechatUserMeta"] = &basic.WechatUserMeta{
+		OpenID:  user.OpenId,
+		UnionID: user.UnionId,
+	}
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
 	tokenString, err := token.SignedString([]byte(secret))

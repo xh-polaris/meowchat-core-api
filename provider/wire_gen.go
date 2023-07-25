@@ -20,12 +20,13 @@ func NewProvider() (*Provider, error) {
 	if err != nil {
 		return nil, err
 	}
-	collectionRpc := meowchat_collection.NewMeowchatCollection(configConfig)
+	client := meowchat_collection.NewMeowchatCollection(configConfig)
 	meowchatCollection := &meowchat_collection.MeowchatCollection{
-		CollectionRpc: collectionRpc,
+		Client: client,
 	}
 	collectionService := &service.CollectionService{
 		Collection: meowchatCollection,
+		Config:     configConfig,
 	}
 	auth := platform_authentication.NewPlatformAuthentication(configConfig)
 	platformAuthentication := &platform_authentication.PlatformAuthentication{
