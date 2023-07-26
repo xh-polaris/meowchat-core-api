@@ -2,13 +2,13 @@ package service
 
 import (
 	"context"
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/basic"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/wire"
 	"github.com/xh-polaris/auth-rpc/pb"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_authentication"
@@ -60,13 +60,12 @@ func generateJwtToken(user *pb.User, secret string, expire int64) (string, int64
 	claims := make(jwt.MapClaims)
 	claims["exp"] = exp
 	claims["iat"] = iat
-	claims["userID"] = user.UserId
-	claims["sessionUserID"] = user.UserId
-	claims["appID"] = util.ParseInt(user.AppId)
-	claims["sessionAppID"] = util.ParseInt(user.AppId)
+	claims["userId"] = user.UserId
+	claims["sessionUserId"] = user.UserId
 	claims["wechatUserMeta"] = &basic.WechatUserMeta{
-		OpenID:  user.OpenId,
-		UnionID: user.UnionId,
+		AppId:   user.AppId,
+		OpenId:  user.OpenId,
+		UnionId: user.UnionId,
 	}
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
@@ -80,7 +79,7 @@ func generateJwtToken(user *pb.User, secret string, expire int64) (string, int64
 func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPasswordReq) (*core_api.SetPasswordResp, error) {
 	resp := new(core_api.SetPasswordResp)
 	_, err := s.Authentication.SetPassword(ctx, &pb.SetPasswordReq{
-		UserId:   req.User.UserID,
+		UserId:   req.User.UserId,
 		Password: req.Password,
 	})
 	if err != nil {
