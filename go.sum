@@ -412,12 +412,12 @@ github.com/v2pro/quokka v0.0.0-20171201153428-382cb39c6ee6/go.mod h1:0VP5W9AFNVW
 github.com/v2pro/wombat v0.0.0-20180402055224-a56dbdcddef2/go.mod h1:wen8nMxrRrUmXnRwH+3wGAW+hyYTHcOrTNhMpxyp/i0=
 github.com/xh-polaris/auth-rpc v1.4.10 h1:Azvyehd4sB81caSXRX001ctUimy6zpEZf0En8AAempA=
 github.com/xh-polaris/auth-rpc v1.4.10/go.mod h1:DS5rBiMAfT6q6yMOGNt2CLdFWuAbzN3ogT1UtBMTqLg=
-github.com/xh-polaris/gopkg v0.0.0-20230725094511-485eaeae4c28 h1:ACY1CgJoehy7b8etBGLk7y4afjSnD3aium73kBtyKOM=
-github.com/xh-polaris/gopkg v0.0.0-20230725094511-485eaeae4c28/go.mod h1:HFqYLhQEl2oFQA/S5M3BFdkEbd1bAnbkKpsqdXRhM6U=
 github.com/xh-polaris/gopkg v0.0.0-20230725130205-0de08f1b5c0b h1:55o49auP8ZoGIM63630XIdPdjIoOLcGs3ITeeWaOBbE=
 github.com/xh-polaris/gopkg v0.0.0-20230725130205-0de08f1b5c0b/go.mod h1:zRi2/nnksWfIzXkkQ0o7+A6v7mU35ttq+rwctM0aK+w=
 github.com/xh-polaris/service-idl-gen-go v0.0.0-20230724054623-1496444388af h1:fm5atxYNiLr8CYIlSNZmnRR2GtfRvUo74Y72WVlkh1w=
 github.com/xh-polaris/service-idl-gen-go v0.0.0-20230724054623-1496444388af/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230725125041-e1d178786dad h1:ONuGCfTcnwtqifRkEt5peciqWSE4QXbLu/EHSHBXdsc=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230725125041-e1d178786dad/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
