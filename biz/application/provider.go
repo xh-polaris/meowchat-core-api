@@ -8,4 +8,9 @@ import (
 var ProviderSet = wire.NewSet(
 	service.CollectionServiceSet,
 	service.AuthServiceSet,
+	service.CommentServiceSet,
+	service.UserServiceSet,
+	service.MomentServiceSet,
+	service.LikeServiceSet,
+	service.PostServiceSet,
 )

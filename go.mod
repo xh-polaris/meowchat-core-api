@@ -11,6 +11,11 @@ require (
 	github.com/jinzhu/copier v0.3.5
 	github.com/xh-polaris/auth-rpc v1.4.10
 	github.com/xh-polaris/gopkg v0.0.0-20230725130205-0de08f1b5c0b
+	github.com/xh-polaris/meowchat-comment-rpc v1.0.4
+	github.com/xh-polaris/meowchat-like-rpc v1.1.8
+	github.com/xh-polaris/meowchat-moment-rpc v1.2.0
+	github.com/xh-polaris/meowchat-post-rpc v1.2.7
+	github.com/xh-polaris/meowchat-user-rpc v1.0.7
 	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230727051616-637112faee3b
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0

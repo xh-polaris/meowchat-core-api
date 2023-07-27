@@ -4,6 +4,8 @@ package core_api
 
 import (
 	"context"
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
+	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -21,9 +23,9 @@ func GetMomentPreviews(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetMomentPreviewsResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.MomentService.GetMomentPreviews(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetMomentDetail .
@@ -37,9 +39,9 @@ func GetMomentDetail(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetMomentDetailResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.MomentService.GetMomentDetail(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // NewMoment .
@@ -53,9 +55,9 @@ func NewMoment(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.NewMomentResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.MomentService.NewMoment(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // DeleteMoment .
@@ -69,9 +71,9 @@ func DeleteMoment(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DeleteMomentResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.MomentService.DeleteMoment(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // SearchMoment .
@@ -85,7 +87,7 @@ func SearchMoment(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.SearchMomentResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.MomentService.SearchMoment(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
