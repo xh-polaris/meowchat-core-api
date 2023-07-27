@@ -8,7 +8,7 @@ import (
 	"github.com/google/wire"
 	"github.com/xh-polaris/auth-rpc/pb"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/basic"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_authentication"
@@ -18,7 +18,7 @@ import (
 
 type IAuthService interface {
 	SignIn(ctx context.Context, req *core_api.SignInReq) (*core_api.SignInResp, error)
-	SetPassword(ctx context.Context, req *core_api.SetPasswordReq) (*core_api.SetPasswordResp, error)
+	SetPassword(ctx context.Context, req *core_api.SetPasswordReq, user *basic.UserMeta) (*core_api.SetPasswordResp, error)
 	SendVerifyCode(ctx context.Context, req *core_api.SendVerifyCodeReq) (*core_api.SendVerifyCodeResp, error)
 }
 
@@ -76,10 +76,10 @@ func generateJwtToken(user *pb.User, secret string, expire int64) (string, int64
 	return tokenString, exp, nil
 }
 
-func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPasswordReq) (*core_api.SetPasswordResp, error) {
+func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPasswordReq, user *basic.UserMeta) (*core_api.SetPasswordResp, error) {
 	resp := new(core_api.SetPasswordResp)
 	_, err := s.Authentication.SetPassword(ctx, &pb.SetPasswordReq{
-		UserId:   req.User.UserId,
+		UserId:   user.UserId,
 		Password: req.Password,
 	})
 	if err != nil {

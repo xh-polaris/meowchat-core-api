@@ -41,6 +41,12 @@ func Register(r *server.Hertz) {
 		_comment.POST("/new_comment", append(_newcommentMw(), core_api.NewComment)...)
 	}
 	{
+		_community := root.Group("/community", _communityMw()...)
+		_community.POST("/delete_community", append(_deletecommunityMw(), core_api.DeleteCommunity)...)
+		_community.GET("/list_community", append(_listcommunityMw(), core_api.ListCommunity)...)
+		_community.POST("/new_community", append(_newcommunityMw(), core_api.NewCommunity)...)
+	}
+	{
 		_like := root.Group("/like", _likeMw()...)
 		_like.POST("/do_like", append(_dolikeMw(), core_api.DoLike)...)
 		_like.GET("/get_count", append(_getlikedcountMw(), core_api.GetLikedCount)...)
@@ -57,12 +63,33 @@ func Register(r *server.Hertz) {
 		_moment.GET("/search_moment", append(_searchmomentMw(), core_api.SearchMoment)...)
 	}
 	{
+		_notice := root.Group("/notice", _noticeMw()...)
+		_notice.POST("/delete_admin", append(_deleteadminMw(), core_api.DeleteAdmin)...)
+		_notice.GET("/get_admins", append(_getadminsMw(), core_api.GetAdmins)...)
+		_notice.GET("/get_news", append(_getnewsMw(), core_api.GetNews)...)
+		_notice.GET("/get_notices", append(_getnoticesMw(), core_api.GetNotices)...)
+		_notice.POST("/handle_apply", append(_handleapplyMw(), core_api.HandleApply)...)
+		_notice.POST("/list_apply", append(_listapplyMw(), core_api.ListApply)...)
+		_notice.POST("/new_admin", append(_newadminMw(), core_api.NewAdmin)...)
+		_notice.POST("/new_news", append(_newnewsMw(), core_api.NewNews)...)
+		_notice.POST("/new_notice", append(_newnoticeMw(), core_api.NewNotice)...)
+		_notice.POST("/remove_news", append(_deletenewsMw(), core_api.DeleteNews)...)
+		_notice.POST("/remove_notice", append(_deletenoticeMw(), core_api.DeleteNotice)...)
+	}
+	{
 		_post := root.Group("/post", _postMw()...)
 		_post.POST("/delete_post", append(_deletepostMw(), core_api.DeletePost)...)
 		_post.GET("/get_post_detail", append(_getpostdetailMw(), core_api.GetPostDetail)...)
 		_post.POST("/get_post_previews", append(_getpostpreviewsMw(), core_api.GetPostPreviews)...)
 		_post.POST("/new_post", append(_newpostMw(), core_api.NewPost)...)
 		_post.POST("/set_official", append(_setofficialMw(), core_api.SetOfficial)...)
+	}
+	{
+		_role := root.Group("/role", _roleMw()...)
+		_role.GET("/get_user_by_role", append(_getuserbyroleMw(), core_api.GetUserByRole)...)
+		_role.GET("/get_user_roles", append(_getuserrolesMw(), core_api.GetUserRoles)...)
+		_role.POST("/update_community_admin", append(_updatecommunityadminMw(), core_api.UpdateCommunityAdmin)...)
+		_role.POST("/update_super_admin", append(_updatesuperadminMw(), core_api.UpdateSuperAdmin)...)
 	}
 	{
 		_sts := root.Group("/sts", _stsMw()...)

@@ -225,3 +225,108 @@ func _updateuserinfoMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _communityMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _deletecommunityMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _listcommunityMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _newcommunityMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _noticeMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _deleteadminMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getadminsMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getnewsMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getnoticesMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _handleapplyMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _listapplyMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _newadminMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _newnewsMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _newnoticeMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _deletenewsMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _deletenoticeMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _roleMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getuserbyroleMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getuserrolesMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _updatecommunityadminMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _updatesuperadminMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

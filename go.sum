@@ -256,6 +256,7 @@ github.com/google/renameio v0.1.0/go.mod h1:KWCgfxg9yswjAJkECMjeO8J8rahYeXnNhOm4
 github.com/google/subcommands v1.0.1/go.mod h1:ZjhPrFU+Olkh9WazFPsl27BQ4UPiG37m3yTrtFlrHVk=
 github.com/google/uuid v1.1.2/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
+github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/google/wire v0.5.0 h1:I7ELFeVBr3yfPIcc8+MWvrjk+3VjbcSzoXm3JVa+jD8=
 github.com/google/wire v0.5.0/go.mod h1:ngWDr9Qvq3yZA10YrxfyGELY/AFWGVpy9c1LTRi1EoU=
 github.com/googleapis/gax-go/v2 v2.0.4/go.mod h1:0Wqv26UfaUD9n4G6kQubkQ+KchISgw+vpHVxEJEs9eg=
@@ -414,12 +415,8 @@ github.com/xh-polaris/auth-rpc v1.4.10 h1:Azvyehd4sB81caSXRX001ctUimy6zpEZf0En8A
 github.com/xh-polaris/auth-rpc v1.4.10/go.mod h1:DS5rBiMAfT6q6yMOGNt2CLdFWuAbzN3ogT1UtBMTqLg=
 github.com/xh-polaris/gopkg v0.0.0-20230725130205-0de08f1b5c0b h1:55o49auP8ZoGIM63630XIdPdjIoOLcGs3ITeeWaOBbE=
 github.com/xh-polaris/gopkg v0.0.0-20230725130205-0de08f1b5c0b/go.mod h1:zRi2/nnksWfIzXkkQ0o7+A6v7mU35ttq+rwctM0aK+w=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230724054623-1496444388af h1:fm5atxYNiLr8CYIlSNZmnRR2GtfRvUo74Y72WVlkh1w=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230724054623-1496444388af/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230725125041-e1d178786dad h1:ONuGCfTcnwtqifRkEt5peciqWSE4QXbLu/EHSHBXdsc=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230725125041-e1d178786dad/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230726095359-2c4cbd95c322 h1:o5WGHHU31j4IPE4X6JWvqPimBScJ4Jb7ftTfylUteSI=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230726095359-2c4cbd95c322/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230727051616-637112faee3b h1:KA4JLMlYCPycioSSxm9kBqzg9hd4Ntx6iUbOQqS4SWw=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230727051616-637112faee3b/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
