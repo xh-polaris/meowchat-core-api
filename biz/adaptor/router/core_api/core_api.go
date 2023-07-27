@@ -68,8 +68,6 @@ func Register(r *server.Hertz) {
 		_notice.GET("/get_admins", append(_getadminsMw(), core_api.GetAdmins)...)
 		_notice.GET("/get_news", append(_getnewsMw(), core_api.GetNews)...)
 		_notice.GET("/get_notices", append(_getnoticesMw(), core_api.GetNotices)...)
-		_notice.POST("/handle_apply", append(_handleapplyMw(), core_api.HandleApply)...)
-		_notice.POST("/list_apply", append(_listapplyMw(), core_api.ListApply)...)
 		_notice.POST("/new_admin", append(_newadminMw(), core_api.NewAdmin)...)
 		_notice.POST("/new_news", append(_newnewsMw(), core_api.NewNews)...)
 		_notice.POST("/new_notice", append(_newnoticeMw(), core_api.NewNotice)...)
@@ -86,8 +84,11 @@ func Register(r *server.Hertz) {
 	}
 	{
 		_role := root.Group("/role", _roleMw()...)
+		_role.POST("/create_apply", append(_createapplyMw(), core_api.CreateApply)...)
 		_role.GET("/get_user_by_role", append(_getuserbyroleMw(), core_api.GetUserByRole)...)
 		_role.GET("/get_user_roles", append(_getuserrolesMw(), core_api.GetUserRoles)...)
+		_role.POST("/handle_apply", append(_handleapplyMw(), core_api.HandleApply)...)
+		_role.GET("/list_apply", append(_listapplyMw(), core_api.ListApply)...)
 		_role.POST("/update_community_admin", append(_updatecommunityadminMw(), core_api.UpdateCommunityAdmin)...)
 		_role.POST("/update_super_admin", append(_updatesuperadminMw(), core_api.UpdateSuperAdmin)...)
 	}

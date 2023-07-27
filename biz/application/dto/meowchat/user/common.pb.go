@@ -154,6 +154,116 @@ func (x *UserDetail) GetMotto() string {
 	return ""
 }
 
+type Like struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TargetId     string `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
+	AssociatedId string `protobuf:"bytes,2,opt,name=associatedId,proto3" json:"associatedId,omitempty" form:"associatedId" query:"associatedId"`
+}
+
+func (x *Like) Reset() {
+	*x = Like{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_user_common_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Like) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Like) ProtoMessage() {}
+
+func (x *Like) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_user_common_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Like.ProtoReflect.Descriptor instead.
+func (*Like) Descriptor() ([]byte, []int) {
+	return file_meowchat_user_common_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Like) GetTargetId() string {
+	if x != nil {
+		return x.TargetId
+	}
+	return ""
+}
+
+func (x *Like) GetAssociatedId() string {
+	if x != nil {
+		return x.AssociatedId
+	}
+	return ""
+}
+
+type ItemScore struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Score int64  `protobuf:"varint,2,opt,name=score,proto3" json:"score,omitempty" form:"score" query:"score"`
+}
+
+func (x *ItemScore) Reset() {
+	*x = ItemScore{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_user_common_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ItemScore) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ItemScore) ProtoMessage() {}
+
+func (x *ItemScore) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_user_common_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ItemScore.ProtoReflect.Descriptor instead.
+func (*ItemScore) Descriptor() ([]byte, []int) {
+	return file_meowchat_user_common_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ItemScore) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ItemScore) GetScore() int64 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
 var File_meowchat_user_common_proto protoreflect.FileDescriptor
 
 var file_meowchat_user_common_proto_rawDesc = []byte{
@@ -172,12 +282,20 @@ var file_meowchat_user_common_proto_rawDesc = []byte{
 	0x12, 0x1a, 0x0a, 0x08, 0x6e, 0x69, 0x63, 0x6b, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x08, 0x6e, 0x69, 0x63, 0x6b, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05,
 	0x6d, 0x6f, 0x74, 0x74, 0x6f, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6d, 0x6f, 0x74,
-	0x74, 0x6f, 0x42, 0x4b, 0x5a, 0x49, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x78, 0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f, 0x6d, 0x65, 0x6f, 0x77,
-	0x63, 0x68, 0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x69,
-	0x7a, 0x2f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x64, 0x74,
-	0x6f, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x6f, 0x22, 0x46, 0x0a, 0x04, 0x4c, 0x69, 0x6b, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x74, 0x61,
+	0x72, 0x67, 0x65, 0x74, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x74, 0x61,
+	0x72, 0x67, 0x65, 0x74, 0x49, 0x64, 0x12, 0x22, 0x0a, 0x0c, 0x61, 0x73, 0x73, 0x6f, 0x63, 0x69,
+	0x61, 0x74, 0x65, 0x64, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x61, 0x73,
+	0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65, 0x64, 0x49, 0x64, 0x22, 0x31, 0x0a, 0x09, 0x49, 0x74,
+	0x65, 0x6d, 0x53, 0x63, 0x6f, 0x72, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x73, 0x63, 0x6f, 0x72, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x73, 0x63, 0x6f, 0x72, 0x65, 0x42, 0x4b, 0x5a,
+	0x49, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68, 0x2d, 0x70,
+	0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2d,
+	0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61, 0x70, 0x70,
+	0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x6d, 0x65, 0x6f,
+	0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -192,10 +310,12 @@ func file_meowchat_user_common_proto_rawDescGZIP() []byte {
 	return file_meowchat_user_common_proto_rawDescData
 }
 
-var file_meowchat_user_common_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_meowchat_user_common_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_meowchat_user_common_proto_goTypes = []interface{}{
 	(*UserPreview)(nil), // 0: meowchat.user.UserPreview
 	(*UserDetail)(nil),  // 1: meowchat.user.UserDetail
+	(*Like)(nil),        // 2: meowchat.user.Like
+	(*ItemScore)(nil),   // 3: meowchat.user.ItemScore
 }
 var file_meowchat_user_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -234,6 +354,30 @@ func file_meowchat_user_common_proto_init() {
 				return nil
 			}
 		}
+		file_meowchat_user_common_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Like); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_meowchat_user_common_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ItemScore); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -241,7 +385,7 @@ func file_meowchat_user_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_meowchat_user_common_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

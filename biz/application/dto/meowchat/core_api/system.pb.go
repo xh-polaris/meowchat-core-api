@@ -2259,6 +2259,108 @@ func (x *RetrieveUserPreviewResp) GetUsers() []*user.UserPreview {
 	return nil
 }
 
+type GetUserByRoleReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RoleType    string `protobuf:"bytes,1,opt,name=roleType,proto3" json:"roleType,omitempty" form:"roleType" query:"roleType"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+}
+
+func (x *GetUserByRoleReq) Reset() {
+	*x = GetUserByRoleReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_core_api_system_proto_msgTypes[43]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserByRoleReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByRoleReq) ProtoMessage() {}
+
+func (x *GetUserByRoleReq) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_core_api_system_proto_msgTypes[43]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByRoleReq.ProtoReflect.Descriptor instead.
+func (*GetUserByRoleReq) Descriptor() ([]byte, []int) {
+	return file_meowchat_core_api_system_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *GetUserByRoleReq) GetRoleType() string {
+	if x != nil {
+		return x.RoleType
+	}
+	return ""
+}
+
+func (x *GetUserByRoleReq) GetCommunityId() string {
+	if x != nil {
+		return x.CommunityId
+	}
+	return ""
+}
+
+type GetUserByRoleResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
+}
+
+func (x *GetUserByRoleResp) Reset() {
+	*x = GetUserByRoleResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_core_api_system_proto_msgTypes[44]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUserByRoleResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByRoleResp) ProtoMessage() {}
+
+func (x *GetUserByRoleResp) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_core_api_system_proto_msgTypes[44]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByRoleResp.ProtoReflect.Descriptor instead.
+func (*GetUserByRoleResp) Descriptor() ([]byte, []int) {
+	return file_meowchat_core_api_system_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *GetUserByRoleResp) GetUsers() []*user.UserPreview {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
 var File_meowchat_core_api_system_proto protoreflect.FileDescriptor
 
 var file_meowchat_core_api_system_proto_rawDesc = []byte{
@@ -2441,12 +2543,22 @@ var file_meowchat_core_api_system_proto_rawDesc = []byte{
 	0x30, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a,
 	0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55,
 	0x73, 0x65, 0x72, 0x50, 0x72, 0x65, 0x76, 0x69, 0x65, 0x77, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72,
-	0x73, 0x42, 0x4f, 0x5a, 0x4d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
-	0x78, 0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63,
-	0x68, 0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a,
-	0x2f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f,
-	0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61,
-	0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x22, 0x50, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x42, 0x79, 0x52, 0x6f,
+	0x6c, 0x65, 0x52, 0x65, 0x71, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x6f, 0x6c, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x6f, 0x6c, 0x65, 0x54, 0x79, 0x70,
+	0x65, 0x12, 0x20, 0x0a, 0x0b, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74, 0x79, 0x49, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63, 0x6f, 0x6d, 0x6d, 0x75, 0x6e, 0x69, 0x74,
+	0x79, 0x49, 0x64, 0x22, 0x45, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x42, 0x79,
+	0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x30, 0x0a, 0x05, 0x75, 0x73, 0x65, 0x72,
+	0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68,
+	0x61, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x50, 0x72, 0x65, 0x76,
+	0x69, 0x65, 0x77, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x42, 0x4f, 0x5a, 0x4d, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61,
+	0x72, 0x69, 0x73, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72,
+	0x65, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68,
+	0x61, 0x74, 0x2f, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2461,7 +2573,7 @@ func file_meowchat_core_api_system_proto_rawDescGZIP() []byte {
 	return file_meowchat_core_api_system_proto_rawDescData
 }
 
-var file_meowchat_core_api_system_proto_msgTypes = make([]protoimpl.MessageInfo, 43)
+var file_meowchat_core_api_system_proto_msgTypes = make([]protoimpl.MessageInfo, 45)
 var file_meowchat_core_api_system_proto_goTypes = []interface{}{
 	(*News)(nil),                     // 0: meowchat.core_api.News
 	(*Admin)(nil),                    // 1: meowchat.core_api.Admin
@@ -2506,23 +2618,26 @@ var file_meowchat_core_api_system_proto_goTypes = []interface{}{
 	(*UpdateSuperAdminResp)(nil),     // 40: meowchat.core_api.UpdateSuperAdminResp
 	(*RetrieveUserPreviewReq)(nil),   // 41: meowchat.core_api.RetrieveUserPreviewReq
 	(*RetrieveUserPreviewResp)(nil),  // 42: meowchat.core_api.RetrieveUserPreviewResp
-	(*user.UserPreview)(nil),         // 43: meowchat.user.UserPreview
-	(*system.Role)(nil),              // 44: meowchat.system.Role
+	(*GetUserByRoleReq)(nil),         // 43: meowchat.core_api.GetUserByRoleReq
+	(*GetUserByRoleResp)(nil),        // 44: meowchat.core_api.GetUserByRoleResp
+	(*user.UserPreview)(nil),         // 45: meowchat.user.UserPreview
+	(*system.Role)(nil),              // 46: meowchat.system.Role
 }
 var file_meowchat_core_api_system_proto_depIdxs = []int32{
 	0,  // 0: meowchat.core_api.GetNewsResp.news:type_name -> meowchat.core_api.News
 	1,  // 1: meowchat.core_api.GetAdminsResp.Admins:type_name -> meowchat.core_api.Admin
 	2,  // 2: meowchat.core_api.GetNoticesResp.notices:type_name -> meowchat.core_api.Notice
-	43, // 3: meowchat.core_api.ApplyInfo.user:type_name -> meowchat.user.UserPreview
+	45, // 3: meowchat.core_api.ApplyInfo.user:type_name -> meowchat.user.UserPreview
 	21, // 4: meowchat.core_api.ListApplyResp.applyInfo:type_name -> meowchat.core_api.ApplyInfo
 	28, // 5: meowchat.core_api.ListCommunityResp.communities:type_name -> meowchat.core_api.Community
-	44, // 6: meowchat.core_api.GetUserRolesResp.roles:type_name -> meowchat.system.Role
-	43, // 7: meowchat.core_api.RetrieveUserPreviewResp.users:type_name -> meowchat.user.UserPreview
-	8,  // [8:8] is the sub-list for method output_type
-	8,  // [8:8] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	46, // 6: meowchat.core_api.GetUserRolesResp.roles:type_name -> meowchat.system.Role
+	45, // 7: meowchat.core_api.RetrieveUserPreviewResp.users:type_name -> meowchat.user.UserPreview
+	45, // 8: meowchat.core_api.GetUserByRoleResp.users:type_name -> meowchat.user.UserPreview
+	9,  // [9:9] is the sub-list for method output_type
+	9,  // [9:9] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func file_meowchat_core_api_system_proto_init() {
@@ -3046,6 +3161,30 @@ func file_meowchat_core_api_system_proto_init() {
 				return nil
 			}
 		}
+		file_meowchat_core_api_system_proto_msgTypes[43].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserByRoleReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_meowchat_core_api_system_proto_msgTypes[44].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserByRoleResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -3053,7 +3192,7 @@ func file_meowchat_core_api_system_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_meowchat_core_api_system_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   43,
+			NumMessages:   45,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
