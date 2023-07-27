@@ -297,3 +297,19 @@ func GetUserByRole(ctx context.Context, c *app.RequestContext) {
 
 	c.JSON(consts.StatusOK, resp)
 }
+
+// CreateApply .
+// @router /role/create_apply [POST]
+func CreateApply(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.CreateApplyReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	resp := new(core_api.CreateApplyResp)
+
+	c.JSON(consts.StatusOK, resp)
+}
