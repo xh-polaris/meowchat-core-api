@@ -44,6 +44,15 @@ func ExtractUserMeta(ctx context.Context, c *app.RequestContext) (user *basic.Us
 	if err != nil {
 		return
 	}
+	if user.SessionUserId == "" {
+		user.SessionUserId = user.UserId
+	}
+	if user.SessionAppId == 0 {
+		user.SessionAppId = user.AppId
+	}
+	if user.SessionDeviceId == "" {
+		user.SessionDeviceId = user.DeviceId
+	}
 	return
 }
 

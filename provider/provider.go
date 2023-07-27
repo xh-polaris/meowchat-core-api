@@ -24,6 +24,11 @@ type Provider struct {
 	Config            *config.Config
 	CollectionService service.ICollectionService
 	AuthService       service.IAuthService
+	CommentService    service.ICommentService
+	UserService       service.IUserService
+	MomentService     service.IMomentService
+	PostService       service.PostService
+	LikeService       service.ILikeService
 }
 
 func Get() *Provider {

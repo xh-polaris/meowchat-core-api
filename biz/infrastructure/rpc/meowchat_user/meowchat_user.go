@@ -1,35 +1,33 @@
-package platform_authentication
+package meowchat_user
 
 import (
 	"context"
-
+	"github.com/google/wire"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
-
-	"github.com/google/wire"
-	"github.com/xh-polaris/auth-rpc/auth"
+	"github.com/xh-polaris/meowchat-user-rpc/userrpc"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 )
 
-type IPlatformAuthentication interface {
-	auth.Auth
+type IMeowchatUser interface {
+	userrpc.UserRpc
 }
 
-type PlatformAuthentication struct {
-	auth.Auth
+type MeowchatUser struct {
+	userrpc.UserRpc
 }
 
-var PlatformAuthenticationSet = wire.NewSet(
-	NewPlatformAuthentication,
-	wire.Struct(new(PlatformAuthentication), "*"),
-	wire.Bind(new(IPlatformAuthentication), new(*PlatformAuthentication)),
+var MeowchatUserSet = wire.NewSet(
+	NewMeowchatUser,
+	wire.Struct(new(MeowchatUser), "*"),
+	wire.Bind(new(IMeowchatUser), new(*MeowchatUser)),
 )
 
-func NewPlatformAuthentication(config *config.Config) auth.Auth {
-	return auth.NewAuth(zrpc.MustNewClient(
-		config.AuthRPC,
+func NewMeowchatUser(config *config.Config) userrpc.UserRpc {
+	return userrpc.NewUserRpc(zrpc.MustNewClient(
+		config.UserRPC,
 		zrpc.WithUnaryClientInterceptor(func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 			err := invoker(ctx, method, req, reply, cc)
 			log.CtxInfo(ctx, "[%s] req=%s, resp=%s, err=%v", method, util.JSONF(req), util.JSONF(reply), err)
