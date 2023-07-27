@@ -3,13 +3,13 @@ package service
 import (
 	"context"
 	"github.com/google/wire"
-	"github.com/xh-polaris/meowchat-comment-rpc/pb"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
-	pb2 "github.com/xh-polaris/meowchat-user-rpc/pb"
+	user2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 )
 
 const pageSize = 10
@@ -34,7 +34,7 @@ var CommentServiceSet = wire.NewSet(
 func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetCommentsReq) (*core_api.GetCommentsResp, error) {
 	resp := new(core_api.GetCommentsResp)
 
-	data, err := s.Comment.ListCommentByParent(ctx, &pb.ListCommentByParentRequest{
+	data, err := s.Comment.ListCommentByParent(ctx, &gencomment.ListCommentByParentReq{
 		ParentId: req.Id,
 		Type:     req.Scope,
 		Skip:     req.Page * pageSize,
@@ -50,7 +50,7 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 		var author user.UserPreview
 		author.Id = comment.AuthorId
 		// 暂时不处理error
-		user, err := s.User.GetUser(ctx, &pb2.GetUserReq{
+		user, err := s.User.GetUser(ctx, &user2.GetUserReq{
 			UserId: comment.AuthorId,
 		})
 		if err != nil {
@@ -64,7 +64,7 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 		// 回复对象用户名
 		replyName := ""
 		if comment.ReplyTo != "" {
-			replyToUser, err := s.User.GetUser(ctx, &pb2.GetUserReq{
+			replyToUser, err := s.User.GetUser(ctx, &user2.GetUserReq{
 				UserId: comment.ReplyTo,
 			})
 			if replyToUser != nil && err == nil {
@@ -75,7 +75,7 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 		// 子评论数量
 		// TODO count rpc
 		count := 0
-		children, err := s.Comment.ListCommentByParent(ctx, &pb.ListCommentByParentRequest{
+		children, err := s.Comment.ListCommentByParent(ctx, &gencomment.ListCommentByParentReq{
 			Type:     "comment",
 			ParentId: comment.Id,
 			Skip:     0,
@@ -110,14 +110,14 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	// 获取回复用户id
 	replyToId := ""
 	if req.Scope == "comment" {
-		replyTo, err := s.Comment.RetrieveCommentById(ctx, &pb.RetrieveCommentByIdRequest{Id: *req.Id})
+		replyTo, err := s.Comment.RetrieveCommentById(ctx, &gencomment.RetrieveCommentByIdReq{Id: *req.Id})
 		if err != nil {
 			return nil, err
 		}
 		replyToId = replyTo.Comment.AuthorId
 	}
 
-	_, err := s.Comment.CreateComment(ctx, &pb.CreateCommentRequest{
+	_, err := s.Comment.CreateComment(ctx, &gencomment.CreateCommentReq{
 		Text:     req.Text,
 		AuthorId: userId,
 		ReplyTo:  replyToId,
@@ -133,7 +133,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 
 func (s *CommentService) DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq) (*core_api.DeleteCommentResp, error) {
 	resp := new(core_api.DeleteCommentResp)
-	_, err := s.Comment.DeleteComment(ctx, &pb.DeleteCommentByIdRequest{Id: req.CommentId})
+	_, err := s.Comment.DeleteComment(ctx, &gencomment.DeleteCommentByIdReq{Id: req.CommentId})
 	if err != nil {
 		return nil, err
 	}

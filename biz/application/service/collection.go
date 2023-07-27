@@ -2,17 +2,17 @@ package service
 
 import (
 	"context"
+	"github.com/google/wire"
 	"net/url"
 
-	"github.com/google/wire"
 	"github.com/jinzhu/copier"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/collection"
+	gencontent "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 
-	collection2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/collection"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/content"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_collection"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 )
 
 type ICollectionService interface {
@@ -27,14 +27,19 @@ type ICollectionService interface {
 }
 
 type CollectionService struct {
-	Collection meowchat_collection.IMeowchatCollection
+	Collection meowchat_content.IMeowchatContent
 	Config     *config.Config
 }
+
+var CollectionServiceSet = wire.NewSet(
+	wire.Struct(new(CollectionService), "*"),
+	wire.Bind(new(ICollectionService), new(*CollectionService)),
+)
 
 func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error) {
 	resp := new(core_api.GetCatPreviewsResp)
 	pageSize := consts.DefaultPageSize
-	data, err := s.Collection.ListCat(ctx, &collection.ListCatReq{
+	data, err := s.Collection.ListCat(ctx, &gencontent.ListCatReq{
 		CommunityId: req.CommunityId,
 		Count:       pageSize,
 		Skip:        req.Page * pageSize,
@@ -58,7 +63,7 @@ func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.Ge
 
 func (s *CollectionService) GetCatDetail(ctx context.Context, req *core_api.GetCatDetailReq) (*core_api.GetCatDetailResp, error) {
 	resp := new(core_api.GetCatDetailResp)
-	data, err := s.Collection.RetrieveCat(ctx, &collection.RetrieveCatReq{
+	data, err := s.Collection.RetrieveCat(ctx, &gencontent.RetrieveCatReq{
 		CatId: req.CatId,
 	})
 	if err != nil {
@@ -75,7 +80,7 @@ func (s *CollectionService) GetCatDetail(ctx context.Context, req *core_api.GetC
 
 func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error) {
 	resp := new(core_api.NewCatResp)
-	cat := new(collection.Cat)
+	cat := new(gencontent.Cat)
 
 	for i := 0; i < len(req.Avatars); i++ {
 		u, err := url.Parse(req.Avatars[i])
@@ -92,14 +97,14 @@ func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq)
 	}
 
 	if req.GetId() == "" {
-		var data *collection.CreateCatResp
-		data, err = s.Collection.CreateCat(ctx, &collection.CreateCatReq{Cat: cat})
+		var data *gencontent.CreateCatResp
+		data, err = s.Collection.CreateCat(ctx, &gencontent.CreateCatReq{Cat: cat})
 		if err != nil {
 			return nil, err
 		}
 		resp.CatId = data.CatId
 	} else {
-		_, err = s.Collection.UpdateCat(ctx, &collection.UpdateCatReq{Cat: cat})
+		_, err = s.Collection.UpdateCat(ctx, &gencontent.UpdateCatReq{Cat: cat})
 		if err != nil {
 			return nil, err
 		}
@@ -111,7 +116,7 @@ func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq)
 
 func (s *CollectionService) SearchCat(ctx context.Context, req *core_api.SearchCatReq) (*core_api.SearchCatResp, error) {
 	resp := new(core_api.SearchCatResp)
-	data, err := s.Collection.SearchCat(ctx, &collection.SearchCatReq{
+	data, err := s.Collection.SearchCat(ctx, &gencontent.SearchCatReq{
 		CommunityId: req.CommunityId,
 		Count:       consts.DefaultPageSize,
 		Skip:        req.GetPaginationOption().GetPage() * consts.DefaultPageSize,
@@ -137,7 +142,7 @@ func (s *CollectionService) SearchCat(ctx context.Context, req *core_api.SearchC
 
 func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error) {
 	resp := new(core_api.DeleteCatResp)
-	_, err := s.Collection.DeleteCat(ctx, &collection.DeleteCatReq{CatId: req.CatId})
+	_, err := s.Collection.DeleteCat(ctx, &gencontent.DeleteCatReq{CatId: req.CatId})
 	if err != nil {
 		return nil, err
 	}
@@ -157,7 +162,7 @@ func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.Creat
 		req.Images[i].Url = u.String()
 	}
 
-	rpcReq := new(collection.CreateImageReq)
+	rpcReq := new(gencontent.CreateImageReq)
 	err := copier.Copy(rpcReq, req)
 	if err != nil {
 		return nil, err
@@ -176,7 +181,7 @@ func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.Creat
 
 func (s *CollectionService) DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error) {
 	resp := new(core_api.DeleteImageResp)
-	data := collection.DeleteImageReq{ImageId: req.ImageId}
+	data := gencontent.DeleteImageReq{ImageId: req.ImageId}
 	_, err := s.Collection.DeleteImage(ctx, &data)
 	if err != nil {
 		return nil, err
@@ -186,7 +191,7 @@ func (s *CollectionService) DeleteImage(ctx context.Context, req *core_api.Delet
 
 func (s *CollectionService) GetImageByCat(ctx context.Context, req *core_api.GetImageByCatReq) (*core_api.GetImageByCatResp, error) {
 	resp := new(core_api.GetImageByCatResp)
-	data := collection.ListImageReq{
+	data := gencontent.ListImageReq{
 		CatId:    req.CatId,
 		Limit:    req.Limit,
 		Backward: req.Backward,
@@ -200,9 +205,9 @@ func (s *CollectionService) GetImageByCat(ctx context.Context, req *core_api.Get
 	}
 
 	resp.Total = res.Total
-	resp.Images = make([]*collection2.Image, len(res.Images))
+	resp.Images = make([]*content.Image, len(res.Images))
 	for i, image := range res.Images {
-		resp.Images[i] = &collection2.Image{
+		resp.Images[i] = &content.Image{
 			Id:    image.Id,
 			Url:   image.Url,
 			CatId: image.CatId,
@@ -210,8 +215,3 @@ func (s *CollectionService) GetImageByCat(ctx context.Context, req *core_api.Get
 	}
 	return resp, nil
 }
-
-var CollectionServiceSet = wire.NewSet(
-	wire.Struct(new(CollectionService), "*"),
-	wire.Bind(new(ICollectionService), new(*CollectionService)),
-)

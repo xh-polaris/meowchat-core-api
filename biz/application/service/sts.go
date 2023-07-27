@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/google/wire"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -19,6 +20,11 @@ type IStsService interface {
 type StsService struct {
 	PlatformSts platform_sts.IPlatformSts
 }
+
+var StsServiceSet = wire.NewSet(
+	wire.Struct(new(StsService), "*"),
+	wire.Bind(new(IStsService), new(*StsService)),
+)
 
 func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq) (*core_api.ApplySignedUrlResp, error) {
 	resp := new(core_api.ApplySignedUrlResp)

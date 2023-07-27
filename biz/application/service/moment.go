@@ -4,16 +4,16 @@ import (
 	"context"
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"net/url"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_moment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-
-	"github.com/xh-polaris/meowchat-moment-rpc/pb"
-	pb2 "github.com/xh-polaris/meowchat-user-rpc/pb"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 )
 
 type IMomentService interface {
@@ -26,7 +26,7 @@ type IMomentService interface {
 
 type MomentService struct {
 	Config *config.Config
-	Moment meowchat_moment.IMeowchatMoment
+	Moment meowchat_content.IMeowchatContent
 	User   meowchat_user.IMeowchatUser
 }
 
@@ -39,7 +39,7 @@ var PageSize int64 = 10
 
 func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error) {
 	resp := new(core_api.DeleteMomentResp)
-	_, err := s.Moment.DeleteMoment(ctx, &pb.DeleteMomentReq{
+	_, err := s.Moment.DeleteMoment(ctx, &content.DeleteMomentReq{
 		MomentId: req.MomentId,
 	})
 	if err != nil {
@@ -51,7 +51,7 @@ func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMo
 
 func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq) (*core_api.GetMomentDetailResp, error) {
 	resp := new(core_api.GetMomentDetailResp)
-	data, err := s.Moment.RetrieveMoment(ctx, &pb.RetrieveMomentReq{MomentId: req.MomentId})
+	data, err := s.Moment.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.MomentId})
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMo
 		return nil, err
 	}
 
-	user, err := s.User.GetUser(ctx, &pb2.GetUserReq{UserId: data.Moment.UserId})
+	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moment.UserId})
 	if err == nil {
 		resp.Moment.UserId = &user1.UserPreview{
 			Id:        user.User.Id,
@@ -74,17 +74,17 @@ func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMo
 
 func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.GetMomentPreviewsReq) (*core_api.GetMomentPreviewsResp, error) {
 	resp := new(core_api.GetMomentPreviewsResp)
-	var data *pb.ListMomentResp
+	var data *content.ListMomentResp
 
 	if req.PaginationOption.Limit == nil {
 		req.PaginationOption.Limit = &PageSize
 	}
-	request := &pb.ListMomentReq{
-		FilterOptions: &pb.FilterOptions{
+	request := &content.ListMomentReq{
+		FilterOptions: &content.MomentFilterOptions{
 			OnlyUserId:      req.OnlyUserId,
 			OnlyCommunityId: req.CommunityId,
 		},
-		PaginationOptions: &pb.PaginationOptions{
+		PaginationOptions: &basic.PaginationOptions{
 			Offset:    new(int64),
 			Limit:     req.PaginationOption.Limit,
 			Backward:  req.PaginationOption.Backward,
@@ -105,7 +105,7 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 	}
 
 	for i := 0; i < len(data.Moments); i++ {
-		user, err := s.User.GetUser(ctx, &pb2.GetUserReq{UserId: data.Moments[i].UserId})
+		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moments[i].UserId})
 		if err == nil {
 			resp.Moments[i].UserId = &user1.UserPreview{
 				Id:        user.User.Id,
@@ -119,7 +119,7 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 
 func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq) (*core_api.NewMomentResp, error) {
 	resp := new(core_api.NewMomentResp)
-	m := new(pb.Moment)
+	m := new(content.Moment)
 	//openId := ctx.Value("openId").(string)
 	//
 	//err = util.MsgSecCheck(l.ctx, l.svcCtx, req.Title+"\n"+req.Text, openId, 2)
@@ -149,11 +149,11 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 	m.UserId = ctx.Value("userId").(string)
 
 	if *req.Id == "" {
-		var data *pb.CreateMomentResp
-		data, err = s.Moment.CreateMoment(ctx, &pb.CreateMomentReq{Moment: m})
+		var data *content.CreateMomentResp
+		data, err = s.Moment.CreateMoment(ctx, &content.CreateMomentReq{Moment: m})
 		resp.MomentId = data.MomentId
 	} else {
-		_, err = s.Moment.UpdateMoment(ctx, &pb.UpdateMomentReq{Moment: m})
+		_, err = s.Moment.UpdateMoment(ctx, &content.UpdateMomentReq{Moment: m})
 		resp.MomentId = *req.Id
 	}
 
@@ -166,18 +166,18 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 
 func (s *MomentService) SearchMoment(ctx context.Context, req *core_api.SearchMomentReq) (*core_api.SearchMomentResp, error) {
 	resp := new(core_api.SearchMomentResp)
-	var data *pb.ListMomentResp
+	var data *content.ListMomentResp
 
 	if req.PaginationOption.Limit == nil {
 		req.PaginationOption.Limit = &PageSize
 	}
-	request := &pb.ListMomentReq{
-		SearchOptions: &pb.SearchOptions{Type: &pb.SearchOptions_AllFieldsKey{AllFieldsKey: *req.Keyword}},
-		FilterOptions: &pb.FilterOptions{
+	request := &content.ListMomentReq{
+		SearchOptions: &content.SearchOptions{Type: &content.SearchOptions_AllFieldsKey{AllFieldsKey: *req.Keyword}},
+		FilterOptions: &content.MomentFilterOptions{
 			OnlyUserId:      req.OnlyUserId,
 			OnlyCommunityId: req.CommunityId,
 		},
-		PaginationOptions: &pb.PaginationOptions{
+		PaginationOptions: &basic.PaginationOptions{
 			Offset:    new(int64),
 			Limit:     req.PaginationOption.Limit,
 			Backward:  req.PaginationOption.Backward,
@@ -198,7 +198,7 @@ func (s *MomentService) SearchMoment(ctx context.Context, req *core_api.SearchMo
 	}
 
 	for i := 0; i < len(data.Moments); i++ {
-		user, err := s.User.GetUser(ctx, &pb2.GetUserReq{UserId: data.Moments[i].UserId})
+		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moments[i].UserId})
 		if err == nil {
 			resp.Moments[i].UserId = &user1.UserPreview{
 				Id:        user.User.Id,

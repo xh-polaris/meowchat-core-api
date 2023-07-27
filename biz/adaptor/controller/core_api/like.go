@@ -4,6 +4,8 @@ package core_api
 
 import (
 	"context"
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
+	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -21,9 +23,9 @@ func DoLike(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DoLikeResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.LikeService.DoLike(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetUserLiked .
@@ -37,9 +39,9 @@ func GetUserLiked(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetUserLikedResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.LikeService.GetUserLiked(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetLikedCount .
@@ -53,9 +55,9 @@ func GetLikedCount(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetLikedCountResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.LikeService.GetLikedCount(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetLikedUsers .
@@ -69,9 +71,9 @@ func GetLikedUsers(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetLikedUsersResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.LikeService.GetLikedUsers(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetUserLikes .
@@ -85,7 +87,7 @@ func GetUserLikes(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetUserLikesResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.LikeService.GetUserLikes(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }

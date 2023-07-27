@@ -4,17 +4,16 @@ import (
 	"context"
 	"github.com/google/wire"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/system"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_like"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_moment"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_post"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-like-rpc/likerpc"
-	pb4 "github.com/xh-polaris/meowchat-like-rpc/pb"
-	pb2 "github.com/xh-polaris/meowchat-moment-rpc/pb"
-	pb3 "github.com/xh-polaris/meowchat-post-rpc/pb"
-	"github.com/xh-polaris/meowchat-user-rpc/pb"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	system2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
+	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/zeromicro/go-zero/core/logx"
 	"net/url"
 	"sync"
@@ -30,9 +29,8 @@ type IUserService interface {
 type UserService struct {
 	Config *config.Config
 	User   meowchat_user.IMeowchatUser
-	Moment meowchat_moment.IMeowchatMoment
-	Like   meowchat_like.IMeowchatLike
-	Post   meowchat_post.IMeowchatPost
+	Moment meowchat_content.IMeowchatContent
+	System meowchat_system.IMeowchatSystem
 }
 
 var UserServiceSet = wire.NewSet(
@@ -50,7 +48,7 @@ func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfo
 		userId = ctx.Value("userId").(string)
 	}
 
-	data, err := s.User.GetUserDetail(ctx, &pb.GetUserDetailReq{UserId: userId})
+	data, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: userId})
 	if err != nil {
 		return nil, err
 	}
@@ -67,52 +65,52 @@ func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfo
 }
 
 func (s *UserService) SearchUserForAdmin(ctx context.Context, req *core_api.SearchUserForAdminReq) (*core_api.SearchUserForAdminResp, error) {
-	//resp := new(core_api.SearchUserForAdminResp)
-	//var pageSize int64 = 10
-	//if *req.PaginationOption.Limit != 0 {
-	//	pageSize = *req.PaginationOption.Limit
-	//}
-	//request := &pb.SearchUserReq{
-	//	Nickname: req.Keyword,
-	//	Offset:   new(int64),
-	//	Limit:    new(int64),
-	//}
-	//if *req.PaginationOption.LastToken != "" {
-	//	request.LastToken = req.PaginationOption.LastToken
-	//}
-	//*request.Offset = *req.PaginationOption.Page * pageSize
-	//*request.Limit = pageSize
-	//data, err := s.User.SearchUser(ctx, request)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//resp.Total = data.Total
-	//resp.Token = data.Token
-	//resp.Users = make([]*core_api.UserPreviewWithRole, 0, len(data.Users))
-	//for _, user := range data.Users {
-	//	u := core_api.UserPreviewWithRole{
-	//		User: &user1.UserPreview{
-	//			Id:        user.Id,
-	//			Nickname:  user.Nickname,
-	//			AvatarUrl: user.AvatarUrl,
-	//		},
-	//	}
-	//
-	//	u.Roles = make([]*system.Role, 0)
-	//	data, err := s.System.RetrieveUserRole(l.ctx, &pb2.RetrieveUserRoleReq{UserId: user.Id})
-	//	if err != nil {
-	//		return nil, err
-	//	}
-	//	for _, role := range data.Roles {
-	//		u.Roles = append(u.Roles, core_api.Role{
-	//			RoleType:    role.Type,
-	//			CommunityId: role.CommunityId,
-	//		})
-	//	}
-	//
-	//	resp.Users = append(resp.Users, u)
-	//}
-	return nil, nil
+	resp := new(core_api.SearchUserForAdminResp)
+	var pageSize int64 = 10
+	if *req.PaginationOption.Limit != 0 {
+		pageSize = *req.PaginationOption.Limit
+	}
+	request := &genuser.SearchUserReq{
+		Nickname: req.Keyword,
+		Offset:   new(int64),
+		Limit:    new(int64),
+	}
+	if *req.PaginationOption.LastToken != "" {
+		request.LastToken = req.PaginationOption.LastToken
+	}
+	*request.Offset = *req.PaginationOption.Page * pageSize
+	*request.Limit = pageSize
+	data, err := s.User.SearchUser(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	resp.Total = data.Total
+	resp.Token = data.Token
+	resp.Users = make([]*core_api.UserPreviewWithRole, 0, len(data.Users))
+	for _, user := range data.Users {
+		u := core_api.UserPreviewWithRole{
+			User: &user1.UserPreview{
+				Id:        user.Id,
+				Nickname:  user.Nickname,
+				AvatarUrl: user.AvatarUrl,
+			},
+		}
+
+		u.Roles = make([]*system.Role, 0)
+		data, err := s.System.RetrieveUserRole(ctx, &system2.RetrieveUserRoleReq{UserId: user.Id})
+		if err != nil {
+			return nil, err
+		}
+		for _, role := range data.Roles {
+			u.Roles = append(u.Roles, &system.Role{
+				RoleType:    role.RoleType,
+				CommunityId: role.CommunityId,
+			})
+		}
+
+		resp.Users = append(resp.Users, &u)
+	}
+	return resp, nil
 }
 
 func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserReq) (*core_api.SearchUserResp, error) {
@@ -121,7 +119,7 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 	if *req.PaginationOption.Limit != 0 {
 		pageSize = *req.PaginationOption.Limit
 	}
-	request := &pb.SearchUserReq{
+	request := &genuser.SearchUserReq{
 		Nickname: req.Keyword,
 		Offset:   new(int64),
 		Limit:    new(int64),
@@ -173,8 +171,8 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 		}
 	}
 
-	_, err := s.User.UpdateUser(ctx, &pb.UpdateUserReq{
-		User: &pb.UserDetail{
+	_, err := s.User.UpdateUser(ctx, &genuser.UpdateUserReq{
+		User: &genuser.UserDetail{
 			Id:        userId,
 			AvatarUrl: *req.AvatarUrl,
 			Nickname:  *req.Nickname,
@@ -194,8 +192,8 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 
 	go func() {
 		defer wg.Done()
-		momentCount, err := s.Moment.CountMoment(ctx, &pb2.CountMomentReq{
-			FilterOptions: &pb2.FilterOptions{OnlyUserId: &user.Id},
+		momentCount, err := s.Moment.CountMoment(ctx, &content.CountMomentReq{
+			FilterOptions: &content.MomentFilterOptions{OnlyUserId: &user.Id},
 		})
 		if err != nil {
 			logx.Error(err)
@@ -205,8 +203,8 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 
 	go func() {
 		defer wg.Done()
-		postCount, err := s.Post.CountPost(ctx, &pb3.CountPostReq{
-			FilterOptions: &pb3.FilterOptions{
+		postCount, err := s.Moment.CountPost(ctx, &content.CountPostReq{
+			FilterOptions: &content.PostFilterOptions{
 				OnlyUserId: &user.Id,
 			},
 		})
@@ -219,7 +217,7 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 
 	go func() {
 		defer wg.Done()
-		follower, err := s.Like.GetTargetLikes(ctx, &pb4.GetTargetLikesReq{
+		follower, err := s.User.GetTargetLikes(ctx, &genuser.GetTargetLikesReq{
 			TargetId: user.Id,
 			Type:     likerpc.TargetTypeUser,
 		})
@@ -231,7 +229,7 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 
 	go func() {
 		defer wg.Done()
-		followee, err := s.Like.GetUserLikes(ctx, &pb4.GetUserLikesReq{
+		followee, err := s.User.GetUserLikes(ctx, &genuser.GetUserLikesReq{
 			UserId:     user.Id,
 			TargetType: likerpc.TargetTypeUser,
 		})
