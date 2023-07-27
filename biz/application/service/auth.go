@@ -6,12 +6,12 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/wire"
-	"github.com/xh-polaris/auth-rpc/pb"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_authentication"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 )
@@ -23,8 +23,8 @@ type IAuthService interface {
 }
 
 type AuthService struct {
-	Config         *config.Config
-	Authentication platform_authentication.IPlatformAuthentication
+	Config *config.Config
+	Sts    platform_sts.IPlatformSts
 }
 
 var AuthServiceSet = wire.NewSet(
@@ -34,38 +34,39 @@ var AuthServiceSet = wire.NewSet(
 
 func (s *AuthService) SignIn(ctx context.Context, req *core_api.SignInReq) (*core_api.SignInResp, error) {
 	resp := new(core_api.SignInResp)
-	rpcResp, err := s.Authentication.SignIn(ctx, &pb.SignInReq{
-		AuthType: req.AuthType,
-		AuthId:   req.AuthId,
-		Password: req.GetPassword(),
-		Params:   req.Params,
+	rpcResp, err := s.Sts.SignIn(ctx, &sts.SignInReq{
+		AuthType:   req.GetAuthType(),
+		AuthId:     req.GetAuthId(),
+		Password:   req.Password,
+		VerifyCode: req.VerifyCode,
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	auth := s.Config.Auth
-	resp.AccessToken, resp.AccessExpire, err = generateJwtToken(rpcResp.User, auth.AccessSecret, auth.AccessExpire)
+	resp.AccessToken, resp.AccessExpire, err = generateJwtToken(req, rpcResp, auth.AccessSecret, auth.AccessExpire)
 	if err != nil {
-		log.CtxError(ctx, "[generateJwtToken] fail, err=%v, config=%s, user=%s", err, util.JSONF(s.Config.Auth), util.JSONF(rpcResp.User))
+		log.CtxError(ctx, "[generateJwtToken] fail, err=%v, config=%s, resp=%s", err, util.JSONF(s.Config.Auth), util.JSONF(rpcResp))
 		return nil, err
 	}
-	resp.UserId = rpcResp.User.UserId
+	resp.UserId = rpcResp.GetUserId()
 	return resp, nil
 }
 
-func generateJwtToken(user *pb.User, secret string, expire int64) (string, int64, error) {
+func generateJwtToken(req *core_api.SignInReq, resp *sts.SignInResp, secret string, expire int64) (string, int64, error) {
 	iat := time.Now().Unix()
 	exp := iat + expire
 	claims := make(jwt.MapClaims)
 	claims["exp"] = exp
 	claims["iat"] = iat
-	claims["userId"] = user.UserId
-	claims["sessionUserId"] = user.UserId
+	claims["userId"] = resp.GetUserId()
+	claims["appId"] = req.GetAppId()
+	claims["deviceId"] = req.GetDeviceId()
 	claims["wechatUserMeta"] = &basic.WechatUserMeta{
-		AppId:   user.AppId,
-		OpenId:  user.OpenId,
-		UnionId: user.UnionId,
+		AppId:   resp.GetAppId(),
+		OpenId:  resp.GetOpenId(),
+		UnionId: resp.GetUnionId(),
 	}
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
@@ -78,7 +79,7 @@ func generateJwtToken(user *pb.User, secret string, expire int64) (string, int64
 
 func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPasswordReq, user *basic.UserMeta) (*core_api.SetPasswordResp, error) {
 	resp := new(core_api.SetPasswordResp)
-	_, err := s.Authentication.SetPassword(ctx, &pb.SetPasswordReq{
+	_, err := s.Sts.SetPassword(ctx, &sts.SetPasswordReq{
 		UserId:   user.UserId,
 		Password: req.Password,
 	})
@@ -91,7 +92,7 @@ func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPassword
 
 func (s *AuthService) SendVerifyCode(ctx context.Context, req *core_api.SendVerifyCodeReq) (*core_api.SendVerifyCodeResp, error) {
 	resp := new(core_api.SendVerifyCodeResp)
-	_, err := s.Authentication.SendVerifyCode(ctx, &pb.SendVerifyCodeReq{
+	_, err := s.Sts.SendVerifyCode(ctx, &sts.SendVerifyCodeReq{
 		AuthType: req.AuthType,
 		AuthId:   req.AuthId,
 	})

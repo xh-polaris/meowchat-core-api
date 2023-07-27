@@ -14,8 +14,8 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_moment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_post"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_authentication"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 )
 
 // Injectors from wire.go:
@@ -33,13 +33,13 @@ func NewProvider() (*Provider, error) {
 		Collection: meowchatCollection,
 		Config:     configConfig,
 	}
-	auth := platform_authentication.NewPlatformAuthentication(configConfig)
-	platformAuthentication := &platform_authentication.PlatformAuthentication{
-		Auth: auth,
+	stsserviceClient := platform_sts.NewPlatformSts(configConfig)
+	platformSts := &platform_sts.PlatformSts{
+		Client: stsserviceClient,
 	}
 	authService := &service.AuthService{
-		Config:         configConfig,
-		Authentication: platformAuthentication,
+		Config: configConfig,
+		Sts:    platformSts,
 	}
 	commentRpc := platform_comment.NewPlatformComment(configConfig)
 	platformComment := &platform_comment.PlatformComment{
