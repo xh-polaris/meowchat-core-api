@@ -3,20 +3,24 @@ package service
 import (
 	"context"
 	"github.com/google/wire"
+	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	user2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 )
 
 const pageSize = 10
 
 type ICommentService interface {
 	GetComments(ctx context.Context, req *core_api.GetCommentsReq) (*core_api.GetCommentsResp, error)
-	NewComment(ctx context.Context, req *core_api.NewCommentReq) (*core_api.NewCommentResp, error)
+	NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error)
 	DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq) (*core_api.DeleteCommentResp, error)
 }
 
@@ -24,6 +28,7 @@ type CommentService struct {
 	Config  *config.Config
 	Comment platform_comment.IPlatformCommment
 	User    meowchat_user.IMeowchatUser
+	Sts     platform_sts.IPlatformSts
 }
 
 var CommentServiceSet = wire.NewSet(
@@ -98,16 +103,29 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 	return nil, nil
 }
 
-func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommentReq) (*core_api.NewCommentResp, error) {
+func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error) {
 	resp := new(core_api.NewCommentResp)
-	userId := ctx.Value("userId").(string)
-	//openId := ctx.Value("openId").(string)
-	//
-	//err := util.MsgSecCheck(ctx, s, req.Text, openId, 2)
-	//if err != nil {
-	//	return nil, err
-	//}
-	// 获取回复用户id
+	userId := user.UserId
+	openId := user.WechatUserMeta.OpenId
+
+	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+		Text: req.Text,
+		User: &basic.UserMeta{
+			WechatUserMeta: &basic.WechatUserMeta{
+				OpenId: openId,
+			},
+		},
+		Scene: 2,
+		Title: &req.Text,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if r.Pass == false {
+		return nil, errors.NewBizError(10001, "TextCheck don't pass")
+	}
+
+	//获取回复用户id
 	replyToId := ""
 	if req.Scope == "comment" {
 		replyTo, err := s.Comment.RetrieveCommentById(ctx, &gencomment.RetrieveCommentByIdReq{Id: *req.Id})
@@ -117,7 +135,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 		replyToId = replyTo.Comment.AuthorId
 	}
 
-	_, err := s.Comment.CreateComment(ctx, &gencomment.CreateCommentReq{
+	_, err = s.Comment.CreateComment(ctx, &gencomment.CreateCommentReq{
 		Text:     req.Text,
 		AuthorId: userId,
 		ReplyTo:  replyToId,

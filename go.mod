@@ -9,11 +9,10 @@ require (
 	github.com/google/wire v0.5.0
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/jinzhu/copier v0.3.5
-	github.com/tencentyun/cos-go-sdk-v5 v0.7.42
-	github.com/xh-polaris/gopkg v0.0.0-20230725130205-0de08f1b5c0b
+	github.com/xh-polaris/gopkg v0.0.0-20230728095558-acab904b30e8
 	github.com/xh-polaris/meowchat-like-rpc v1.1.8
 	github.com/xh-polaris/meowchat-system-rpc v1.2.3
-	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230727155443-531f68f73a7a
+	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230728025014-8a6a2e5febd9
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0
 	go.opentelemetry.io/otel v1.16.0

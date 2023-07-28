@@ -4,7 +4,7 @@ import (
 	"github.com/google/wire"
 	"github.com/xh-polaris/gopkg/kitex/client"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
-	comment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment/comment"
+	comment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment/commentservice"
 )
 
 type IPlatformCommment interface {

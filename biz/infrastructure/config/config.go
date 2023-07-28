@@ -15,9 +15,15 @@ type Auth struct {
 
 type Config struct {
 	service.ServiceConf
-	ListenOn   string
-	Auth       Auth
-	CdnHost    string
+	ListenOn string
+	Auth     Auth
+	CosHost  string
+	CdnHost  string
+	CIHost   string
+	CosApi   struct {
+		SecretId  string
+		SecretKey string
+	}
 	AuthRPC    zrpc.RpcClientConf
 	MomentRPC  zrpc.RpcClientConf
 	SystemRPC  zrpc.RpcClientConf
