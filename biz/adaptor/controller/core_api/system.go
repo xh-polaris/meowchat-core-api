@@ -4,6 +4,8 @@ package core_api
 
 import (
 	"context"
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
+	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -21,9 +23,9 @@ func GetAdmins(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetAdminsResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.GetAdmins(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // NewAdmin .
@@ -37,9 +39,9 @@ func NewAdmin(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.NewAdminResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.NewAdmin(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // DeleteAdmin .
@@ -53,9 +55,9 @@ func DeleteAdmin(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DeleteAdminResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.DeleteAdmin(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // ListApply .
@@ -69,9 +71,9 @@ func ListApply(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.ListApplyResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.ListApply(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // HandleApply .
@@ -85,9 +87,9 @@ func HandleApply(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.HandleApplyResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.HandleApply(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetNews .
@@ -101,9 +103,9 @@ func GetNews(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetNewsResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.GetNews(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // NewNews .
@@ -117,9 +119,9 @@ func NewNews(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.NewNewsResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.NewNews(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // DeleteNews .
@@ -133,9 +135,9 @@ func DeleteNews(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DeleteNewsResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.DeleteNews(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetNotices .
@@ -149,9 +151,9 @@ func GetNotices(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetNoticesResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.GetNotices(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // NewNotice .
@@ -165,9 +167,9 @@ func NewNotice(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.NewNoticeResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.NewNotice(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // DeleteNotice .
@@ -181,9 +183,9 @@ func DeleteNotice(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DeleteNoticeResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.DeleteNotice(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // ListCommunity .
@@ -197,9 +199,9 @@ func ListCommunity(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.ListCommunityResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.ListCommunity(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // NewCommunity .
@@ -213,9 +215,9 @@ func NewCommunity(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.NewCommunityResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.NewCommunity(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // DeleteCommunity .
@@ -229,9 +231,9 @@ func DeleteCommunity(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.DeleteCommunityResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.DeleteCommunity(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetUserRoles .
@@ -245,9 +247,9 @@ func GetUserRoles(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.GetUserRolesResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.GetUserRoles(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // UpdateCommunityAdmin .
@@ -261,9 +263,9 @@ func UpdateCommunityAdmin(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.UpdateCommunityAdminResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.UpdateCommunityAdmin(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // UpdateSuperAdmin .
@@ -277,9 +279,9 @@ func UpdateSuperAdmin(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.UpdateSuperAdminResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.UpdateSuperAdmin(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // GetUserByRole .
@@ -293,9 +295,9 @@ func GetUserByRole(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.RetrieveUserPreviewResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.GetUserByRole(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // CreateApply .
@@ -309,7 +311,7 @@ func CreateApply(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.CreateApplyResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.CreateApply(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }

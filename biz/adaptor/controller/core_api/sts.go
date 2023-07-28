@@ -4,6 +4,8 @@ package core_api
 
 import (
 	"context"
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
+	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -21,9 +23,9 @@ func ApplySignedUrl(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.ApplySignedUrlResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.StsService.ApplySignedUrl(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }
 
 // ApplySignedUrlAsCommunity .
@@ -37,7 +39,7 @@ func ApplySignedUrlAsCommunity(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.ApplySignedUrlAsCommunityResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.StsService.ApplySignedUrlAsCommunity(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
 }

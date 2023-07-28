@@ -29,6 +29,8 @@ type Provider struct {
 	MomentService     service.IMomentService
 	PostService       service.PostService
 	LikeService       service.ILikeService
+	StsService        service.IStsService
+	SystemService     service.ISystemService
 }
 
 func Get() *Provider {
