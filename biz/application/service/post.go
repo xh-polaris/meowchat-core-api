@@ -3,17 +3,20 @@ package service
 import (
 	"context"
 	"github.com/google/wire"
+	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-like-rpc/likerpc"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 	"net/url"
 )
 
@@ -21,7 +24,7 @@ type IPostService interface {
 	DeletePost(ctx context.Context, req *core_api.DeletePostReq) (*core_api.DeletePostResp, error)
 	GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq) (*core_api.GetPostDetailResp, error)
 	GetPostPreviews(ctx context.Context, req *core_api.GetPostPreviewsReq) (*core_api.GetPostPreviewsResp, error)
-	NewPost(ctx context.Context, req *core_api.NewPostReq) (*core_api.NewPostResp, error)
+	NewPost(ctx context.Context, req *core_api.NewPostReq, user *basic.UserMeta) (*core_api.NewPostResp, error)
 	SetOfficial(ctx context.Context, req *core_api.SetOfficialReq) (*core_api.SetOfficialResp, error)
 }
 
@@ -30,6 +33,7 @@ type PostService struct {
 	Content meowchat_content.IMeowchatContent
 	User    meowchat_user.IMeowchatUser
 	Comment platform_comment.IPlatformCommment
+	Sts     platform_sts.IPlatformSts
 }
 
 var PostServiceSet = wire.NewSet(
@@ -82,28 +86,48 @@ func (s *PostService) GetPostPreviews(ctx context.Context, req *core_api.GetPost
 	return resp, nil
 }
 
-func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq) (*core_api.NewPostResp, error) {
+func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, user *basic.UserMeta) (*core_api.NewPostResp, error) {
 	resp := new(core_api.NewPostResp)
-	userId := ctx.Value("userId").(string)
-	//openId := ctx.Value("openId").(string)
-	//
-	//err = util.MsgSecCheck(ctx, l.svcCtx, req.Title+"\n"+req.Text, openId, 2)
-	//if err != nil {
-	//	return nil, err
-	//}
+	userId := user.UserId
+	openId := user.WechatUserMeta.OpenId
+
+	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+		Text: req.Text,
+		User: &basic.UserMeta{
+			WechatUserMeta: &basic.WechatUserMeta{
+				OpenId: openId,
+			},
+		},
+		Scene: 2,
+		Title: &req.Title,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if r.Pass == false {
+		return nil, errors.NewBizError(10001, "TextCheck don't pass")
+	}
 
 	var u *url.URL
-	u, err := url.Parse(req.CoverUrl)
+	u, err = url.Parse(req.CoverUrl)
 	if err != nil {
 		return resp, err
 	}
 	u.Host = s.Config.CdnHost
 	req.CoverUrl = u.String()
 
-	//if req.CoverUrl != "" {
-	//	r := []string{req.CoverUrl}
-	//	err = util.PhotoCheck(ctx, l.svcCtx, r)
-	//}
+	var i = []string{req.CoverUrl}
+
+	res, err := s.Sts.PhotoCheck(ctx, &sts.PhotoCheckReq{
+		User: user,
+		Url:  i,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if res.Pass == false {
+		return nil, errors.NewBizError(10002, "PhotoCheck don't pass")
+	}
 
 	if err != nil {
 		return nil, err

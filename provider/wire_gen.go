@@ -27,21 +27,22 @@ func NewProvider() (*Provider, error) {
 	meowchatContent := &meowchat_content.MeowchatContent{
 		Client: client,
 	}
-	collectionService := &service.CollectionService{
-		Collection: meowchatContent,
-		Config:     configConfig,
-	}
 	stsserviceClient := platform_sts.NewPlatformSts(configConfig)
 	platformSts := &platform_sts.PlatformSts{
 		Client: stsserviceClient,
+	}
+	collectionService := &service.CollectionService{
+		Collection: meowchatContent,
+		Config:     configConfig,
+		Sts:        platformSts,
 	}
 	authService := &service.AuthService{
 		Config: configConfig,
 		Sts:    platformSts,
 	}
-	commentClient := platform_comment.NewPlatformComment(configConfig)
+	commentserviceClient := platform_comment.NewPlatformComment(configConfig)
 	platformComment := &platform_comment.PlatformComment{
-		Client: commentClient,
+		Client: commentserviceClient,
 	}
 	userserviceClient := meowchat_user.NewMeowchatUser(configConfig)
 	meowchatUser := &meowchat_user.MeowchatUser{
@@ -51,6 +52,7 @@ func NewProvider() (*Provider, error) {
 		Config:  configConfig,
 		Comment: platformComment,
 		User:    meowchatUser,
+		Sts:     platformSts,
 	}
 	systemrpcClient := meowchat_system.NewMeowchatSystem(configConfig)
 	meowchatSystem := &meowchat_system.MeowchatSystem{
@@ -61,17 +63,20 @@ func NewProvider() (*Provider, error) {
 		User:   meowchatUser,
 		Moment: meowchatContent,
 		System: meowchatSystem,
+		Sts:    platformSts,
 	}
 	momentService := &service.MomentService{
 		Config: configConfig,
 		Moment: meowchatContent,
 		User:   meowchatUser,
+		Sts:    platformSts,
 	}
 	postService := service.PostService{
 		Config:  configConfig,
 		Content: meowchatContent,
 		User:    meowchatUser,
 		Comment: platformComment,
+		Sts:     platformSts,
 	}
 	likeService := &service.LikeService{
 		Config: configConfig,

@@ -24,7 +24,7 @@ func DoLike(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.LikeService.DoLike(ctx, &req)
+	resp, err := p.LikeService.DoLike(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -40,7 +40,7 @@ func GetUserLiked(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.LikeService.GetUserLiked(ctx, &req)
+	resp, err := p.LikeService.GetUserLiked(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 

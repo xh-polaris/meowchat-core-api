@@ -56,7 +56,7 @@ func NewMoment(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.MomentService.NewMoment(ctx, &req)
+	resp, err := p.MomentService.NewMoment(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 

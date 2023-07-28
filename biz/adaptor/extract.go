@@ -7,8 +7,8 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/json"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 )

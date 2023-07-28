@@ -248,7 +248,7 @@ func GetUserRoles(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.GetUserRoles(ctx, &req)
+	resp, err := p.SystemService.GetUserRoles(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 
@@ -312,6 +312,6 @@ func CreateApply(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.CreateApply(ctx, &req)
+	resp, err := p.SystemService.CreateApply(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }

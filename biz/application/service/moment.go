@@ -4,7 +4,10 @@ import (
 	"context"
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
+	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 	"net/url"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
@@ -20,7 +23,7 @@ type IMomentService interface {
 	DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error)
 	GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq) (*core_api.GetMomentDetailResp, error)
 	GetMomentPreviews(ctx context.Context, req *core_api.GetMomentPreviewsReq) (*core_api.GetMomentPreviewsResp, error)
-	NewMoment(ctx context.Context, req *core_api.NewMomentReq) (*core_api.NewMomentResp, error)
+	NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *basic.UserMeta) (*core_api.NewMomentResp, error)
 	SearchMoment(ctx context.Context, req *core_api.SearchMomentReq) (*core_api.SearchMomentResp, error)
 }
 
@@ -28,6 +31,7 @@ type MomentService struct {
 	Config *config.Config
 	Moment meowchat_content.IMeowchatContent
 	User   meowchat_user.IMeowchatUser
+	Sts    platform_sts.IPlatformSts
 }
 
 var MomentServiceSet = wire.NewSet(
@@ -117,16 +121,28 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 	return resp, nil
 }
 
-func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq) (*core_api.NewMomentResp, error) {
+func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *basic.UserMeta) (*core_api.NewMomentResp, error) {
 	resp := new(core_api.NewMomentResp)
 	m := new(content.Moment)
-	//openId := ctx.Value("openId").(string)
-	//
-	//err = util.MsgSecCheck(l.ctx, l.svcCtx, req.Title+"\n"+req.Text, openId, 2)
-	//if err != nil {
-	//	return nil, err
-	//}
+	openId := user.WechatUserMeta.OpenId
 
+	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+		Text: *req.Text,
+		User: &basic.UserMeta{
+			WechatUserMeta: &basic.WechatUserMeta{
+				OpenId: openId,
+			},
+		},
+		Scene: 2,
+		Title: req.Title,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if r.Pass == false {
+		return nil, errors.NewBizError(10001, "TextCheck don't pass")
+	}
+	urls := make([]string, len(req.Photos))
 	for i := 0; i < len(req.Photos); i++ {
 		var u *url.URL
 		u, err := url.Parse(req.Photos[i])
@@ -135,13 +151,20 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 		}
 		u.Host = s.Config.CdnHost
 		req.Photos[i] = u.String()
+		urls[i] = req.Photos[i]
 	}
-	//err = util.PhotoCheck(l.ctx, l.svcCtx, req.Photos)
-	//if err != nil {
-	//	return nil, err
-	//}
+	res, err := s.Sts.PhotoCheck(ctx, &sts.PhotoCheckReq{
+		User: user,
+		Url:  urls,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if res.Pass == false {
+		return nil, errors.NewBizError(10002, "PhotoCheck don't pass")
+	}
 
-	err := copier.Copy(m, req)
+	err = copier.Copy(m, req)
 	if err != nil {
 		return nil, err
 	}

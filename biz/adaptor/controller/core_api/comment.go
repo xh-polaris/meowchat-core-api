@@ -40,7 +40,7 @@ func NewComment(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CommentService.NewComment(ctx, &req)
+	resp, err := p.CommentService.NewComment(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 

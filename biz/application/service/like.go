@@ -7,15 +7,16 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type ILikeService interface {
-	DoLike(ctx context.Context, req *core_api.DoLikeReq) (*core_api.DoLikeResp, error)
+	DoLike(ctx context.Context, req *core_api.DoLikeReq, user *basic.UserMeta) (*core_api.DoLikeResp, error)
 	GetLikedCount(ctx context.Context, req *core_api.GetLikedCountReq) (*core_api.GetLikedCountResp, error)
 	GetLikedUsers(ctx context.Context, req *core_api.GetLikedUsersReq) (*core_api.GetLikedUsersResp, error)
-	GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq) (*core_api.GetUserLikedResp, error)
+	GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq, user *basic.UserMeta) (*core_api.GetUserLikedResp, error)
 	GetUserLikes(ctx context.Context, req *core_api.GetUserLikesReq) (*core_api.GetUserLikesResp, error)
 }
 
@@ -29,10 +30,10 @@ var LikeServiceSet = wire.NewSet(
 	wire.Bind(new(ILikeService), new(*LikeService)),
 )
 
-func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq) (*core_api.DoLikeResp, error) {
+func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user *basic.UserMeta) (*core_api.DoLikeResp, error) {
 	resp := new(core_api.DoLikeResp)
 
-	userId := ctx.Value("userId").(string)
+	userId := user.UserId
 
 	_, err := s.User.DoLike(ctx, &genlike.DoLikeReq{
 		UserId:       userId,
@@ -88,10 +89,10 @@ func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedU
 	return resp, nil
 }
 
-func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq) (*core_api.GetUserLikedResp, error) {
+func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq, user *basic.UserMeta) (*core_api.GetUserLikedResp, error) {
 	resp := new(core_api.GetUserLikedResp)
 
-	userId := ctx.Value("userId").(string)
+	userId := user.UserId
 	like, err := s.User.GetUserLike(ctx, &genlike.GetUserLikedReq{
 		UserId:   userId,
 		TargetId: req.TargetId,

@@ -105,7 +105,7 @@ func CreateImage(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CollectionService.CreateImage(ctx, &req)
+	resp, err := p.CollectionService.CreateImage(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 

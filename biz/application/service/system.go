@@ -11,13 +11,14 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-system-rpc/common/constant"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"sync"
 )
 
 type ISystemService interface {
-	CreateApply(ctx context.Context, req *core_api.CreateApplyReq) (*core_api.CreateApplyResp, error)
+	CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *basic.UserMeta) (*core_api.CreateApplyResp, error)
 	DeleteAdmin(ctx context.Context, req *core_api.DeleteAdminReq) (*core_api.DeleteAdminResp, error)
 	DeleteCommunity(ctx context.Context, req *core_api.DeleteCommunityReq) (*core_api.DeleteCommunityResp, error)
 	DeleteNews(ctx context.Context, req *core_api.DeleteNewsReq) (*core_api.DeleteNewsResp, error)
@@ -26,7 +27,7 @@ type ISystemService interface {
 	GetNews(ctx context.Context, req *core_api.GetNewsReq) (*core_api.GetNewsResp, error)
 	GetNotices(ctx context.Context, req *core_api.GetNoticesReq) (*core_api.GetNoticesResp, error)
 	GetUserByRole(ctx context.Context, req *core_api.RetrieveUserPreviewReq) (*core_api.RetrieveUserPreviewResp, error)
-	GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq) (*core_api.GetUserRolesResp, error)
+	GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq, user *basic.UserMeta) (*core_api.GetUserRolesResp, error)
 	HandleApply(ctx context.Context, req *core_api.HandleApplyReq) (*core_api.HandleApplyResp, error)
 	ListApply(ctx context.Context, req *core_api.ListApplyReq) (*core_api.ListApplyResp, error)
 	ListCommunity(ctx context.Context, req *core_api.ListCommunityReq) (*core_api.ListCommunityResp, error)
@@ -49,9 +50,9 @@ var SystemServiceSet = wire.NewSet(
 	wire.Bind(new(ISystemService), new(*SystemService)),
 )
 
-func (s *SystemService) CreateApply(ctx context.Context, req *core_api.CreateApplyReq) (*core_api.CreateApplyResp, error) {
+func (s *SystemService) CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *basic.UserMeta) (*core_api.CreateApplyResp, error) {
 	resp := new(core_api.CreateApplyResp)
-	ApplicantId := ctx.Value("userId").(string)
+	ApplicantId := user.UserId
 	_, err := s.System.CreateApply(ctx, &system.CreateApplyReq{
 		ApplicantId: ApplicantId,
 		CommunityId: req.CommunityId,
@@ -199,9 +200,9 @@ func (s *SystemService) GetOneUser(userid string, wg *sync.WaitGroup, i int, Use
 	return nil
 }
 
-func (s *SystemService) GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq) (*core_api.GetUserRolesResp, error) {
+func (s *SystemService) GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq, user *basic.UserMeta) (*core_api.GetUserRolesResp, error) {
 	resp := new(core_api.GetUserRolesResp)
-	data, err := s.System.RetrieveUserRole(ctx, &system.RetrieveUserRoleReq{UserId: ctx.Value("userId").(string)})
+	data, err := s.System.RetrieveUserRole(ctx, &system.RetrieveUserRoleReq{UserId: user.UserId})
 	if err != nil {
 		return nil, err
 	}

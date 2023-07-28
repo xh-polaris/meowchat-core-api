@@ -56,7 +56,7 @@ func NewPost(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PostService.NewPost(ctx, &req)
+	resp, err := p.PostService.NewPost(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 

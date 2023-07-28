@@ -3,6 +3,10 @@ package service
 import (
 	"context"
 	"github.com/google/wire"
+	"github.com/xh-polaris/gopkg/errors"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 	"net/url"
 
 	"github.com/jinzhu/copier"
@@ -21,7 +25,7 @@ type ICollectionService interface {
 	NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error)
 	SearchCat(ctx context.Context, req *core_api.SearchCatReq) (*core_api.SearchCatResp, error)
 	DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error)
-	CreateImage(ctx context.Context, req *core_api.CreateImageReq) (*core_api.CreateImageResp, error)
+	CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *basic.UserMeta) (*core_api.CreateImageResp, error)
 	DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error)
 	GetImageByCat(ctx context.Context, req *core_api.GetImageByCatReq) (*core_api.GetImageByCatResp, error)
 }
@@ -29,6 +33,7 @@ type ICollectionService interface {
 type CollectionService struct {
 	Collection meowchat_content.IMeowchatContent
 	Config     *config.Config
+	Sts        platform_sts.IPlatformSts
 }
 
 var CollectionServiceSet = wire.NewSet(
@@ -150,7 +155,7 @@ func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteC
 	return resp, nil
 }
 
-func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.CreateImageReq) (*core_api.CreateImageResp, error) {
+func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *basic.UserMeta) (*core_api.CreateImageResp, error) {
 	resp := new(core_api.CreateImageResp)
 
 	for i := 0; i < len(req.Images); i++ {
@@ -161,9 +166,23 @@ func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.Creat
 		u.Host = s.Config.CdnHost
 		req.Images[i].Url = u.String()
 	}
+	i := make([]string, len(req.Images))
+	for key, image := range req.Images {
+		i[key] = image.Url
+	}
+	r, err := s.Sts.PhotoCheck(ctx, &sts.PhotoCheckReq{
+		User: user,
+		Url:  i,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if r.Pass == false {
+		return nil, errors.NewBizError(10002, "PhotoCheck don't pass")
+	}
 
 	rpcReq := new(gencontent.CreateImageReq)
-	err := copier.Copy(rpcReq, req)
+	err = copier.Copy(rpcReq, req)
 	if err != nil {
 		return nil, err
 	}

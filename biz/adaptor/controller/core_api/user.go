@@ -40,7 +40,7 @@ func UpdateUserInfo(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.UserService.UpdateUserInfo(ctx, &req)
+	resp, err := p.UserService.UpdateUserInfo(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 

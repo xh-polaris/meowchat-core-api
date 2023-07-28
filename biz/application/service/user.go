@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"github.com/google/wire"
+	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/system"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
@@ -10,10 +11,13 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-like-rpc/likerpc"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	system2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 	"github.com/zeromicro/go-zero/core/logx"
 	"net/url"
 	"sync"
@@ -23,7 +27,7 @@ type IUserService interface {
 	GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq) (*core_api.GetUserInfoResp, error)
 	SearchUserForAdmin(ctx context.Context, req *core_api.SearchUserForAdminReq) (*core_api.SearchUserForAdminResp, error)
 	SearchUser(ctx context.Context, req *core_api.SearchUserReq) (*core_api.SearchUserResp, error)
-	UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq) (*core_api.UpdateUserInfoResp, error)
+	UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error)
 }
 
 type UserService struct {
@@ -31,6 +35,7 @@ type UserService struct {
 	User   meowchat_user.IMeowchatUser
 	Moment meowchat_content.IMeowchatContent
 	System meowchat_system.IMeowchatSystem
+	Sts    platform_sts.IPlatformSts
 }
 
 var UserServiceSet = wire.NewSet(
@@ -146,15 +151,27 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 	return resp, nil
 }
 
-func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq) (*core_api.UpdateUserInfoResp, error) {
+func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error) {
 	resp := new(core_api.UpdateUserInfoResp)
-	userId := ctx.Value("userId").(string)
-	//openId := ctx.Value("openId").(string)
-	//
-	//err = util.MsgSecCheck(l.ctx, l.svcCtx, req.Nickname, openId, 2)
-	//if err != nil {
-	//	return nil, err
-	//}
+	userId := user.UserId
+	openId := user.WechatUserMeta.OpenId
+
+	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+		Text: *req.Nickname,
+		User: &basic.UserMeta{
+			WechatUserMeta: &basic.WechatUserMeta{
+				OpenId: openId,
+			},
+		},
+		Scene: 2,
+		Title: req.Nickname,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if r.Pass == false {
+		return nil, errors.NewBizError(10001, "TextCheck don't pass")
+	}
 
 	if *req.AvatarUrl != "" {
 		var u *url.URL
@@ -164,14 +181,23 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 		}
 		u.Host = s.Config.CdnHost
 		*req.AvatarUrl = u.String()
-		//var r = []string{*req.AvatarUrl}
-		//err = util.PhotoCheck(ctx, s, r)
 		if err != nil {
 			return nil, err
 		}
+		var i = []string{*req.AvatarUrl}
+		r, err := s.Sts.PhotoCheck(ctx, &sts.PhotoCheckReq{
+			User: user,
+			Url:  i,
+		})
+		if err != nil {
+			return nil, err
+		}
+		if r.Pass == false {
+			return nil, errors.NewBizError(10002, "PhotoCheck don't pass")
+		}
 	}
 
-	_, err := s.User.UpdateUser(ctx, &genuser.UpdateUserReq{
+	_, err = s.User.UpdateUser(ctx, &genuser.UpdateUserReq{
 		User: &genuser.UserDetail{
 			Id:        userId,
 			AvatarUrl: *req.AvatarUrl,

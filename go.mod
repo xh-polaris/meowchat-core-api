@@ -9,8 +9,7 @@ require (
 	github.com/google/wire v0.5.0
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/jinzhu/copier v0.3.5
-	github.com/tencentyun/cos-go-sdk-v5 v0.7.42
-	github.com/xh-polaris/gopkg v0.0.0-20230725130205-0de08f1b5c0b
+	github.com/xh-polaris/gopkg v0.0.0-20230728095558-acab904b30e8
 	github.com/xh-polaris/meowchat-like-rpc v1.1.8
 	github.com/xh-polaris/meowchat-system-rpc v1.2.3
 	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230728025014-8a6a2e5febd9
@@ -34,7 +33,6 @@ require (
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/chenzhuoyu/iasm v0.0.0-20230222070914-0b1b64b0e762 // indirect
 	github.com/choleraehyq/pid v0.0.16 // indirect
-	github.com/clbanning/mxj v1.8.4 // indirect
 	github.com/cloudwego/configmanager v0.2.0 // indirect
 	github.com/cloudwego/fastpb v0.0.4 // indirect
 	github.com/cloudwego/frugal v0.1.6 // indirect
@@ -59,7 +57,6 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/gnostic v0.5.7-v3refs // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/pprof v0.0.0-20230509042627-b1315fad0c5a // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 // indirect
@@ -73,10 +70,8 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
-	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/mozillazg/go-httpheader v0.2.1 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nyaruka/phonenumbers v1.1.6 // indirect
 	github.com/oleiade/lane v1.0.1 // indirect

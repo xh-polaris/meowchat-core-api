@@ -6,9 +6,9 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/wire"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
