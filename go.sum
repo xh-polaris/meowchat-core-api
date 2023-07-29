@@ -113,8 +113,9 @@ github.com/cloudwego/kitex v0.6.1/go.mod h1:zI1GBrjT0qloTikcCfQTgxg3Ws+yQMyaChEE
 github.com/cloudwego/netpoll v0.2.4/go.mod h1:1T2WVuQ+MQw6h6DpE45MohSvDTKdy2DlzCx2KsnPI4E=
 github.com/cloudwego/netpoll v0.3.1/go.mod h1:1T2WVuQ+MQw6h6DpE45MohSvDTKdy2DlzCx2KsnPI4E=
 github.com/cloudwego/netpoll v0.3.2/go.mod h1:xVefXptcyheopwNDZjDPcfU6kIjZXZ4nY550k1yH9eQ=
-github.com/cloudwego/netpoll v0.4.0 h1:kJ2jMsT5FtlGSNtInnprJf386TFE/rGWzl8kp0wWxx4=
 github.com/cloudwego/netpoll v0.4.0/go.mod h1:xVefXptcyheopwNDZjDPcfU6kIjZXZ4nY550k1yH9eQ=
+github.com/cloudwego/netpoll v0.4.1 h1:/pGsY7Rs09KqEXEniB9fcsEWfi1iY+66bKUO3/NO6hc=
+github.com/cloudwego/netpoll v0.4.1/go.mod h1:xVefXptcyheopwNDZjDPcfU6kIjZXZ4nY550k1yH9eQ=
 github.com/cloudwego/thriftgo v0.1.2/go.mod h1:LzeafuLSiHA9JTiWC8TIMIq64iadeObgRUhmVG1OC/w=
 github.com/cloudwego/thriftgo v0.2.4/go.mod h1:8i9AF5uDdWHGqzUhXDlubCjx4MEfKvWXGQlMWyR0tM4=
 github.com/cloudwego/thriftgo v0.2.7/go.mod h1:8i9AF5uDdWHGqzUhXDlubCjx4MEfKvWXGQlMWyR0tM4=
@@ -413,14 +414,8 @@ github.com/v2pro/quokka v0.0.0-20171201153428-382cb39c6ee6/go.mod h1:0VP5W9AFNVW
 github.com/v2pro/wombat v0.0.0-20180402055224-a56dbdcddef2/go.mod h1:wen8nMxrRrUmXnRwH+3wGAW+hyYTHcOrTNhMpxyp/i0=
 github.com/xh-polaris/gopkg v0.0.0-20230728095558-acab904b30e8 h1:RUZ6rdHYYdkDR0nW6hlbaJhJuJ1Bfm2Bh5iBpTBpR1Y=
 github.com/xh-polaris/gopkg v0.0.0-20230728095558-acab904b30e8/go.mod h1:zRi2/nnksWfIzXkkQ0o7+A6v7mU35ttq+rwctM0aK+w=
-github.com/xh-polaris/meowchat-like-rpc v1.1.8 h1:jnMkYX41aHwJDSsLFPJLHwpuVNhLidmCLtEIgw80OAk=
-github.com/xh-polaris/meowchat-like-rpc v1.1.8/go.mod h1:g8mwl0pUVMmNVrX/Ey5xFsde8auACpFccXSpNEdjBXQ=
-github.com/xh-polaris/meowchat-system-rpc v1.2.3 h1:mH46RomW9MAnbWCiEMt+cKPh1qErFIYGKu4/NEGDXbA=
-github.com/xh-polaris/meowchat-system-rpc v1.2.3/go.mod h1:ZRORnuqcdfTPMBIDjb2d2DzmHlZzQOvO3tbg+4zVaHo=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230728025014-8a6a2e5febd9 h1:GCA9U4tBRd+6byaaK7+H3EcBZZYhdiMYnfhON4tmSbg=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230728025014-8a6a2e5febd9/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230729013407-86f566ac9839 h1:S6hM7iZGUX3DQgeeN+NWMdqPAV6YH2QfMLjTeO4KgJw=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230729013407-86f566ac9839/go.mod h1:9eW1OifTS21ckiibbz1Wz6eepVJ51J2PkG2+ntyivTU=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230729031625-70bfe1e6ba1b h1:sQ+/YkWipcdApcx94+hPUIDsEwlRjtyqc2LjXahBFBQ=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230729031625-70bfe1e6ba1b/go.mod h1:XVqeZIkQEG/6FEFencjwepomhBBMxbdTaStcMnpbb+k=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

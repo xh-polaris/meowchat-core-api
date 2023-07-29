@@ -11,7 +11,6 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
-	"github.com/xh-polaris/meowchat-like-rpc/likerpc"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
@@ -235,7 +234,7 @@ func (s *PostService) toRespPost(ctx context.Context, post *content.Post) (resp 
 	// likes
 	likes, err := s.User.GetTargetLikes(ctx, &genuser.GetTargetLikesReq{
 		TargetId: post.Id,
-		Type:     likerpc.TargetTypePost,
+		Type:     genuser.LikeType_Post,
 	})
 	if likes != nil && err == nil {
 		resp.Likes = likes.Count

@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"sync"
+
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
@@ -10,11 +12,9 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/meowchat-system-rpc/common/constant"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
-	"sync"
 )
 
 type ISystemService interface {
@@ -159,7 +159,10 @@ func (s *SystemService) GetNotices(ctx context.Context, req *core_api.GetNotices
 func (s *SystemService) GetUserByRole(ctx context.Context, req *core_api.RetrieveUserPreviewReq) (*core_api.RetrieveUserPreviewResp, error) {
 	resp := new(core_api.RetrieveUserPreviewResp)
 
-	Userid, err := s.System.ListUserIdByRole(ctx, &system.ListUserIdByRoleReq{RoleType: req.RoleType, CommunityId: req.CommunityId})
+	Userid, err := s.System.ListUserIdByRole(ctx, &system.ListUserIdByRoleReq{Role: &system.Role{
+		RoleType:    system.RoleType(req.RoleType),
+		CommunityId: req.CommunityId,
+	}})
 	if err != nil {
 		return nil, err
 	}
@@ -208,7 +211,7 @@ func (s *SystemService) GetUserRoles(ctx context.Context, req *core_api.GetUserR
 	}
 	for _, role := range data.Roles {
 		resp.Roles = append(resp.Roles, &system2.Role{
-			RoleType:    role.RoleType,
+			RoleType:    system2.RoleType(role.RoleType),
 			CommunityId: role.CommunityId,
 		})
 	}
@@ -253,7 +256,7 @@ func (s *SystemService) ListApply(ctx context.Context, req *core_api.ListApplyRe
 func (s *SystemService) ListCommunity(ctx context.Context, req *core_api.ListCommunityReq) (*core_api.ListCommunityResp, error) {
 	resp := new(core_api.ListCommunityResp)
 
-	data, err := s.System.ListCommunity(ctx, &system.ListCommunityReq{ParentId: req.ParentId, Size: -1})
+	data, err := s.System.ListCommunity(ctx, &system.ListCommunityReq{ParentId: req.ParentId, PageSize: -1})
 	if err != nil {
 		return nil, err
 	}
@@ -392,7 +395,7 @@ func (s *SystemService) UpdateCommunityAdmin(ctx context.Context, req *core_api.
 	}
 	if !req.IsRemove {
 		for _, role := range data.Roles {
-			if role.RoleType == constant.RoleCommunityAdmin && *role.CommunityId == req.CommunityId {
+			if role.RoleType == system.RoleType_TypeCommunityAdmin && *role.CommunityId == req.CommunityId {
 				return nil, err
 				// TODO 应当返回错误
 			}
@@ -400,7 +403,7 @@ func (s *SystemService) UpdateCommunityAdmin(ctx context.Context, req *core_api.
 		_, err = s.System.UpdateUserRole(ctx, &system.UpdateUserRoleReq{
 			UserId: req.UserId,
 			Roles: append(data.Roles, &system.Role{
-				RoleType:    constant.RoleCommunityAdmin,
+				RoleType:    system.RoleType_TypeCommunityAdmin,
 				CommunityId: &req.CommunityId,
 			}),
 		})
@@ -410,7 +413,7 @@ func (s *SystemService) UpdateCommunityAdmin(ctx context.Context, req *core_api.
 	} else {
 		roles := make([]*system.Role, 0, len(data.Roles))
 		for _, role := range data.Roles {
-			if role.RoleType != constant.RoleCommunityAdmin || *role.CommunityId != req.CommunityId {
+			if role.RoleType != system.RoleType_TypeCommunityAdmin || *role.CommunityId != req.CommunityId {
 				roles = append(roles, role)
 			}
 		}
@@ -437,7 +440,7 @@ func (s *SystemService) UpdateSuperAdmin(ctx context.Context, req *core_api.Upda
 	}
 	if !req.IsRemove {
 		for _, role := range data.Roles {
-			if role.RoleType == constant.RoleSuperAdmin {
+			if role.RoleType == system.RoleType_TypeSuperAdmin {
 				return nil, err
 				// TODO 应当返回错误
 			}
@@ -445,7 +448,7 @@ func (s *SystemService) UpdateSuperAdmin(ctx context.Context, req *core_api.Upda
 		_, err = s.System.UpdateUserRole(ctx, &system.UpdateUserRoleReq{
 			UserId: req.UserId,
 			Roles: append(data.Roles, &system.Role{
-				RoleType: constant.RoleSuperAdmin,
+				RoleType: system.RoleType_TypeSuperAdmin,
 			}),
 		})
 		if err != nil {
@@ -454,7 +457,7 @@ func (s *SystemService) UpdateSuperAdmin(ctx context.Context, req *core_api.Upda
 	} else {
 		roles := make([]*system.Role, 0, len(data.Roles))
 		for _, role := range data.Roles {
-			if role.RoleType != constant.RoleSuperAdmin {
+			if role.RoleType != system.RoleType_TypeSuperAdmin {
 				roles = append(roles, role)
 			}
 		}

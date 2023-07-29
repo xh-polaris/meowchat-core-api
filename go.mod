@@ -1,6 +1,6 @@
 module github.com/xh-polaris/meowchat-core-api
 
-go 1.19
+go 1.18
 
 require (
 	github.com/cloudwego/hertz v0.6.6
@@ -10,9 +10,7 @@ require (
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/jinzhu/copier v0.3.5
 	github.com/xh-polaris/gopkg v0.0.0-20230728095558-acab904b30e8
-	github.com/xh-polaris/meowchat-like-rpc v1.1.8
-	github.com/xh-polaris/meowchat-system-rpc v1.2.3
-	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230729013407-86f566ac9839
+	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230729031625-70bfe1e6ba1b
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0
 	go.opentelemetry.io/otel v1.16.0
@@ -37,7 +35,7 @@ require (
 	github.com/cloudwego/fastpb v0.0.4 // indirect
 	github.com/cloudwego/frugal v0.1.6 // indirect
 	github.com/cloudwego/kitex v0.6.1 // indirect
-	github.com/cloudwego/netpoll v0.4.0 // indirect
+	github.com/cloudwego/netpoll v0.4.1 // indirect
 	github.com/cloudwego/thriftgo v0.2.11 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect

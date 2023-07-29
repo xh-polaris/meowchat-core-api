@@ -38,7 +38,7 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 	_, err := s.User.DoLike(ctx, &genlike.DoLikeReq{
 		UserId:       userId,
 		TargetId:     req.TargetId,
-		Type:         req.TargetType,
+		Type:         genlike.LikeType(req.TargetType),
 		AssociatedId: "",
 	})
 
@@ -54,7 +54,7 @@ func (s *LikeService) GetLikedCount(ctx context.Context, req *core_api.GetLikedC
 
 	likes, err := s.User.GetTargetLikes(ctx, &genlike.GetTargetLikesReq{
 		TargetId: req.TargetId,
-		Type:     req.TargetType,
+		Type:     genlike.LikeType(req.TargetType),
 	})
 	if err != nil {
 		return nil, err
@@ -68,8 +68,8 @@ func (s *LikeService) GetLikedCount(ctx context.Context, req *core_api.GetLikedC
 func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedUsersReq) (*core_api.GetLikedUsersResp, error) {
 	resp := new(core_api.GetLikedUsersResp)
 	data, err := s.User.GetLikedUsers(ctx, &genlike.GetLikedUsersReq{
-		TargetId:   req.TargetId,
-		TargetType: req.TargetType,
+		TargetId: req.TargetId,
+		Type:     genlike.LikeType(req.TargetType),
 	})
 	if err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLik
 	like, err := s.User.GetUserLike(ctx, &genlike.GetUserLikedReq{
 		UserId:   userId,
 		TargetId: req.TargetId,
-		Type:     req.TargetType,
+		Type:     genlike.LikeType(req.TargetType),
 	})
 	if err != nil {
 		return nil, err
@@ -110,8 +110,8 @@ func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLik
 func (s *LikeService) GetUserLikes(ctx context.Context, req *core_api.GetUserLikesReq) (*core_api.GetUserLikesResp, error) {
 	resp := new(core_api.GetUserLikesResp)
 	data, err := s.User.GetUserLikes(ctx, &genlike.GetUserLikesReq{
-		UserId:     req.UserId,
-		TargetType: req.TargetType,
+		UserId: req.UserId,
+		Type:   genlike.LikeType(req.TargetType),
 	})
 	if err != nil {
 		return nil, err

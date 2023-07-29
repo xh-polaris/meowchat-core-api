@@ -12,7 +12,6 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
-	"github.com/xh-polaris/meowchat-like-rpc/likerpc"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	system2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
@@ -108,7 +107,7 @@ func (s *UserService) SearchUserForAdmin(ctx context.Context, req *core_api.Sear
 		}
 		for _, role := range data.Roles {
 			u.Roles = append(u.Roles, &system.Role{
-				RoleType:    role.RoleType,
+				RoleType:    system.RoleType(role.RoleType),
 				CommunityId: role.CommunityId,
 			})
 		}
@@ -245,7 +244,7 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 		defer wg.Done()
 		follower, err := s.User.GetTargetLikes(ctx, &genuser.GetTargetLikesReq{
 			TargetId: user.Id,
-			Type:     likerpc.TargetTypeUser,
+			Type:     genuser.LikeType_User,
 		})
 		if err != nil {
 			logx.Error(err)
@@ -256,8 +255,8 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 	go func() {
 		defer wg.Done()
 		followee, err := s.User.GetUserLikes(ctx, &genuser.GetUserLikesReq{
-			UserId:     user.Id,
-			TargetType: likerpc.TargetTypeUser,
+			UserId: user.Id,
+			Type:   genuser.LikeType_User,
 		})
 		if err != nil {
 			logx.Error(err)
