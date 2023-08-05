@@ -23,7 +23,7 @@ import (
 )
 
 type IUserService interface {
-	GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq) (*core_api.GetUserInfoResp, error)
+	GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq, user *basic.UserMeta) (*core_api.GetUserInfoResp, error)
 	SearchUserForAdmin(ctx context.Context, req *core_api.SearchUserForAdminReq) (*core_api.SearchUserForAdminResp, error)
 	SearchUser(ctx context.Context, req *core_api.SearchUserReq) (*core_api.SearchUserResp, error)
 	UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error)
@@ -42,14 +42,14 @@ var UserServiceSet = wire.NewSet(
 	wire.Bind(new(IUserService), new(*UserService)),
 )
 
-func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq) (*core_api.GetUserInfoResp, error) {
+func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq, user *basic.UserMeta) (*core_api.GetUserInfoResp, error) {
 	resp := new(core_api.GetUserInfoResp)
 
 	var userId string
 	if req.UserId != nil {
 		userId = *req.UserId
 	} else {
-		userId = ctx.Value("userId").(string)
+		userId = user.GetUserId()
 	}
 
 	data, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: userId})

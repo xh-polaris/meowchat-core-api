@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"github.com/google/wire"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -13,7 +14,7 @@ import (
 )
 
 type IStsService interface {
-	ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq) (*core_api.ApplySignedUrlResp, error)
+	ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq, user *basic.UserMeta) (*core_api.ApplySignedUrlResp, error)
 	ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq) (*core_api.ApplySignedUrlAsCommunityResp, error)
 }
 
@@ -26,9 +27,9 @@ var StsServiceSet = wire.NewSet(
 	wire.Bind(new(IStsService), new(*StsService)),
 )
 
-func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq) (*core_api.ApplySignedUrlResp, error) {
+func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq, user *basic.UserMeta) (*core_api.ApplySignedUrlResp, error) {
 	resp := new(core_api.ApplySignedUrlResp)
-	userId := ctx.Value("userId").(string)
+	userId := user.GetUserId()
 	data, err := s.PlatformSts.GenCosSts(ctx, &sts.GenCosStsReq{Path: "users/" + userId + "/*"})
 	if err != nil {
 		return nil, err

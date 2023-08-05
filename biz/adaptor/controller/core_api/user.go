@@ -24,7 +24,7 @@ func GetUserInfo(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.UserService.GetUserInfo(ctx, &req)
+	resp, err := p.UserService.GetUserInfo(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
 

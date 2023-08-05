@@ -169,7 +169,7 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 		return nil, err
 	}
 
-	m.UserId = ctx.Value("userId").(string)
+	m.UserId = user.GetUserId()
 
 	if *req.Id == "" {
 		var data *content.CreateMomentResp
