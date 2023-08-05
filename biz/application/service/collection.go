@@ -75,7 +75,8 @@ func (s *CollectionService) GetCatDetail(ctx context.Context, req *core_api.GetC
 		return nil, err
 	}
 
-	err = copier.Copy(&resp.Cat, data.Cat)
+	resp.Cat = new(content.Cat)
+	err = copier.Copy(resp.Cat, data.Cat)
 	if err != nil {
 		return nil, err
 	}
