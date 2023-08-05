@@ -87,16 +87,10 @@ func (s *PostService) GetPostPreviews(ctx context.Context, req *core_api.GetPost
 
 func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, user *basic.UserMeta) (*core_api.NewPostResp, error) {
 	resp := new(core_api.NewPostResp)
-	userId := user.UserId
-	openId := user.WechatUserMeta.OpenId
 
 	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
-		Text: req.Text,
-		User: &basic.UserMeta{
-			WechatUserMeta: &basic.WechatUserMeta{
-				OpenId: openId,
-			},
-		},
+		Text:  req.Text,
+		User:  user,
 		Scene: 2,
 		Title: &req.Title,
 	})
@@ -138,7 +132,7 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 			Text:     req.Text,
 			CoverUrl: req.CoverUrl,
 			Tags:     req.Tags,
-			UserId:   userId,
+			UserId:   user.UserId,
 		})
 		if err != nil {
 			return nil, err

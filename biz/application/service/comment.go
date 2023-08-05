@@ -100,21 +100,15 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 		}
 	}
 
-	return nil, nil
+	return resp, nil
 }
 
 func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error) {
 	resp := new(core_api.NewCommentResp)
-	userId := user.UserId
-	openId := user.WechatUserMeta.OpenId
 
 	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
-		Text: req.Text,
-		User: &basic.UserMeta{
-			WechatUserMeta: &basic.WechatUserMeta{
-				OpenId: openId,
-			},
-		},
+		Text:  req.Text,
+		User:  user,
 		Scene: 2,
 		Title: &req.Text,
 	})
@@ -137,7 +131,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 
 	_, err = s.Comment.CreateComment(ctx, &gencomment.CreateCommentReq{
 		Text:     req.Text,
-		AuthorId: userId,
+		AuthorId: user.UserId,
 		ReplyTo:  replyToId,
 		Type:     req.Scope,
 		ParentId: *req.Id,

@@ -60,14 +60,15 @@ func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMo
 		return nil, err
 	}
 
-	err = copier.Copy(&resp.Moment, data.Moment)
+	resp.Moment = new(core_api.Moment)
+	err = copier.Copy(resp.Moment, data.Moment)
 	if err != nil {
 		return nil, err
 	}
 
 	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moment.UserId})
 	if err == nil {
-		resp.Moment.UserId = &user1.UserPreview{
+		resp.Moment.User = &user1.UserPreview{
 			Id:        user.User.Id,
 			Nickname:  user.User.Nickname,
 			AvatarUrl: user.User.AvatarUrl,
@@ -111,7 +112,7 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 	for i := 0; i < len(data.Moments); i++ {
 		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moments[i].UserId})
 		if err == nil {
-			resp.Moments[i].UserId = &user1.UserPreview{
+			resp.Moments[i].User = &user1.UserPreview{
 				Id:        user.User.Id,
 				Nickname:  user.User.Nickname,
 				AvatarUrl: user.User.AvatarUrl,
@@ -124,15 +125,10 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *basic.UserMeta) (*core_api.NewMomentResp, error) {
 	resp := new(core_api.NewMomentResp)
 	m := new(content.Moment)
-	openId := user.WechatUserMeta.OpenId
 
 	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
-		Text: *req.Text,
-		User: &basic.UserMeta{
-			WechatUserMeta: &basic.WechatUserMeta{
-				OpenId: openId,
-			},
-		},
+		Text:  *req.Text,
+		User:  user,
 		Scene: 2,
 		Title: req.Title,
 	})
@@ -223,7 +219,7 @@ func (s *MomentService) SearchMoment(ctx context.Context, req *core_api.SearchMo
 	for i := 0; i < len(data.Moments); i++ {
 		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moments[i].UserId})
 		if err == nil {
-			resp.Moments[i].UserId = &user1.UserPreview{
+			resp.Moments[i].User = &user1.UserPreview{
 				Id:        user.User.Id,
 				Nickname:  user.User.Nickname,
 				AvatarUrl: user.User.AvatarUrl,

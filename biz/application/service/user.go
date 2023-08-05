@@ -152,16 +152,10 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 
 func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error) {
 	resp := new(core_api.UpdateUserInfoResp)
-	userId := user.UserId
-	openId := user.WechatUserMeta.OpenId
 
 	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
-		Text: *req.Nickname,
-		User: &basic.UserMeta{
-			WechatUserMeta: &basic.WechatUserMeta{
-				OpenId: openId,
-			},
-		},
+		Text:  *req.Nickname,
+		User:  user,
 		Scene: 2,
 		Title: req.Nickname,
 	})
@@ -198,7 +192,7 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 
 	_, err = s.User.UpdateUser(ctx, &genuser.UpdateUserReq{
 		User: &genuser.UserDetail{
-			Id:        userId,
+			Id:        user.UserId,
 			AvatarUrl: *req.AvatarUrl,
 			Nickname:  *req.Nickname,
 			Motto:     *req.Motto,

@@ -22,5 +22,5 @@ var PlatformCommentSet = wire.NewSet(
 )
 
 func NewPlatformComment(config *config.Config) comment.Client {
-	return client.NewClient(config.Name, "meowchat.comment", comment.NewClient)
+	return client.NewClient(config.Name, "platform.comment", comment.NewClient)
 }
