@@ -22,5 +22,5 @@ var MeowchatContentSet = wire.NewSet(
 )
 
 func NewMeowchatContent(config *config.Config) content.Client {
-	return client.NewClient(config.Name, "meowchat.content", content.NewClient, "127.0.0.1:8080")
+	return client.NewClient(config.Name, "meowchat.content", content.NewClient)
 }
