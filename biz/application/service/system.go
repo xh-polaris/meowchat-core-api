@@ -37,6 +37,7 @@ type ISystemService interface {
 	NewNotice(ctx context.Context, req *core_api.NewNoticeReq) (*core_api.NewNoticeResp, error)
 	UpdateCommunityAdmin(ctx context.Context, req *core_api.UpdateCommunityAdminReq) (*core_api.UpdateCommunityAdminResp, error)
 	UpdateSuperAdmin(ctx context.Context, req *core_api.UpdateSuperAdminReq) (*core_api.UpdateSuperAdminResp, error)
+	UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq) (*core_api.UpdateRoleResp, error)
 }
 
 type SystemService struct {
@@ -473,5 +474,26 @@ func (s *SystemService) UpdateSuperAdmin(ctx context.Context, req *core_api.Upda
 			return nil, err
 		}
 	}
+	return resp, nil
+}
+
+func (s *SystemService) UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq) (*core_api.UpdateRoleResp, error) {
+	resp := new(core_api.UpdateRoleResp)
+
+	roles := make([]*system.Role, 0, len(req.Roles))
+	for _, role := range req.Roles {
+		var r system.Role
+		r.RoleType = system.RoleType(role.RoleType)
+		r.CommunityId = role.CommunityId
+		roles = append(roles, &r)
+	}
+	_, err := s.System.UpdateUserRole(ctx, &system.UpdateUserRoleReq{
+		UserId: req.UserId,
+		Roles:  roles,
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	return resp, nil
 }

@@ -90,6 +90,7 @@ func Register(r *server.Hertz) {
 		_role.POST("/handle_apply", append(_handleapplyMw(), core_api.HandleApply)...)
 		_role.GET("/list_apply", append(_listapplyMw(), core_api.ListApply)...)
 		_role.POST("/update_community_admin", append(_updatecommunityadminMw(), core_api.UpdateCommunityAdmin)...)
+		_role.POST("/update_role", append(_updateroleMw(), core_api.UpdateRole)...)
 		_role.POST("/update_super_admin", append(_updatesuperadminMw(), core_api.UpdateSuperAdmin)...)
 	}
 	{

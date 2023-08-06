@@ -315,3 +315,19 @@ func CreateApply(ctx context.Context, c *app.RequestContext) {
 	resp, err := p.SystemService.CreateApply(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.Return(ctx, c, &req, resp, err)
 }
+
+// UpdateRole .
+// @router /role/update_role [POST]
+func UpdateRole(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.UpdateRoleReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.SystemService.UpdateRole(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
+}
