@@ -56,6 +56,18 @@ func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfo
 	if err != nil {
 		return nil, err
 	}
+	res, err := s.System.RetrieveUserRole(ctx, &system2.RetrieveUserRoleReq{UserId: userId})
+	if err != nil {
+		return nil, err
+	}
+	resp.EnableDebug = false
+	if res != nil {
+		for _, role := range res.Roles {
+			if role.RoleType == system2.RoleType_TypeDeveloper {
+				resp.EnableDebug = true
+			}
+		}
+	}
 	resp.User = &core_api.User{
 		Id:        data.User.Id,
 		Nickname:  data.User.Nickname,

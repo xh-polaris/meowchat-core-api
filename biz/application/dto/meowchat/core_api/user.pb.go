@@ -234,7 +234,8 @@ type GetUserInfoResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
+	User        *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
+	EnableDebug bool  `protobuf:"varint,2,opt,name=enableDebug,proto3" json:"enableDebug,omitempty" form:"enableDebug" query:"enableDebug"`
 }
 
 func (x *GetUserInfoResp) Reset() {
@@ -274,6 +275,13 @@ func (x *GetUserInfoResp) GetUser() *User {
 		return x.User
 	}
 	return nil
+}
+
+func (x *GetUserInfoResp) GetEnableDebug() bool {
+	if x != nil {
+		return x.EnableDebug
+	}
+	return false
 }
 
 type UpdateUserInfoReq struct {
