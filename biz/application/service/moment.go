@@ -127,7 +127,7 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 	m := new(content.Moment)
 
 	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
-		Text:  *req.Text,
+		Text:  req.GetText() + req.GetTitle(),
 		User:  user,
 		Scene: 2,
 		Title: req.Title,
@@ -167,7 +167,7 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 
 	m.UserId = user.GetUserId()
 
-	if *req.Id == "" {
+	if req.GetId() == "" {
 		var data *content.CreateMomentResp
 		data, err = s.Moment.CreateMoment(ctx, &content.CreateMomentReq{Moment: m})
 		resp.MomentId = data.MomentId
