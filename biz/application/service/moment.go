@@ -126,18 +126,21 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 	resp := new(core_api.NewMomentResp)
 	m := new(content.Moment)
 
-	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
-		Text:  req.GetText() + req.GetTitle(),
-		User:  user,
-		Scene: 2,
-		Title: req.Title,
-	})
-	if err != nil {
-		return nil, err
+	if req.GetText()+req.GetTitle() != "" {
+		r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+			Text:  req.GetText() + req.GetTitle(),
+			User:  user,
+			Scene: 2,
+			Title: req.Title,
+		})
+		if err != nil {
+			return nil, err
+		}
+		if r.Pass == false {
+			return nil, errors.NewBizError(10001, "TextCheck don't pass")
+		}
 	}
-	if r.Pass == false {
-		return nil, errors.NewBizError(10001, "TextCheck don't pass")
-	}
+
 	urls := make([]string, len(req.Photos))
 	for i := 0; i < len(req.Photos); i++ {
 		var u *url.URL

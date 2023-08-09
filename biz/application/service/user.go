@@ -165,17 +165,19 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error) {
 	resp := new(core_api.UpdateUserInfoResp)
 
-	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
-		Text:  *req.Nickname,
-		User:  user,
-		Scene: 2,
-		Title: req.Nickname,
-	})
-	if err != nil {
-		return nil, err
-	}
-	if r.Pass == false {
-		return nil, errors.NewBizError(10001, "TextCheck don't pass")
+	if req.GetNickname() != "" {
+		r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+			Text:  *req.Nickname,
+			User:  user,
+			Scene: 2,
+			Title: req.Nickname,
+		})
+		if err != nil {
+			return nil, err
+		}
+		if r.Pass == false {
+			return nil, errors.NewBizError(10001, "TextCheck don't pass")
+		}
 	}
 
 	if *req.AvatarUrl != "" {
@@ -202,7 +204,7 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 		}
 	}
 
-	_, err = s.User.UpdateUser(ctx, &genuser.UpdateUserReq{
+	_, err := s.User.UpdateUser(ctx, &genuser.UpdateUserReq{
 		User: &genuser.UserDetail{
 			Id:        user.UserId,
 			AvatarUrl: *req.AvatarUrl,
