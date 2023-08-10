@@ -340,3 +340,33 @@ func _updateroleMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _planMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _deleteplanMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getplandetailMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getplanpreviewsMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _newplanMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _searchplanMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

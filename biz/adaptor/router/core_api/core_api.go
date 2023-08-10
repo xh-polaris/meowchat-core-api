@@ -75,6 +75,14 @@ func Register(r *server.Hertz) {
 		_notice.POST("/remove_notice", append(_deletenoticeMw(), core_api.DeleteNotice)...)
 	}
 	{
+		_plan := root.Group("/plan", _planMw()...)
+		_plan.POST("/delete_plan", append(_deleteplanMw(), core_api.DeletePlan)...)
+		_plan.GET("/get_plan_detail", append(_getplandetailMw(), core_api.GetPlanDetail)...)
+		_plan.GET("/get_plan_previews", append(_getplanpreviewsMw(), core_api.GetPlanPreviews)...)
+		_plan.POST("/new_plan", append(_newplanMw(), core_api.NewPlan)...)
+		_plan.GET("/search_plan", append(_searchplanMw(), core_api.SearchPlan)...)
+	}
+	{
 		_post := root.Group("/post", _postMw()...)
 		_post.POST("/delete_post", append(_deletepostMw(), core_api.DeletePost)...)
 		_post.GET("/get_post_detail", append(_getpostdetailMw(), core_api.GetPostDetail)...)

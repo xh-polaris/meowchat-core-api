@@ -31,6 +31,7 @@ type Provider struct {
 	LikeService       service.ILikeService
 	StsService        service.IStsService
 	SystemService     service.ISystemService
+	PlanService       service.IPlanService
 }
 
 func Get() *Provider {

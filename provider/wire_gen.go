@@ -90,6 +90,12 @@ func NewProvider() (*Provider, error) {
 		System: meowchatSystem,
 		User:   meowchatUser,
 	}
+	planService := &service.PlanService{
+		Config: configConfig,
+		Plan:   meowchatContent,
+		User:   meowchatUser,
+		Sts:    platformSts,
+	}
 	providerProvider := &Provider{
 		Config:            configConfig,
 		CollectionService: collectionService,
@@ -101,6 +107,7 @@ func NewProvider() (*Provider, error) {
 		LikeService:       likeService,
 		StsService:        stsService,
 		SystemService:     systemService,
+		PlanService:       planService,
 	}
 	return providerProvider, nil
 }

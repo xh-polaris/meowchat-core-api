@@ -15,4 +15,5 @@ var ProviderSet = wire.NewSet(
 	service.PostServiceSet,
 	service.SystemServiceSet,
 	service.StsServiceSet,
+	service.PlanServiceSet,
 )
