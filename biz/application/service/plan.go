@@ -89,8 +89,6 @@ func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFish
 				Nickname:  user.User.Nickname,
 				AvatarUrl: user.User.AvatarUrl,
 			})
-		} else {
-			return nil, err
 		}
 	}
 
@@ -132,8 +130,6 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 				Nickname:  user.User.Nickname,
 				AvatarUrl: user.User.AvatarUrl,
 			})
-		} else {
-			return nil, err
 		}
 	}
 	resp.Plan.Users = users
@@ -181,8 +177,6 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 					Nickname:  user.User.Nickname,
 					AvatarUrl: user.User.AvatarUrl,
 				})
-			} else {
-				return nil, err
 			}
 		}
 		resp.Plans[i].Users = users
@@ -301,8 +295,6 @@ func (s *PlanService) SearchPlan(ctx context.Context, req *core_api.SearchPlanRe
 					Nickname:  user.User.Nickname,
 					AvatarUrl: user.User.AvatarUrl,
 				})
-			} else {
-				return nil, err
 			}
 		}
 		resp.Plans[i].Users = users
