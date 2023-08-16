@@ -370,3 +370,18 @@ func _searchplanMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _donatefishMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getuserfishMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _listfishbyplanMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

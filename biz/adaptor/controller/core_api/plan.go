@@ -91,3 +91,51 @@ func SearchPlan(ctx context.Context, c *app.RequestContext) {
 	resp, err := p.PlanService.SearchPlan(ctx, &req)
 	adaptor.Return(ctx, c, &req, resp, err)
 }
+
+// DonateFish .
+// @router /plan/donate_fish [GET]
+func DonateFish(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.DonateFishReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.PlanService.DonateFish(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	adaptor.Return(ctx, c, &req, resp, err)
+}
+
+// GetUserFish .
+// @router /plan/get_user_fish [GET]
+func GetUserFish(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.GetUserFishReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.PlanService.GetUserFish(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	adaptor.Return(ctx, c, &req, resp, err)
+}
+
+// ListFishByPlan .
+// @router /plan/list_fish_by_plan [GET]
+func ListFishByPlan(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.ListFishByPlanReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.PlanService.ListFishByPlan(ctx, &req)
+	adaptor.Return(ctx, c, &req, resp, err)
+}

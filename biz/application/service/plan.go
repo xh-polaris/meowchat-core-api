@@ -25,6 +25,9 @@ type IPlanService interface {
 	GetPlanPreviews(ctx context.Context, req *core_api.GetPlanPreviewsReq) (*core_api.GetPlanPreviewsResp, error)
 	NewPlan(ctx context.Context, req *core_api.NewPlanReq, user *basic.UserMeta) (*core_api.NewPlanResp, error)
 	SearchPlan(ctx context.Context, req *core_api.SearchPlanReq) (*core_api.SearchPlanResp, error)
+	DonateFish(ctx context.Context, req *core_api.DonateFishReq, user *basic.UserMeta) (*core_api.DonateFishResp, error)
+	GetUserFish(ctx context.Context, req *core_api.GetUserFishReq, user *basic.UserMeta) (*core_api.GetUserFishResp, error)
+	ListFishByPlan(ctx context.Context, req *core_api.ListFishByPlanReq) (*core_api.ListFishByPlanResp, error)
 }
 
 type PlanService struct {
@@ -38,6 +41,63 @@ var PlanServiceSet = wire.NewSet(
 	wire.Struct(new(PlanService), "*"),
 	wire.Bind(new(IPlanService), new(*PlanService)),
 )
+
+func (s *PlanService) DonateFish(ctx context.Context, req *core_api.DonateFishReq, user *basic.UserMeta) (*core_api.DonateFishResp, error) {
+	resp := new(core_api.DonateFishResp)
+	_, err := s.Plan.DonateFish(ctx, &content.DonateFishReq{
+		UserId: user.UserId,
+		PlanId: req.PlanId,
+		Fish:   req.Fish,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
+func (s *PlanService) GetUserFish(ctx context.Context, req *core_api.GetUserFishReq, user *basic.UserMeta) (*core_api.GetUserFishResp, error) {
+	resp := new(core_api.GetUserFishResp)
+	uid := user.UserId
+	if req.GetUserId() != "" {
+		uid = req.GetUserId()
+	}
+	data, err := s.Plan.RetrieveUserFish(ctx, &content.RetrieveUserFishReq{
+		UserId: uid,
+	})
+	if err != nil {
+		return nil, err
+
+	}
+	resp.Fish = data.Fish
+	return resp, nil
+}
+
+func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFishByPlanReq) (*core_api.ListFishByPlanResp, error) {
+	resp := new(core_api.ListFishByPlanResp)
+	data, err := s.Plan.ListFishByPlan(ctx, &content.ListFishByPlanReq{PlanId: req.PlanId})
+	if err != nil {
+		return nil, err
+	}
+
+	users := make([]*user1.UserPreview, 0, len(data.UserIds))
+	for _, userId := range data.UserIds {
+		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: userId})
+		if err == nil {
+			users = append(users, &user1.UserPreview{
+				Id:        user.User.Id,
+				Nickname:  user.User.Nickname,
+				AvatarUrl: user.User.AvatarUrl,
+			})
+		} else {
+			return nil, err
+		}
+	}
+
+	resp.Users = users
+	resp.FishMap = data.FishMap
+	return resp, nil
+}
 
 func (s *PlanService) DeletePlan(ctx context.Context, req *core_api.DeletePlanReq) (*core_api.DeletePlanResp, error) {
 	resp := new(core_api.DeletePlanResp)
@@ -63,7 +123,7 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 	if err != nil {
 		return nil, err
 	}
-	users := make([]*user1.UserPreview, len(data.Plan.InitiatorIds))
+	users := make([]*user1.UserPreview, 0, len(data.Plan.InitiatorIds))
 	for _, initiatorId := range data.Plan.InitiatorIds {
 		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
 		if err == nil {
@@ -72,6 +132,8 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 				Nickname:  user.User.Nickname,
 				AvatarUrl: user.User.AvatarUrl,
 			})
+		} else {
+			return nil, err
 		}
 	}
 	resp.Plan.Users = users
@@ -110,7 +172,7 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 	}
 
 	for i := 0; i < len(data.Plans); i++ {
-		users := make([]*user1.UserPreview, len(data.Plans[i].InitiatorIds))
+		users := make([]*user1.UserPreview, 0, len(data.Plans[i].InitiatorIds))
 		for _, initiatorId := range data.Plans[i].InitiatorIds {
 			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
 			if err == nil {
@@ -119,6 +181,8 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 					Nickname:  user.User.Nickname,
 					AvatarUrl: user.User.AvatarUrl,
 				})
+			} else {
+				return nil, err
 			}
 		}
 		resp.Plans[i].Users = users
@@ -228,7 +292,7 @@ func (s *PlanService) SearchPlan(ctx context.Context, req *core_api.SearchPlanRe
 	}
 
 	for i := 0; i < len(data.Plans); i++ {
-		users := make([]*user1.UserPreview, len(data.Plans[i].InitiatorIds))
+		users := make([]*user1.UserPreview, 0, len(data.Plans[i].InitiatorIds))
 		for _, initiatorId := range data.Plans[i].InitiatorIds {
 			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
 			if err == nil {
@@ -237,6 +301,8 @@ func (s *PlanService) SearchPlan(ctx context.Context, req *core_api.SearchPlanRe
 					Nickname:  user.User.Nickname,
 					AvatarUrl: user.User.AvatarUrl,
 				})
+			} else {
+				return nil, err
 			}
 		}
 		resp.Plans[i].Users = users

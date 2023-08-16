@@ -77,8 +77,11 @@ func Register(r *server.Hertz) {
 	{
 		_plan := root.Group("/plan", _planMw()...)
 		_plan.POST("/delete_plan", append(_deleteplanMw(), core_api.DeletePlan)...)
+		_plan.GET("/donate_fish", append(_donatefishMw(), core_api.DonateFish)...)
 		_plan.GET("/get_plan_detail", append(_getplandetailMw(), core_api.GetPlanDetail)...)
 		_plan.GET("/get_plan_previews", append(_getplanpreviewsMw(), core_api.GetPlanPreviews)...)
+		_plan.GET("/get_user_fish", append(_getuserfishMw(), core_api.GetUserFish)...)
+		_plan.GET("/list_fish_by_plan", append(_listfishbyplanMw(), core_api.ListFishByPlan)...)
 		_plan.POST("/new_plan", append(_newplanMw(), core_api.NewPlan)...)
 		_plan.GET("/search_plan", append(_searchplanMw(), core_api.SearchPlan)...)
 	}
