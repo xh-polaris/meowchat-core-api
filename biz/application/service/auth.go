@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -23,8 +25,9 @@ type IAuthService interface {
 }
 
 type AuthService struct {
-	Config *config.Config
-	Sts    platform_sts.IPlatformSts
+	Config  *config.Config
+	Sts     platform_sts.IPlatformSts
+	Content meowchat_content.IMeowchatContent
 }
 
 var AuthServiceSet = wire.NewSet(
@@ -50,6 +53,13 @@ func (s *AuthService) SignIn(ctx context.Context, req *core_api.SignInReq) (*cor
 		log.CtxError(ctx, "[generateJwtToken] fail, err=%v, config=%s, resp=%s", err, util.JSONF(s.Config.Auth), util.JSONF(rpcResp))
 		return nil, err
 	}
+	if rpcResp.GetIsFirst() == true {
+		_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
+			UserId: rpcResp.UserId,
+			Fish:   s.Config.Fish.SignIn,
+		})
+	}
+	resp.IsFirst = rpcResp.GetIsFirst()
 	resp.UserId = rpcResp.GetUserId()
 	return resp, nil
 }

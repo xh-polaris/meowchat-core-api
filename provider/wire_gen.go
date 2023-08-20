@@ -37,8 +37,9 @@ func NewProvider() (*Provider, error) {
 		Sts:        platformSts,
 	}
 	authService := &service.AuthService{
-		Config: configConfig,
-		Sts:    platformSts,
+		Config:  configConfig,
+		Sts:     platformSts,
+		Content: meowchatContent,
 	}
 	commentserviceClient := platform_comment.NewPlatformComment(configConfig)
 	platformComment := &platform_comment.PlatformComment{
@@ -53,6 +54,7 @@ func NewProvider() (*Provider, error) {
 		Comment: platformComment,
 		User:    meowchatUser,
 		Sts:     platformSts,
+		Content: meowchatContent,
 	}
 	systemrpcClient := meowchat_system.NewMeowchatSystem(configConfig)
 	meowchatSystem := &meowchat_system.MeowchatSystem{
@@ -79,8 +81,9 @@ func NewProvider() (*Provider, error) {
 		Sts:     platformSts,
 	}
 	likeService := &service.LikeService{
-		Config: configConfig,
-		User:   meowchatUser,
+		Config:  configConfig,
+		User:    meowchatUser,
+		Content: meowchatContent,
 	}
 	stsService := &service.StsService{
 		PlatformSts: platformSts,

@@ -7,10 +7,12 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	user2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
@@ -29,6 +31,7 @@ type CommentService struct {
 	Comment platform_comment.IPlatformCommment
 	User    meowchat_user.IMeowchatUser
 	Sts     platform_sts.IPlatformSts
+	Content meowchat_content.IMeowchatContent
 }
 
 var CommentServiceSet = wire.NewSet(
@@ -129,7 +132,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 		replyToId = replyTo.Comment.AuthorId
 	}
 
-	_, err = s.Comment.CreateComment(ctx, &gencomment.CreateCommentReq{
+	data, err := s.Comment.CreateComment(ctx, &gencomment.CreateCommentReq{
 		Text:     req.Text,
 		AuthorId: user.UserId,
 		ReplyTo:  replyToId,
@@ -139,7 +142,13 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	if err != nil {
 		return nil, err
 	}
-
+	if data.GetIsFirst() == true {
+		_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
+			UserId: user.UserId,
+			Fish:   s.Config.Fish.Comment,
+		})
+	}
+	resp.IsFirst = data.IsFirst
 	return resp, nil
 }
 

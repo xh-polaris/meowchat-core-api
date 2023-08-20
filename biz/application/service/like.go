@@ -6,8 +6,10 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -21,8 +23,9 @@ type ILikeService interface {
 }
 
 type LikeService struct {
-	Config *config.Config
-	User   meowchat_user.IMeowchatUser
+	Config  *config.Config
+	User    meowchat_user.IMeowchatUser
+	Content meowchat_content.IMeowchatContent
 }
 
 var LikeServiceSet = wire.NewSet(
@@ -35,7 +38,7 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 
 	userId := user.UserId
 
-	_, err := s.User.DoLike(ctx, &genlike.DoLikeReq{
+	r, err := s.User.DoLike(ctx, &genlike.DoLikeReq{
 		UserId:       userId,
 		TargetId:     req.TargetId,
 		Type:         genlike.LikeType(req.TargetType),
@@ -45,7 +48,13 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 	if err != nil {
 		return nil, err
 	}
-
+	if r.GetIsFirst() == true {
+		_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
+			UserId: user.UserId,
+			Fish:   s.Config.Fish.Like,
+		})
+	}
+	resp.IsFirst = r.IsFirst
 	return resp, nil
 }
 

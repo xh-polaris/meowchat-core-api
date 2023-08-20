@@ -137,6 +137,14 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 		if err != nil {
 			return nil, err
 		}
+		if res.GetGetFish() == true {
+			_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
+				UserId: user.UserId,
+				Fish:   s.Config.Fish.Content,
+			})
+		}
+		resp.GetFish = res.GetFish
+		resp.GetFishTimes = res.GetFishTimes
 		resp.PostId = res.PostId
 	} else {
 		_, err = s.Content.UpdatePost(ctx, &content.UpdatePostReq{
@@ -150,6 +158,8 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 			return nil, err
 		}
 		resp.PostId = *req.Id
+		resp.GetFish = false
+		resp.GetFishTimes = 0
 	}
 
 	return resp, nil

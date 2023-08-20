@@ -174,9 +174,19 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 		var data *content.CreateMomentResp
 		data, err = s.Moment.CreateMoment(ctx, &content.CreateMomentReq{Moment: m})
 		resp.MomentId = data.MomentId
+		if data.GetGetFish() == true {
+			_, err = s.Moment.AddUserFish(ctx, &content.AddUserFishReq{
+				UserId: user.UserId,
+				Fish:   s.Config.Fish.Content,
+			})
+		}
+		resp.GetFish = data.GetFish
+		resp.GetFishTimes = data.GetFishTimes
 	} else {
 		_, err = s.Moment.UpdateMoment(ctx, &content.UpdateMomentReq{Moment: m})
 		resp.MomentId = *req.Id
+		resp.GetFish = false
+		resp.GetFishTimes = 0
 	}
 
 	if err != nil {

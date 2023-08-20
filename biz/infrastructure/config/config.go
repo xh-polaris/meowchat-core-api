@@ -12,11 +12,19 @@ type Auth struct {
 	AccessExpire int64
 }
 
+type Fish struct {
+	SignIn  int64
+	Like    int64
+	Content int64
+	Comment int64
+}
+
 type Config struct {
 	service.ServiceConf
 	ListenOn string
 	Auth     Auth
 	CdnHost  string
+	Fish     Fish
 }
 
 func NewConfig() (*Config, error) {

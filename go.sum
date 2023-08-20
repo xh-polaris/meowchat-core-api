@@ -369,8 +369,8 @@ github.com/v2pro/quokka v0.0.0-20171201153428-382cb39c6ee6/go.mod h1:0VP5W9AFNVW
 github.com/v2pro/wombat v0.0.0-20180402055224-a56dbdcddef2/go.mod h1:wen8nMxrRrUmXnRwH+3wGAW+hyYTHcOrTNhMpxyp/i0=
 github.com/xh-polaris/gopkg v0.0.0-20230805131733-9f2f3c0d9902 h1:kKOzKLwsyXdqD7bb6wRMy4H826DUxz+eRWMcwb8UdtQ=
 github.com/xh-polaris/gopkg v0.0.0-20230805131733-9f2f3c0d9902/go.mod h1:eFkuwj6uq1k4hbDa66TijCWGL4PrNeWaNmAnxfWDeU0=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230813101042-26c6385e25a8 h1:us6cv8ashLDusy5qj4/9rS9E/pP3lFfpcFtdE22G+9Y=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20230813101042-26c6385e25a8/go.mod h1:KjBt4ZOfugCsdAbFlrniKMDrpJAJobm8KEezTvKVnJM=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230819155341-4a3ac3fe3b89 h1:LxD9sZVUqcdi+6npBUvxm5NaNLLJlPLpWNmXNFDqWfE=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20230819155341-4a3ac3fe3b89/go.mod h1:KjBt4ZOfugCsdAbFlrniKMDrpJAJobm8KEezTvKVnJM=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
