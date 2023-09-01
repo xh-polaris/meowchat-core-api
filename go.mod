@@ -13,7 +13,7 @@ require (
 	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230819155341-4a3ac3fe3b89
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0
-	go.opentelemetry.io/otel v1.16.0
+	go.opentelemetry.io/otel v1.17.0
 	google.golang.org/grpc v1.56.2
 	google.golang.org/protobuf v1.31.0
 )
@@ -74,9 +74,9 @@ require (
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.16.0 // indirect
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.16.0 // indirect
 	go.opentelemetry.io/otel/exporters/zipkin v1.16.0 // indirect
-	go.opentelemetry.io/otel/metric v1.16.0 // indirect
+	go.opentelemetry.io/otel/metric v1.17.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.16.0 // indirect
-	go.opentelemetry.io/otel/trace v1.16.0 // indirect
+	go.opentelemetry.io/otel/trace v1.17.0 // indirect
 	go.opentelemetry.io/proto/otlp v0.19.0 // indirect
 	go.uber.org/automaxprocs v1.5.2 // indirect
 	golang.org/x/arch v0.2.0 // indirect
