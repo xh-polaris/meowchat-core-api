@@ -231,7 +231,7 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 		if err != nil {
 			logx.Error(err)
 		}
-		user.Article += momentCount.Total
+		user.Article += momentCount.GetTotal()
 	}()
 
 	go func() {
@@ -245,7 +245,7 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 			logx.Error(err)
 		}
 		// TODO 偶尔有并发问题
-		user.Article += postCount.Total
+		user.Article += postCount.GetTotal()
 	}()
 
 	go func() {
@@ -257,7 +257,7 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 		if err != nil {
 			logx.Error(err)
 		}
-		user.Follower = follower.Count
+		user.Follower = follower.GetCount()
 	}()
 
 	go func() {
@@ -269,7 +269,7 @@ func (s *UserService) getLessDependentInfo(ctx context.Context, user *core_api.U
 		if err != nil {
 			logx.Error(err)
 		}
-		user.Following = int64(len(followee.Likes))
+		user.Following = int64(len(followee.GetLikes()))
 	}()
 
 	wg.Wait()
