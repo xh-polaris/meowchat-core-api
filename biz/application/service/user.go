@@ -180,7 +180,7 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 		}
 	}
 
-	if *req.AvatarUrl != "" {
+	if req.GetAvatarUrl() != "" {
 		var u *url.URL
 		u, err := url.Parse(*req.AvatarUrl)
 		if err != nil {

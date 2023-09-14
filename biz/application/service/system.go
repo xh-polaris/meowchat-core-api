@@ -115,6 +115,7 @@ func (s *SystemService) GetAdmins(ctx context.Context, req *core_api.GetAdminsRe
 		return nil, err
 	}
 
+	resp.Admins = make([]*core_api.Admin, 0, PageSize)
 	err = copier.Copy(&resp.Admins, &data.Admins)
 	if err != nil {
 		return nil, err
@@ -132,6 +133,7 @@ func (s *SystemService) GetNews(ctx context.Context, req *core_api.GetNewsReq) (
 		return nil, err
 	}
 
+	resp.News = make([]*core_api.News, 0, PageSize)
 	err = copier.Copy(&resp.News, &data.News)
 	if err != nil {
 		return nil, err
@@ -149,6 +151,7 @@ func (s *SystemService) GetNotices(ctx context.Context, req *core_api.GetNotices
 		return nil, err
 	}
 
+	resp.Notices = make([]*core_api.Notice, 0, PageSize)
 	err = copier.Copy(&resp.Notices, &data.Notices)
 	if err != nil {
 		return nil, err
@@ -263,6 +266,7 @@ func (s *SystemService) ListCommunity(ctx context.Context, req *core_api.ListCom
 	}
 	resp.Communities = make([]*core_api.Community, len(data.Communities))
 
+	resp.Communities = make([]*core_api.Community, 0)
 	err = copier.Copy(&resp.Communities, &data.Communities)
 	if err != nil {
 		return nil, err
