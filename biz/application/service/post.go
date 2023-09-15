@@ -2,8 +2,16 @@ package service
 
 import (
 	"context"
+	"net/url"
+
 	"github.com/google/wire"
 	"github.com/xh-polaris/gopkg/errors"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
@@ -11,12 +19,6 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
-	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
-	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
-	"net/url"
 )
 
 type IPostService interface {

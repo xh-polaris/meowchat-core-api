@@ -10,7 +10,7 @@ require (
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/jinzhu/copier v0.3.5
 	github.com/xh-polaris/gopkg v0.0.0-20230914031542-2d2b7b95b31d
-	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230819155341-4a3ac3fe3b89
+	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230909174338-cc6ca6a20ce5
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0
 	go.opentelemetry.io/otel v1.16.0

@@ -3,6 +3,7 @@
 package main
 
 import (
+	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
@@ -29,11 +30,11 @@ func main() {
 	c := provider.Get().Config
 
 	tracer, cfg := tracing.NewServerTracer()
-	h := server.Default(
+	h := server.New(
 		server.WithHostPorts(c.ListenOn),
 		tracer,
 	)
-	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware)
+	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware, recovery.Recovery())
 
 	register(h)
 	log.Info("server start")
