@@ -8,7 +8,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/google/wire v0.5.0
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
-	github.com/jinzhu/copier v0.3.5
+	github.com/jinzhu/copier v0.4.0
 	github.com/xh-polaris/gopkg v0.0.0-20230914031542-2d2b7b95b31d
 	github.com/xh-polaris/service-idl-gen-go v0.0.0-20230916105848-942ef6fd3192
 	github.com/zeromicro/go-zero v1.5.4
