@@ -2,8 +2,19 @@ package service
 
 import (
 	"context"
+	"net/url"
+	"sync"
+
 	"github.com/google/wire"
+	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	system2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
+	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/system"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
@@ -12,14 +23,6 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
-	system2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
-	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
-	"github.com/zeromicro/go-zero/core/logx"
-	"net/url"
-	"sync"
 )
 
 type IUserService interface {
@@ -88,14 +91,12 @@ func (s *UserService) SearchUserForAdmin(ctx context.Context, req *core_api.Sear
 	}
 	request := &genuser.SearchUserReq{
 		Nickname: req.Keyword,
-		Offset:   new(int64),
-		Limit:    new(int64),
+		Offset:   lo.ToPtr(*req.PaginationOption.Page * pageSize),
+		Limit:    lo.ToPtr(pageSize),
 	}
-	if *req.PaginationOption.LastToken != "" {
+	if req.PaginationOption.LastToken != nil && *req.PaginationOption.LastToken != "" {
 		request.LastToken = req.PaginationOption.LastToken
 	}
-	*request.Offset = *req.PaginationOption.Page * pageSize
-	*request.Limit = pageSize
 	data, err := s.User.SearchUser(ctx, request)
 	if err != nil {
 		return nil, err
@@ -137,14 +138,12 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 	}
 	request := &genuser.SearchUserReq{
 		Nickname: req.Keyword,
-		Offset:   new(int64),
-		Limit:    new(int64),
+		Offset:   lo.ToPtr(*req.PaginationOption.Page * pageSize),
+		Limit:    lo.ToPtr(pageSize),
 	}
-	if *req.PaginationOption.LastToken != "" {
+	if req.PaginationOption.LastToken != nil && *req.PaginationOption.LastToken != "" {
 		request.LastToken = req.PaginationOption.LastToken
 	}
-	*request.Offset = *req.PaginationOption.Page * pageSize
-	*request.Limit = pageSize
 	data, err := s.User.SearchUser(ctx, request)
 	if err != nil {
 		return nil, err
