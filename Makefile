@@ -16,7 +16,7 @@ FULL_MAIN_IDL_PATH := "$(FULL_MAIN_IDL_PATH)"
 
 IDL_OPTIONS := -I $(IDL_DIR) --idl $(FULL_MAIN_IDL_PATH)
 OUTPUT_OPTIONS := --handler_dir $(HANDLER_DIR) --model_dir $(MODEL_DIR) --router_dir $(ROUTER_DIR)
-EXTRA_OPTIONS := --pb_camel_json_tag=true
+EXTRA_OPTIONS := --pb_camel_json_tag=true --unset_omitempty=true
 
 run:
 	sh ./output/bootstrap.sh

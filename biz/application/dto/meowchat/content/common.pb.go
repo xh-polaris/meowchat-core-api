@@ -74,20 +74,20 @@ type Cat struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id           string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CreateAt     int64    `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	Age          string   `protobuf:"bytes,3,opt,name=age,proto3" json:"age,omitempty" form:"age" query:"age"`
-	CommunityId  string   `protobuf:"bytes,4,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Color        string   `protobuf:"bytes,5,opt,name=color,proto3" json:"color,omitempty" form:"color" query:"color"`
-	Details      string   `protobuf:"bytes,6,opt,name=details,proto3" json:"details,omitempty" form:"details" query:"details"`
-	Name         string   `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	Popularity   int64    `protobuf:"varint,8,opt,name=popularity,proto3" json:"popularity,omitempty" form:"popularity" query:"popularity"`
-	Sex          string   `protobuf:"bytes,9,opt,name=sex,proto3" json:"sex,omitempty" form:"sex" query:"sex"`
-	Status       int64    `protobuf:"varint,10,opt,name=status,proto3" json:"status,omitempty" form:"status" query:"status"`
-	Area         string   `protobuf:"bytes,11,opt,name=area,proto3" json:"area,omitempty" form:"area" query:"area"`
-	IsSnipped    bool     `protobuf:"varint,12,opt,name=isSnipped,proto3" json:"isSnipped,omitempty" form:"isSnipped" query:"isSnipped"`
-	IsSterilized bool     `protobuf:"varint,13,opt,name=isSterilized,proto3" json:"isSterilized,omitempty" form:"isSterilized" query:"isSterilized"`
-	Avatars      []string `protobuf:"bytes,14,rep,name=avatars,proto3" json:"avatars,omitempty" form:"avatars" query:"avatars"`
+	Id           string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CreateAt     int64    `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	Age          string   `protobuf:"bytes,3,opt,name=age,proto3" json:"age" form:"age" query:"age"`
+	CommunityId  string   `protobuf:"bytes,4,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Color        string   `protobuf:"bytes,5,opt,name=color,proto3" json:"color" form:"color" query:"color"`
+	Details      string   `protobuf:"bytes,6,opt,name=details,proto3" json:"details" form:"details" query:"details"`
+	Name         string   `protobuf:"bytes,7,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	Popularity   int64    `protobuf:"varint,8,opt,name=popularity,proto3" json:"popularity" form:"popularity" query:"popularity"`
+	Sex          string   `protobuf:"bytes,9,opt,name=sex,proto3" json:"sex" form:"sex" query:"sex"`
+	Status       int64    `protobuf:"varint,10,opt,name=status,proto3" json:"status" form:"status" query:"status"`
+	Area         string   `protobuf:"bytes,11,opt,name=area,proto3" json:"area" form:"area" query:"area"`
+	IsSnipped    bool     `protobuf:"varint,12,opt,name=isSnipped,proto3" json:"isSnipped" form:"isSnipped" query:"isSnipped"`
+	IsSterilized bool     `protobuf:"varint,13,opt,name=isSterilized,proto3" json:"isSterilized" form:"isSterilized" query:"isSterilized"`
+	Avatars      []string `protobuf:"bytes,14,rep,name=avatars,proto3" json:"avatars" form:"avatars" query:"avatars"`
 }
 
 func (x *Cat) Reset() {
@@ -225,8 +225,8 @@ type CreateImageElement struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
-	Url   string `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty" form:"url" query:"url"`
+	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
+	Url   string `protobuf:"bytes,2,opt,name=url,proto3" json:"url" form:"url" query:"url"`
 }
 
 func (x *CreateImageElement) Reset() {
@@ -280,9 +280,9 @@ type Image struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Url   string `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty" form:"url" query:"url"`
-	CatId string `protobuf:"bytes,3,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
+	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Url   string `protobuf:"bytes,2,opt,name=url,proto3" json:"url" form:"url" query:"url"`
+	CatId string `protobuf:"bytes,3,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
 }
 
 func (x *Image) Reset() {
@@ -343,14 +343,14 @@ type Moment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CreateAt    int64    `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	CatId       string   `protobuf:"bytes,3,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
-	Photos      []string `protobuf:"bytes,4,rep,name=photos,proto3" json:"photos,omitempty" form:"photos" query:"photos"` // 图片url
-	Title       string   `protobuf:"bytes,5,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	Text        string   `protobuf:"bytes,6,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CommunityId string   `protobuf:"bytes,7,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	UserId      string   `protobuf:"bytes,8,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
+	Id          string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CreateAt    int64    `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	CatId       string   `protobuf:"bytes,3,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
+	Photos      []string `protobuf:"bytes,4,rep,name=photos,proto3" json:"photos" form:"photos" query:"photos"` // 图片url
+	Title       string   `protobuf:"bytes,5,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	Text        string   `protobuf:"bytes,6,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CommunityId string   `protobuf:"bytes,7,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	UserId      string   `protobuf:"bytes,8,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
 }
 
 func (x *Moment) Reset() {
@@ -446,15 +446,15 @@ type Post struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CreateAt   int64    `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	UpdateAt   int64    `protobuf:"varint,3,opt,name=updateAt,proto3" json:"updateAt,omitempty" form:"updateAt" query:"updateAt"`
-	Title      string   `protobuf:"bytes,5,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	Text       string   `protobuf:"bytes,6,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CoverUrl   string   `protobuf:"bytes,7,opt,name=coverUrl,proto3" json:"coverUrl,omitempty" form:"coverUrl" query:"coverUrl"`
-	Tags       []string `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags,omitempty" form:"tags" query:"tags"`
-	UserId     string   `protobuf:"bytes,9,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
-	IsOfficial bool     `protobuf:"varint,10,opt,name=isOfficial,proto3" json:"isOfficial,omitempty" form:"isOfficial" query:"isOfficial"`
+	Id         string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CreateAt   int64    `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	UpdateAt   int64    `protobuf:"varint,3,opt,name=updateAt,proto3" json:"updateAt" form:"updateAt" query:"updateAt"`
+	Title      string   `protobuf:"bytes,5,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	Text       string   `protobuf:"bytes,6,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CoverUrl   string   `protobuf:"bytes,7,opt,name=coverUrl,proto3" json:"coverUrl" form:"coverUrl" query:"coverUrl"`
+	Tags       []string `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags" form:"tags" query:"tags"`
+	UserId     string   `protobuf:"bytes,9,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
+	IsOfficial bool     `protobuf:"varint,10,opt,name=isOfficial,proto3" json:"isOfficial" form:"isOfficial" query:"isOfficial"`
 }
 
 func (x *Post) Reset() {
@@ -557,18 +557,18 @@ type Plan struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id           string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Name         string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	Description  string   `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" form:"description" query:"description"`
-	PlanType     PlanType `protobuf:"varint,4,opt,name=planType,proto3,enum=meowchat.content.PlanType" json:"planType,omitempty" form:"planType" query:"planType"`
-	StartTime    int64    `protobuf:"varint,5,opt,name=startTime,proto3" json:"startTime,omitempty" form:"startTime" query:"startTime"`
-	EndTime      int64    `protobuf:"varint,6,opt,name=endTime,proto3" json:"endTime,omitempty" form:"endTime" query:"endTime"`
-	CatId        string   `protobuf:"bytes,7,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
-	InitiatorIds []string `protobuf:"bytes,8,rep,name=initiatorIds,proto3" json:"initiatorIds,omitempty" form:"initiatorIds" query:"initiatorIds"`
-	ImageUrls    []string `protobuf:"bytes,9,rep,name=imageUrls,proto3" json:"imageUrls,omitempty" form:"imageUrls" query:"imageUrls"`
-	CreateAt     int64    `protobuf:"varint,10,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	MaxFish      int64    `protobuf:"varint,11,opt,name=maxFish,proto3" json:"maxFish,omitempty" form:"maxFish" query:"maxFish"`
-	NowFish      int64    `protobuf:"varint,12,opt,name=nowFish,proto3" json:"nowFish,omitempty" form:"nowFish" query:"nowFish"`
+	Id           string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Name         string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	Description  string   `protobuf:"bytes,3,opt,name=description,proto3" json:"description" form:"description" query:"description"`
+	PlanType     PlanType `protobuf:"varint,4,opt,name=planType,proto3,enum=meowchat.content.PlanType" json:"planType" form:"planType" query:"planType"`
+	StartTime    int64    `protobuf:"varint,5,opt,name=startTime,proto3" json:"startTime" form:"startTime" query:"startTime"`
+	EndTime      int64    `protobuf:"varint,6,opt,name=endTime,proto3" json:"endTime" form:"endTime" query:"endTime"`
+	CatId        string   `protobuf:"bytes,7,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
+	InitiatorIds []string `protobuf:"bytes,8,rep,name=initiatorIds,proto3" json:"initiatorIds" form:"initiatorIds" query:"initiatorIds"`
+	ImageUrls    []string `protobuf:"bytes,9,rep,name=imageUrls,proto3" json:"imageUrls" form:"imageUrls" query:"imageUrls"`
+	CreateAt     int64    `protobuf:"varint,10,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	MaxFish      int64    `protobuf:"varint,11,opt,name=maxFish,proto3" json:"maxFish" form:"maxFish" query:"maxFish"`
+	NowFish      int64    `protobuf:"varint,12,opt,name=nowFish,proto3" json:"nowFish" form:"nowFish" query:"nowFish"`
 }
 
 func (x *Plan) Reset() {
@@ -692,9 +692,9 @@ type SearchField struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Text  *string `protobuf:"bytes,1,opt,name=text,proto3,oneof" json:"text,omitempty" form:"text" query:"text"`
-	Title *string `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty" form:"title" query:"title"`
-	Tag   *string `protobuf:"bytes,3,opt,name=tag,proto3,oneof" json:"tag,omitempty" form:"tag" query:"tag"` // 仅限Post
+	Text  *string `protobuf:"bytes,1,opt,name=text,proto3,oneof" json:"text" form:"text" query:"text"`
+	Title *string `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title" form:"title" query:"title"`
+	Tag   *string `protobuf:"bytes,3,opt,name=tag,proto3,oneof" json:"tag" form:"tag" query:"tag"` // 仅限Post
 }
 
 func (x *SearchField) Reset() {
@@ -836,9 +836,9 @@ type MomentFilterOptions struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OnlyUserId       *string  `protobuf:"bytes,1,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId,omitempty" form:"onlyUserId" query:"onlyUserId"`
-	OnlyCommunityId  *string  `protobuf:"bytes,2,opt,name=onlyCommunityId,proto3,oneof" json:"onlyCommunityId,omitempty" form:"onlyCommunityId" query:"onlyCommunityId"`
-	OnlyCommunityIds []string `protobuf:"bytes,3,rep,name=onlyCommunityIds,proto3" json:"onlyCommunityIds,omitempty" form:"onlyCommunityIds" query:"onlyCommunityIds"`
+	OnlyUserId       *string  `protobuf:"bytes,1,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId" form:"onlyUserId" query:"onlyUserId"`
+	OnlyCommunityId  *string  `protobuf:"bytes,2,opt,name=onlyCommunityId,proto3,oneof" json:"onlyCommunityId" form:"onlyCommunityId" query:"onlyCommunityId"`
+	OnlyCommunityIds []string `protobuf:"bytes,3,rep,name=onlyCommunityIds,proto3" json:"onlyCommunityIds" form:"onlyCommunityIds" query:"onlyCommunityIds"`
 }
 
 func (x *MomentFilterOptions) Reset() {
@@ -899,8 +899,8 @@ type PostFilterOptions struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OnlyOfficial *bool   `protobuf:"varint,1,opt,name=onlyOfficial,proto3,oneof" json:"onlyOfficial,omitempty" form:"onlyOfficial" query:"onlyOfficial"`
-	OnlyUserId   *string `protobuf:"bytes,2,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId,omitempty" form:"onlyUserId" query:"onlyUserId"`
+	OnlyOfficial *bool   `protobuf:"varint,1,opt,name=onlyOfficial,proto3,oneof" json:"onlyOfficial" form:"onlyOfficial" query:"onlyOfficial"`
+	OnlyUserId   *string `protobuf:"bytes,2,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId" form:"onlyUserId" query:"onlyUserId"`
 }
 
 func (x *PostFilterOptions) Reset() {
@@ -954,8 +954,8 @@ type PlanFilterOptions struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OnlyCatId  *string `protobuf:"bytes,1,opt,name=onlyCatId,proto3,oneof" json:"onlyCatId,omitempty" form:"onlyCatId" query:"onlyCatId"`
-	OnlyUserId *string `protobuf:"bytes,2,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId,omitempty" form:"onlyUserId" query:"onlyUserId"`
+	OnlyCatId  *string `protobuf:"bytes,1,opt,name=onlyCatId,proto3,oneof" json:"onlyCatId" form:"onlyCatId" query:"onlyCatId"`
+	OnlyUserId *string `protobuf:"bytes,2,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId" form:"onlyUserId" query:"onlyUserId"`
 }
 
 func (x *PlanFilterOptions) Reset() {

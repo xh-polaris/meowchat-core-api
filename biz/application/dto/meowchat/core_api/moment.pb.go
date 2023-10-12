@@ -27,14 +27,14 @@ type Moment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CreateAt    int64             `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	CatId       string            `protobuf:"bytes,3,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
-	Photos      []string          `protobuf:"bytes,4,rep,name=photos,proto3" json:"photos,omitempty" form:"photos" query:"photos"` // 图片url
-	Title       string            `protobuf:"bytes,5,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	Text        string            `protobuf:"bytes,6,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CommunityId string            `protobuf:"bytes,7,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	User        *user.UserPreview `protobuf:"bytes,8,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
+	Id          string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CreateAt    int64             `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	CatId       string            `protobuf:"bytes,3,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
+	Photos      []string          `protobuf:"bytes,4,rep,name=photos,proto3" json:"photos" form:"photos" query:"photos"` // 图片url
+	Title       string            `protobuf:"bytes,5,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	Text        string            `protobuf:"bytes,6,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CommunityId string            `protobuf:"bytes,7,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	User        *user.UserPreview `protobuf:"bytes,8,opt,name=user,proto3" json:"user" form:"user" query:"user"`
 }
 
 func (x *Moment) Reset() {
@@ -130,10 +130,10 @@ type GetMomentPreviewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId      *string                  `protobuf:"bytes,1,opt,name=communityId,proto3,oneof" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	IsParent         *bool                    `protobuf:"varint,2,opt,name=isParent,proto3,oneof" json:"isParent,omitempty" form:"isParent" query:"isParent"`
-	OnlyUserId       *string                  `protobuf:"bytes,3,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId,omitempty" form:"onlyUserId" query:"onlyUserId"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,4,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
+	CommunityId      *string                  `protobuf:"bytes,1,opt,name=communityId,proto3,oneof" json:"communityId" form:"communityId" query:"communityId"`
+	IsParent         *bool                    `protobuf:"varint,2,opt,name=isParent,proto3,oneof" json:"isParent" form:"isParent" query:"isParent"`
+	OnlyUserId       *string                  `protobuf:"bytes,3,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId" form:"onlyUserId" query:"onlyUserId"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,4,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
 }
 
 func (x *GetMomentPreviewsReq) Reset() {
@@ -201,9 +201,9 @@ type GetMomentPreviewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Moments []*Moment `protobuf:"bytes,1,rep,name=moments,proto3" json:"moments,omitempty" form:"moments" query:"moments"`
-	Total   int64     `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
-	Token   string    `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty" form:"token" query:"token"`
+	Moments []*Moment `protobuf:"bytes,1,rep,name=moments,proto3" json:"moments" form:"moments" query:"moments"`
+	Total   int64     `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
+	Token   string    `protobuf:"bytes,3,opt,name=token,proto3" json:"token" form:"token" query:"token"`
 }
 
 func (x *GetMomentPreviewsResp) Reset() {
@@ -264,7 +264,7 @@ type GetMomentDetailReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MomentId string `protobuf:"bytes,1,opt,name=momentId,proto3" json:"momentId,omitempty" form:"momentId" query:"momentId"`
+	MomentId string `protobuf:"bytes,1,opt,name=momentId,proto3" json:"momentId" form:"momentId" query:"momentId"`
 }
 
 func (x *GetMomentDetailReq) Reset() {
@@ -311,7 +311,7 @@ type GetMomentDetailResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Moment *Moment `protobuf:"bytes,1,opt,name=moment,proto3" json:"moment,omitempty" form:"moment" query:"moment"`
+	Moment *Moment `protobuf:"bytes,1,opt,name=moment,proto3" json:"moment" form:"moment" query:"moment"`
 }
 
 func (x *GetMomentDetailResp) Reset() {
@@ -358,7 +358,7 @@ type DeleteMomentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MomentId string `protobuf:"bytes,1,opt,name=momentId,proto3" json:"momentId,omitempty" form:"momentId" query:"momentId"`
+	MomentId string `protobuf:"bytes,1,opt,name=momentId,proto3" json:"momentId" form:"momentId" query:"momentId"`
 }
 
 func (x *DeleteMomentReq) Reset() {
@@ -443,12 +443,12 @@ type NewMomentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          *string  `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
-	Title       *string  `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty" form:"title" query:"title"`
-	CatId       *string  `protobuf:"bytes,3,opt,name=catId,proto3,oneof" json:"catId,omitempty" form:"catId" query:"catId"`
-	Text        *string  `protobuf:"bytes,4,opt,name=text,proto3,oneof" json:"text,omitempty" form:"text" query:"text"`
-	Photos      []string `protobuf:"bytes,5,rep,name=photos,proto3" json:"photos,omitempty" form:"photos" query:"photos"`
-	CommunityId *string  `protobuf:"bytes,6,opt,name=communityId,proto3,oneof" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	Id          *string  `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
+	Title       *string  `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title" form:"title" query:"title"`
+	CatId       *string  `protobuf:"bytes,3,opt,name=catId,proto3,oneof" json:"catId" form:"catId" query:"catId"`
+	Text        *string  `protobuf:"bytes,4,opt,name=text,proto3,oneof" json:"text" form:"text" query:"text"`
+	Photos      []string `protobuf:"bytes,5,rep,name=photos,proto3" json:"photos" form:"photos" query:"photos"`
+	CommunityId *string  `protobuf:"bytes,6,opt,name=communityId,proto3,oneof" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *NewMomentReq) Reset() {
@@ -530,9 +530,9 @@ type NewMomentResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MomentId     string `protobuf:"bytes,1,opt,name=momentId,proto3" json:"momentId,omitempty" form:"momentId" query:"momentId"`
-	GetFish      bool   `protobuf:"varint,2,opt,name=getFish,proto3" json:"getFish,omitempty" form:"getFish" query:"getFish"`
-	GetFishTimes int64  `protobuf:"varint,3,opt,name=getFishTimes,proto3" json:"getFishTimes,omitempty" form:"getFishTimes" query:"getFishTimes"`
+	MomentId     string `protobuf:"bytes,1,opt,name=momentId,proto3" json:"momentId" form:"momentId" query:"momentId"`
+	GetFish      bool   `protobuf:"varint,2,opt,name=getFish,proto3" json:"getFish" form:"getFish" query:"getFish"`
+	GetFishTimes int64  `protobuf:"varint,3,opt,name=getFishTimes,proto3" json:"getFishTimes" form:"getFishTimes" query:"getFishTimes"`
 }
 
 func (x *NewMomentResp) Reset() {
@@ -593,11 +593,11 @@ type SearchMomentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId      *string                  `protobuf:"bytes,1,opt,name=communityId,proto3,oneof" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	IsParent         *bool                    `protobuf:"varint,2,opt,name=isParent,proto3,oneof" json:"isParent,omitempty" form:"isParent" query:"isParent"`
-	OnlyUserId       *string                  `protobuf:"bytes,3,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId,omitempty" form:"onlyUserId" query:"onlyUserId"`
-	Keyword          *string                  `protobuf:"bytes,4,opt,name=keyword,proto3,oneof" json:"keyword,omitempty" form:"keyword" query:"keyword"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,5,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
+	CommunityId      *string                  `protobuf:"bytes,1,opt,name=communityId,proto3,oneof" json:"communityId" form:"communityId" query:"communityId"`
+	IsParent         *bool                    `protobuf:"varint,2,opt,name=isParent,proto3,oneof" json:"isParent" form:"isParent" query:"isParent"`
+	OnlyUserId       *string                  `protobuf:"bytes,3,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId" form:"onlyUserId" query:"onlyUserId"`
+	Keyword          *string                  `protobuf:"bytes,4,opt,name=keyword,proto3,oneof" json:"keyword" form:"keyword" query:"keyword"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,5,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
 }
 
 func (x *SearchMomentReq) Reset() {
@@ -672,8 +672,8 @@ type SearchMomentResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Moments []*Moment `protobuf:"bytes,1,rep,name=moments,proto3" json:"moments,omitempty" form:"moments" query:"moments"`
-	Total   int64     `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Moments []*Moment `protobuf:"bytes,1,rep,name=moments,proto3" json:"moments" form:"moments" query:"moments"`
+	Total   int64     `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *SearchMomentResp) Reset() {

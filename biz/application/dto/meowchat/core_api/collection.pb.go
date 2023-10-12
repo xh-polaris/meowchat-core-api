@@ -27,12 +27,12 @@ type CatPreview struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Name        string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	Area        string `protobuf:"bytes,3,opt,name=area,proto3" json:"area,omitempty" form:"area" query:"area"`
-	Color       string `protobuf:"bytes,4,opt,name=color,proto3" json:"color,omitempty" form:"color" query:"color"`
-	AvatarUrl   string `protobuf:"bytes,5,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
-	IsCollected bool   `protobuf:"varint,6,opt,name=isCollected,proto3" json:"isCollected,omitempty" form:"isCollected" query:"isCollected"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Name        string `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	Area        string `protobuf:"bytes,3,opt,name=area,proto3" json:"area" form:"area" query:"area"`
+	Color       string `protobuf:"bytes,4,opt,name=color,proto3" json:"color" form:"color" query:"color"`
+	AvatarUrl   string `protobuf:"bytes,5,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
+	IsCollected bool   `protobuf:"varint,6,opt,name=isCollected,proto3" json:"isCollected" form:"isCollected" query:"isCollected"`
 }
 
 func (x *CatPreview) Reset() {
@@ -114,8 +114,8 @@ type GetCatPreviewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Page        int64  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty" form:"page" query:"page"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Page        int64  `protobuf:"varint,2,opt,name=page,proto3" json:"page" form:"page" query:"page"`
 }
 
 func (x *GetCatPreviewsReq) Reset() {
@@ -169,8 +169,8 @@ type GetCatPreviewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Cats  []*CatPreview `protobuf:"bytes,1,rep,name=cats,proto3" json:"cats,omitempty" form:"cats" query:"cats"`
-	Total int64         `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Cats  []*CatPreview `protobuf:"bytes,1,rep,name=cats,proto3" json:"cats" form:"cats" query:"cats"`
+	Total int64         `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *GetCatPreviewsResp) Reset() {
@@ -224,7 +224,7 @@ type GetCatDetailReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
+	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
 }
 
 func (x *GetCatDetailReq) Reset() {
@@ -271,7 +271,7 @@ type GetCatDetailResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Cat *content.Cat `protobuf:"bytes,1,opt,name=cat,proto3" json:"cat,omitempty" form:"cat" query:"cat"`
+	Cat *content.Cat `protobuf:"bytes,1,opt,name=cat,proto3" json:"cat" form:"cat" query:"cat"`
 }
 
 func (x *GetCatDetailResp) Reset() {
@@ -318,7 +318,7 @@ type DeleteCatReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
+	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
 }
 
 func (x *DeleteCatReq) Reset() {
@@ -403,17 +403,17 @@ type NewCatReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id           *string  `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
-	Age          string   `protobuf:"bytes,2,opt,name=age,proto3" json:"age,omitempty" form:"age" query:"age"`
-	CommunityId  string   `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Color        string   `protobuf:"bytes,4,opt,name=color,proto3" json:"color,omitempty" form:"color" query:"color"`
-	Details      string   `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty" form:"details" query:"details"`
-	Name         string   `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	Sex          string   `protobuf:"bytes,7,opt,name=sex,proto3" json:"sex,omitempty" form:"sex" query:"sex"`
-	Area         string   `protobuf:"bytes,8,opt,name=area,proto3" json:"area,omitempty" form:"area" query:"area"`
-	IsSnipped    bool     `protobuf:"varint,9,opt,name=isSnipped,proto3" json:"isSnipped,omitempty" form:"isSnipped" query:"isSnipped"`
-	IsSterilized bool     `protobuf:"varint,10,opt,name=isSterilized,proto3" json:"isSterilized,omitempty" form:"isSterilized" query:"isSterilized"`
-	Avatars      []string `protobuf:"bytes,11,rep,name=avatars,proto3" json:"avatars,omitempty" form:"avatars" query:"avatars"`
+	Id           *string  `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
+	Age          string   `protobuf:"bytes,2,opt,name=age,proto3" json:"age" form:"age" query:"age"`
+	CommunityId  string   `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Color        string   `protobuf:"bytes,4,opt,name=color,proto3" json:"color" form:"color" query:"color"`
+	Details      string   `protobuf:"bytes,5,opt,name=details,proto3" json:"details" form:"details" query:"details"`
+	Name         string   `protobuf:"bytes,6,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	Sex          string   `protobuf:"bytes,7,opt,name=sex,proto3" json:"sex" form:"sex" query:"sex"`
+	Area         string   `protobuf:"bytes,8,opt,name=area,proto3" json:"area" form:"area" query:"area"`
+	IsSnipped    bool     `protobuf:"varint,9,opt,name=isSnipped,proto3" json:"isSnipped" form:"isSnipped" query:"isSnipped"`
+	IsSterilized bool     `protobuf:"varint,10,opt,name=isSterilized,proto3" json:"isSterilized" form:"isSterilized" query:"isSterilized"`
+	Avatars      []string `protobuf:"bytes,11,rep,name=avatars,proto3" json:"avatars" form:"avatars" query:"avatars"`
 }
 
 func (x *NewCatReq) Reset() {
@@ -530,7 +530,7 @@ type NewCatResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
+	CatId string `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
 }
 
 func (x *NewCatResp) Reset() {
@@ -577,9 +577,9 @@ type SearchCatReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Keyword          string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty" form:"keyword" query:"keyword"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
-	CommunityId      string                   `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	Keyword          string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword" form:"keyword" query:"keyword"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
+	CommunityId      string                   `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *SearchCatReq) Reset() {
@@ -640,8 +640,8 @@ type SearchCatResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Cats  []*CatPreview `protobuf:"bytes,1,rep,name=cats,proto3" json:"cats,omitempty" form:"cats" query:"cats"`
-	Total int64         `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Cats  []*CatPreview `protobuf:"bytes,1,rep,name=cats,proto3" json:"cats" form:"cats" query:"cats"`
+	Total int64         `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *SearchCatResp) Reset() {
@@ -695,7 +695,7 @@ type CreateImageReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Images []*content.CreateImageElement `protobuf:"bytes,1,rep,name=images,proto3" json:"images,omitempty" form:"images" query:"images"`
+	Images []*content.CreateImageElement `protobuf:"bytes,1,rep,name=images,proto3" json:"images" form:"images" query:"images"`
 }
 
 func (x *CreateImageReq) Reset() {
@@ -742,7 +742,7 @@ type CreateImageResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ImageIds []string `protobuf:"bytes,1,rep,name=imageIds,proto3" json:"imageIds,omitempty" form:"imageIds" query:"imageIds"`
+	ImageIds []string `protobuf:"bytes,1,rep,name=imageIds,proto3" json:"imageIds" form:"imageIds" query:"imageIds"`
 }
 
 func (x *CreateImageResp) Reset() {
@@ -789,7 +789,7 @@ type DeleteImageReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ImageId string `protobuf:"bytes,1,opt,name=imageId,proto3" json:"imageId,omitempty" form:"imageId" query:"imageId"`
+	ImageId string `protobuf:"bytes,1,opt,name=imageId,proto3" json:"imageId" form:"imageId" query:"imageId"`
 }
 
 func (x *DeleteImageReq) Reset() {
@@ -874,11 +874,11 @@ type GetImageByCatReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CatId    string  `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
-	PrevId   *string `protobuf:"bytes,2,opt,name=prevId,proto3,oneof" json:"prevId,omitempty" form:"prevId" query:"prevId"`
-	Limit    int64   `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty" form:"limit" query:"limit"`
-	Offset   int64   `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty" form:"offset" query:"offset"`
-	Backward bool    `protobuf:"varint,5,opt,name=backward,proto3" json:"backward,omitempty" form:"backward" query:"backward"`
+	CatId    string  `protobuf:"bytes,1,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
+	PrevId   *string `protobuf:"bytes,2,opt,name=prevId,proto3,oneof" json:"prevId" form:"prevId" query:"prevId"`
+	Limit    int64   `protobuf:"varint,3,opt,name=limit,proto3" json:"limit" form:"limit" query:"limit"`
+	Offset   int64   `protobuf:"varint,4,opt,name=offset,proto3" json:"offset" form:"offset" query:"offset"`
+	Backward bool    `protobuf:"varint,5,opt,name=backward,proto3" json:"backward" form:"backward" query:"backward"`
 }
 
 func (x *GetImageByCatReq) Reset() {
@@ -953,8 +953,8 @@ type GetImageByCatResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Images []*content.Image `protobuf:"bytes,1,rep,name=images,proto3" json:"images,omitempty" form:"images" query:"images"`
-	Total  int64            `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Images []*content.Image `protobuf:"bytes,1,rep,name=images,proto3" json:"images" form:"images" query:"images"`
+	Total  int64            `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *GetImageByCatResp) Reset() {

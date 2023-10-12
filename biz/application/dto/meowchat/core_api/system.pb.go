@@ -27,13 +27,13 @@ type News struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CreateAt    int64  `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	ImageUrl    string `protobuf:"bytes,4,opt,name=imageUrl,proto3" json:"imageUrl,omitempty" form:"imageUrl" query:"imageUrl"`
-	LinkUrl     string `protobuf:"bytes,5,opt,name=linkUrl,proto3" json:"linkUrl,omitempty" form:"linkUrl" query:"linkUrl"`
-	Type        string `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty" form:"type" query:"type"`
-	IsPublic    int64  `protobuf:"varint,7,opt,name=isPublic,proto3" json:"isPublic,omitempty" form:"isPublic" query:"isPublic"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CreateAt    int64  `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	ImageUrl    string `protobuf:"bytes,4,opt,name=imageUrl,proto3" json:"imageUrl" form:"imageUrl" query:"imageUrl"`
+	LinkUrl     string `protobuf:"bytes,5,opt,name=linkUrl,proto3" json:"linkUrl" form:"linkUrl" query:"linkUrl"`
+	Type        string `protobuf:"bytes,6,opt,name=type,proto3" json:"type" form:"type" query:"type"`
+	IsPublic    int64  `protobuf:"varint,7,opt,name=isPublic,proto3" json:"isPublic" form:"isPublic" query:"isPublic"`
 }
 
 func (x *News) Reset() {
@@ -122,13 +122,13 @@ type Admin struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Title       string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Name        string `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty" form:"phone" query:"phone"`
-	AvatarUrl   string `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
-	Wechat      string `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat,omitempty" form:"wechat" query:"wechat"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Title       string `protobuf:"bytes,2,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Name        string `protobuf:"bytes,4,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone" form:"phone" query:"phone"`
+	AvatarUrl   string `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
+	Wechat      string `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat" form:"wechat" query:"wechat"`
 }
 
 func (x *Admin) Reset() {
@@ -217,9 +217,9 @@ type Notice struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Text     string `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CreateAt int64  `protobuf:"varint,3,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
+	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Text     string `protobuf:"bytes,2,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CreateAt int64  `protobuf:"varint,3,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
 }
 
 func (x *Notice) Reset() {
@@ -280,7 +280,7 @@ type GetNewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *GetNewsReq) Reset() {
@@ -327,7 +327,7 @@ type GetNewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	News []*News `protobuf:"bytes,1,rep,name=news,proto3" json:"news,omitempty" form:"news" query:"news"`
+	News []*News `protobuf:"bytes,1,rep,name=news,proto3" json:"news" form:"news" query:"news"`
 }
 
 func (x *GetNewsResp) Reset() {
@@ -374,7 +374,7 @@ type GetAdminsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *GetAdminsReq) Reset() {
@@ -421,7 +421,7 @@ type GetAdminsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Admins []*Admin `protobuf:"bytes,1,rep,name=Admins,proto3" json:"Admins,omitempty" form:"Admins" query:"Admins"`
+	Admins []*Admin `protobuf:"bytes,1,rep,name=Admins,proto3" json:"Admins" form:"Admins" query:"Admins"`
 }
 
 func (x *GetAdminsResp) Reset() {
@@ -468,7 +468,7 @@ type DeleteAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *DeleteAdminReq) Reset() {
@@ -553,13 +553,13 @@ type NewAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Title       string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Name        string `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty" form:"phone" query:"phone"`
-	AvatarUrl   string `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
-	Wechat      string `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat,omitempty" form:"wechat" query:"wechat"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Title       string `protobuf:"bytes,2,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Name        string `protobuf:"bytes,4,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone" form:"phone" query:"phone"`
+	AvatarUrl   string `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
+	Wechat      string `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat" form:"wechat" query:"wechat"`
 }
 
 func (x *NewAdminReq) Reset() {
@@ -648,7 +648,7 @@ type NewAdminResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *NewAdminResp) Reset() {
@@ -695,7 +695,7 @@ type GetNoticesReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *GetNoticesReq) Reset() {
@@ -742,7 +742,7 @@ type GetNoticesResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Notices []*Notice `protobuf:"bytes,1,rep,name=notices,proto3" json:"notices,omitempty" form:"notices" query:"notices"`
+	Notices []*Notice `protobuf:"bytes,1,rep,name=notices,proto3" json:"notices" form:"notices" query:"notices"`
 }
 
 func (x *GetNoticesResp) Reset() {
@@ -789,9 +789,9 @@ type NewNoticeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Text        string `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Text        string `protobuf:"bytes,3,opt,name=text,proto3" json:"text" form:"text" query:"text"`
 }
 
 func (x *NewNoticeReq) Reset() {
@@ -852,7 +852,7 @@ type NewNoticeResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *NewNoticeResp) Reset() {
@@ -899,12 +899,12 @@ type NewNewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	ImageUrl    string `protobuf:"bytes,3,opt,name=imageUrl,proto3" json:"imageUrl,omitempty" form:"imageUrl" query:"imageUrl"`
-	LinkUrl     string `protobuf:"bytes,4,opt,name=linkUrl,proto3" json:"linkUrl,omitempty" form:"linkUrl" query:"linkUrl"`
-	Type        string `protobuf:"bytes,5,opt,name=Type,proto3" json:"Type,omitempty" form:"Type" query:"Type"`
-	IsPublic    int64  `protobuf:"varint,6,opt,name=isPublic,proto3" json:"isPublic,omitempty" form:"isPublic" query:"isPublic"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	ImageUrl    string `protobuf:"bytes,3,opt,name=imageUrl,proto3" json:"imageUrl" form:"imageUrl" query:"imageUrl"`
+	LinkUrl     string `protobuf:"bytes,4,opt,name=linkUrl,proto3" json:"linkUrl" form:"linkUrl" query:"linkUrl"`
+	Type        string `protobuf:"bytes,5,opt,name=Type,proto3" json:"Type" form:"Type" query:"Type"`
+	IsPublic    int64  `protobuf:"varint,6,opt,name=isPublic,proto3" json:"isPublic" form:"isPublic" query:"isPublic"`
 }
 
 func (x *NewNewsReq) Reset() {
@@ -986,7 +986,7 @@ type NewNewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *NewNewsResp) Reset() {
@@ -1033,7 +1033,7 @@ type DeleteNoticeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *DeleteNoticeReq) Reset() {
@@ -1118,7 +1118,7 @@ type DeleteNewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *DeleteNewsReq) Reset() {
@@ -1203,8 +1203,8 @@ type ApplyInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyId string            `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId,omitempty" form:"applyId" query:"applyId"`
-	User    *user.UserPreview `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
+	ApplyId string            `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId" form:"applyId" query:"applyId"`
+	User    *user.UserPreview `protobuf:"bytes,2,opt,name=user,proto3" json:"user" form:"user" query:"user"`
 }
 
 func (x *ApplyInfo) Reset() {
@@ -1258,7 +1258,7 @@ type CreateApplyReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *CreateApplyReq) Reset() {
@@ -1343,7 +1343,7 @@ type ListApplyReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *ListApplyReq) Reset() {
@@ -1390,7 +1390,7 @@ type ListApplyResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyInfo []*ApplyInfo `protobuf:"bytes,1,rep,name=applyInfo,proto3" json:"applyInfo,omitempty" form:"applyInfo" query:"applyInfo"`
+	ApplyInfo []*ApplyInfo `protobuf:"bytes,1,rep,name=applyInfo,proto3" json:"applyInfo" form:"applyInfo" query:"applyInfo"`
 }
 
 func (x *ListApplyResp) Reset() {
@@ -1437,8 +1437,8 @@ type HandleApplyReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyId    string `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId,omitempty" form:"applyId" query:"applyId"`
-	IsRejected bool   `protobuf:"varint,2,opt,name=isRejected,proto3" json:"isRejected,omitempty" form:"isRejected" query:"isRejected"`
+	ApplyId    string `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId" form:"applyId" query:"applyId"`
+	IsRejected bool   `protobuf:"varint,2,opt,name=isRejected,proto3" json:"isRejected" form:"isRejected" query:"isRejected"`
 }
 
 func (x *HandleApplyReq) Reset() {
@@ -1530,9 +1530,9 @@ type Community struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	ParentId string `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId,omitempty" form:"parentId" query:"parentId"`
+	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	ParentId string `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId" form:"parentId" query:"parentId"`
 }
 
 func (x *Community) Reset() {
@@ -1593,7 +1593,7 @@ type ListCommunityReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ParentId string `protobuf:"bytes,1,opt,name=parentId,proto3" json:"parentId,omitempty" form:"parentId" query:"parentId"`
+	ParentId string `protobuf:"bytes,1,opt,name=parentId,proto3" json:"parentId" form:"parentId" query:"parentId"`
 }
 
 func (x *ListCommunityReq) Reset() {
@@ -1640,7 +1640,7 @@ type ListCommunityResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Communities []*Community `protobuf:"bytes,1,rep,name=communities,proto3" json:"communities,omitempty" form:"communities" query:"communities"`
+	Communities []*Community `protobuf:"bytes,1,rep,name=communities,proto3" json:"communities" form:"communities" query:"communities"`
 }
 
 func (x *ListCommunityResp) Reset() {
@@ -1687,9 +1687,9 @@ type NewCommunityReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	ParentId string `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId,omitempty" form:"parentId" query:"parentId"`
+	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	ParentId string `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId" form:"parentId" query:"parentId"`
 }
 
 func (x *NewCommunityReq) Reset() {
@@ -1750,7 +1750,7 @@ type NewCommunityResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *NewCommunityResp) Reset() {
@@ -1797,7 +1797,7 @@ type DeleteCommunityReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *DeleteCommunityReq) Reset() {
@@ -1920,7 +1920,7 @@ type GetUserRolesResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Roles []*system.Role `protobuf:"bytes,1,rep,name=roles,proto3" json:"roles,omitempty" form:"roles" query:"roles"`
+	Roles []*system.Role `protobuf:"bytes,1,rep,name=roles,proto3" json:"roles" form:"roles" query:"roles"`
 }
 
 func (x *GetUserRolesResp) Reset() {
@@ -1967,9 +1967,9 @@ type UpdateCommunityAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId      string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
-	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	IsRemove    bool   `protobuf:"varint,3,opt,name=isRemove,proto3" json:"isRemove,omitempty" form:"isRemove" query:"isRemove"`
+	UserId      string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	IsRemove    bool   `protobuf:"varint,3,opt,name=isRemove,proto3" json:"isRemove" form:"isRemove" query:"isRemove"`
 }
 
 func (x *UpdateCommunityAdminReq) Reset() {
@@ -2068,8 +2068,8 @@ type UpdateSuperAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId   string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
-	IsRemove bool   `protobuf:"varint,2,opt,name=isRemove,proto3" json:"isRemove,omitempty" form:"isRemove" query:"isRemove"`
+	UserId   string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
+	IsRemove bool   `protobuf:"varint,2,opt,name=isRemove,proto3" json:"isRemove" form:"isRemove" query:"isRemove"`
 }
 
 func (x *UpdateSuperAdminReq) Reset() {
@@ -2161,8 +2161,8 @@ type UpdateRoleReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId string         `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
-	Roles  []*system.Role `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles,omitempty" form:"roles" query:"roles"`
+	UserId string         `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
+	Roles  []*system.Role `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles" form:"roles" query:"roles"`
 }
 
 func (x *UpdateRoleReq) Reset() {
@@ -2254,8 +2254,8 @@ type RetrieveUserPreviewReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType,omitempty" form:"roleType" query:"roleType"`
-	CommunityId *string         `protobuf:"bytes,2,opt,name=communityId,proto3,oneof" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType" form:"roleType" query:"roleType"`
+	CommunityId *string         `protobuf:"bytes,2,opt,name=communityId,proto3,oneof" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *RetrieveUserPreviewReq) Reset() {
@@ -2309,7 +2309,7 @@ type RetrieveUserPreviewResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
 }
 
 func (x *RetrieveUserPreviewResp) Reset() {
@@ -2356,8 +2356,8 @@ type GetUserByRoleReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType,omitempty" form:"roleType" query:"roleType"`
-	CommunityId string          `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType" form:"roleType" query:"roleType"`
+	CommunityId string          `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *GetUserByRoleReq) Reset() {
@@ -2411,7 +2411,7 @@ type GetUserByRoleResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
 }
 
 func (x *GetUserByRoleResp) Reset() {

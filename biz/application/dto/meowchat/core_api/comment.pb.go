@@ -26,13 +26,13 @@ type Comment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Text      string            `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	User      *user.UserPreview `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
-	ReplyName string            `protobuf:"bytes,4,opt,name=replyName,proto3" json:"replyName,omitempty" form:"replyName" query:"replyName"`
-	Comments  int64             `protobuf:"varint,5,opt,name=comments,proto3" json:"comments,omitempty" form:"comments" query:"comments"`
-	UpdateAt  int64             `protobuf:"varint,6,opt,name=updateAt,proto3" json:"updateAt,omitempty" form:"updateAt" query:"updateAt"`
-	CreateAt  int64             `protobuf:"varint,7,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
+	Id        string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Text      string            `protobuf:"bytes,2,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	User      *user.UserPreview `protobuf:"bytes,3,opt,name=user,proto3" json:"user" form:"user" query:"user"`
+	ReplyName string            `protobuf:"bytes,4,opt,name=replyName,proto3" json:"replyName" form:"replyName" query:"replyName"`
+	Comments  int64             `protobuf:"varint,5,opt,name=comments,proto3" json:"comments" form:"comments" query:"comments"`
+	UpdateAt  int64             `protobuf:"varint,6,opt,name=updateAt,proto3" json:"updateAt" form:"updateAt" query:"updateAt"`
+	CreateAt  int64             `protobuf:"varint,7,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
 }
 
 func (x *Comment) Reset() {
@@ -121,9 +121,9 @@ type NewCommentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id    *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
-	Text  string  `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	Scope string  `protobuf:"bytes,3,opt,name=scope,proto3" json:"scope,omitempty" form:"scope" query:"scope"`
+	Id    *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
+	Text  string  `protobuf:"bytes,2,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	Scope string  `protobuf:"bytes,3,opt,name=scope,proto3" json:"scope" form:"scope" query:"scope"`
 }
 
 func (x *NewCommentReq) Reset() {
@@ -184,7 +184,7 @@ type NewCommentResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IsFirst bool `protobuf:"varint,1,opt,name=isFirst,proto3" json:"isFirst,omitempty" form:"isFirst" query:"isFirst"`
+	IsFirst bool `protobuf:"varint,1,opt,name=isFirst,proto3" json:"isFirst" form:"isFirst" query:"isFirst"`
 }
 
 func (x *NewCommentResp) Reset() {
@@ -231,9 +231,9 @@ type GetCommentsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope,omitempty" form:"scope" query:"scope"`
-	Page  int64  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty" form:"page" query:"page"`
+	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope" form:"scope" query:"scope"`
+	Page  int64  `protobuf:"varint,3,opt,name=page,proto3" json:"page" form:"page" query:"page"`
 }
 
 func (x *GetCommentsReq) Reset() {
@@ -294,8 +294,8 @@ type GetCommentsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Comments []*Comment `protobuf:"bytes,1,rep,name=comments,proto3" json:"comments,omitempty" form:"comments" query:"comments"`
-	Total    int64      `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Comments []*Comment `protobuf:"bytes,1,rep,name=comments,proto3" json:"comments" form:"comments" query:"comments"`
+	Total    int64      `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *GetCommentsResp) Reset() {
@@ -349,7 +349,7 @@ type DeleteCommentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommentId string `protobuf:"bytes,1,opt,name=commentId,proto3" json:"commentId,omitempty" form:"commentId" query:"commentId"`
+	CommentId string `protobuf:"bytes,1,opt,name=commentId,proto3" json:"commentId" form:"commentId" query:"commentId"`
 }
 
 func (x *DeleteCommentReq) Reset() {

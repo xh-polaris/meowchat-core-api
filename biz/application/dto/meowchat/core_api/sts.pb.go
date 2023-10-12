@@ -25,8 +25,8 @@ type ApplySignedUrlReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Prefix *string `protobuf:"bytes,1,opt,name=prefix,proto3,oneof" json:"prefix,omitempty" form:"prefix" query:"prefix"`
-	Suffix *string `protobuf:"bytes,2,opt,name=suffix,proto3,oneof" json:"suffix,omitempty" form:"suffix" query:"suffix"`
+	Prefix *string `protobuf:"bytes,1,opt,name=prefix,proto3,oneof" json:"prefix" form:"prefix" query:"prefix"`
+	Suffix *string `protobuf:"bytes,2,opt,name=suffix,proto3,oneof" json:"suffix" form:"suffix" query:"suffix"`
 }
 
 func (x *ApplySignedUrlReq) Reset() {
@@ -80,8 +80,8 @@ type ApplySignedUrlResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url          string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty" form:"url" query:"url"`
-	SessionToken string `protobuf:"bytes,2,opt,name=sessionToken,proto3" json:"sessionToken,omitempty" form:"sessionToken" query:"sessionToken"`
+	Url          string `protobuf:"bytes,1,opt,name=url,proto3" json:"url" form:"url" query:"url"`
+	SessionToken string `protobuf:"bytes,2,opt,name=sessionToken,proto3" json:"sessionToken" form:"sessionToken" query:"sessionToken"`
 }
 
 func (x *ApplySignedUrlResp) Reset() {
@@ -135,9 +135,9 @@ type ApplySignedUrlAsCommunityReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Prefix      string `protobuf:"bytes,2,opt,name=prefix,proto3" json:"prefix,omitempty" form:"prefix" query:"prefix"`
-	Suffix      string `protobuf:"bytes,3,opt,name=suffix,proto3" json:"suffix,omitempty" form:"suffix" query:"suffix"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Prefix      string `protobuf:"bytes,2,opt,name=prefix,proto3" json:"prefix" form:"prefix" query:"prefix"`
+	Suffix      string `protobuf:"bytes,3,opt,name=suffix,proto3" json:"suffix" form:"suffix" query:"suffix"`
 }
 
 func (x *ApplySignedUrlAsCommunityReq) Reset() {
@@ -198,8 +198,8 @@ type ApplySignedUrlAsCommunityResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Url          string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty" form:"url" query:"url"`
-	SessionToken string `protobuf:"bytes,2,opt,name=sessionToken,proto3" json:"sessionToken,omitempty" form:"sessionToken" query:"sessionToken"`
+	Url          string `protobuf:"bytes,1,opt,name=url,proto3" json:"url" form:"url" query:"url"`
+	SessionToken string `protobuf:"bytes,2,opt,name=sessionToken,proto3" json:"sessionToken" form:"sessionToken" query:"sessionToken"`
 }
 
 func (x *ApplySignedUrlAsCommunityResp) Reset() {

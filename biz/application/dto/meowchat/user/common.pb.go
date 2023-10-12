@@ -86,9 +86,9 @@ type UserPreview struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Nickname  string `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname,omitempty" form:"nickname" query:"nickname"`
-	AvatarUrl string `protobuf:"bytes,3,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
+	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Nickname  string `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname" form:"nickname" query:"nickname"`
+	AvatarUrl string `protobuf:"bytes,3,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
 }
 
 func (x *UserPreview) Reset() {
@@ -149,10 +149,10 @@ type UserDetail struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	AvatarUrl string `protobuf:"bytes,2,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
-	Nickname  string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname,omitempty" form:"nickname" query:"nickname"`
-	Motto     string `protobuf:"bytes,4,opt,name=motto,proto3" json:"motto,omitempty" form:"motto" query:"motto"`
+	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	AvatarUrl string `protobuf:"bytes,2,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
+	Nickname  string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname" form:"nickname" query:"nickname"`
+	Motto     string `protobuf:"bytes,4,opt,name=motto,proto3" json:"motto" form:"motto" query:"motto"`
 }
 
 func (x *UserDetail) Reset() {
@@ -220,8 +220,8 @@ type Like struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId     string `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
-	AssociatedId string `protobuf:"bytes,2,opt,name=associatedId,proto3" json:"associatedId,omitempty" form:"associatedId" query:"associatedId"`
+	TargetId     string `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
+	AssociatedId string `protobuf:"bytes,2,opt,name=associatedId,proto3" json:"associatedId" form:"associatedId" query:"associatedId"`
 }
 
 func (x *Like) Reset() {
@@ -275,8 +275,8 @@ type ItemScore struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Score int64  `protobuf:"varint,2,opt,name=score,proto3" json:"score,omitempty" form:"score" query:"score"`
+	Id    string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Score int64  `protobuf:"varint,2,opt,name=score,proto3" json:"score" form:"score" query:"score"`
 }
 
 func (x *ItemScore) Reset() {

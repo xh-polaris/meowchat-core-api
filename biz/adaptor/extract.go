@@ -9,6 +9,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 )
@@ -53,6 +54,7 @@ func ExtractUserMeta(ctx context.Context, c *app.RequestContext) (user *basic.Us
 	if user.SessionDeviceId == "" {
 		user.SessionDeviceId = user.DeviceId
 	}
+	log.CtxInfo(ctx, "userMeta=%s", util.JSONF(user))
 	return
 }
 
@@ -64,5 +66,6 @@ func ExtractExtra(ctx context.Context, c *app.RequestContext) *basic.Extra {
 		log.CtxError(ctx, "extract extra fail, err=%v", err)
 		return nil
 	}
+	log.CtxInfo(ctx, "extra=%s", util.JSONF(extra))
 	return extra
 }

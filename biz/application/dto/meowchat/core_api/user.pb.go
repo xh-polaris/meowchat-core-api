@@ -28,14 +28,14 @@ type User struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Nickname  string `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname,omitempty" form:"nickname" query:"nickname"`
-	AvatarUrl string `protobuf:"bytes,3,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
-	Motto     string `protobuf:"bytes,4,opt,name=motto,proto3" json:"motto,omitempty" form:"motto" query:"motto"`
-	Follower  int64  `protobuf:"varint,5,opt,name=follower,proto3" json:"follower,omitempty" form:"follower" query:"follower"`
-	Following int64  `protobuf:"varint,6,opt,name=following,proto3" json:"following,omitempty" form:"following" query:"following"`
-	Article   int64  `protobuf:"varint,7,opt,name=article,proto3" json:"article,omitempty" form:"article" query:"article"`
-	Like      int64  `protobuf:"varint,8,opt,name=like,proto3" json:"like,omitempty" form:"like" query:"like"`
+	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Nickname  string `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname" form:"nickname" query:"nickname"`
+	AvatarUrl string `protobuf:"bytes,3,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
+	Motto     string `protobuf:"bytes,4,opt,name=motto,proto3" json:"motto" form:"motto" query:"motto"`
+	Follower  int64  `protobuf:"varint,5,opt,name=follower,proto3" json:"follower" form:"follower" query:"follower"`
+	Following int64  `protobuf:"varint,6,opt,name=following,proto3" json:"following" form:"following" query:"following"`
+	Article   int64  `protobuf:"varint,7,opt,name=article,proto3" json:"article" form:"article" query:"article"`
+	Like      int64  `protobuf:"varint,8,opt,name=like,proto3" json:"like" form:"like" query:"like"`
 }
 
 func (x *User) Reset() {
@@ -131,8 +131,8 @@ type UserPreviewWithRole struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User  *user.UserPreview `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
-	Roles []*system.Role    `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles,omitempty" form:"roles" query:"roles"`
+	User  *user.UserPreview `protobuf:"bytes,1,opt,name=user,proto3" json:"user" form:"user" query:"user"`
+	Roles []*system.Role    `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles" form:"roles" query:"roles"`
 }
 
 func (x *UserPreviewWithRole) Reset() {
@@ -186,7 +186,7 @@ type GetUserInfoReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId *string `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId,omitempty" form:"userId" query:"userId"`
+	UserId *string `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId" form:"userId" query:"userId"`
 }
 
 func (x *GetUserInfoReq) Reset() {
@@ -233,8 +233,8 @@ type GetUserInfoResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User        *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
-	EnableDebug bool  `protobuf:"varint,2,opt,name=enableDebug,proto3" json:"enableDebug,omitempty" form:"enableDebug" query:"enableDebug"`
+	User        *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user" form:"user" query:"user"`
+	EnableDebug bool  `protobuf:"varint,2,opt,name=enableDebug,proto3" json:"enableDebug" form:"enableDebug" query:"enableDebug"`
 }
 
 func (x *GetUserInfoResp) Reset() {
@@ -288,9 +288,9 @@ type UpdateUserInfoReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AvatarUrl *string `protobuf:"bytes,1,opt,name=avatarUrl,proto3,oneof" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
-	Nickname  *string `protobuf:"bytes,2,opt,name=nickname,proto3,oneof" json:"nickname,omitempty" form:"nickname" query:"nickname"`
-	Motto     *string `protobuf:"bytes,3,opt,name=motto,proto3,oneof" json:"motto,omitempty" form:"motto" query:"motto"`
+	AvatarUrl *string `protobuf:"bytes,1,opt,name=avatarUrl,proto3,oneof" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
+	Nickname  *string `protobuf:"bytes,2,opt,name=nickname,proto3,oneof" json:"nickname" form:"nickname" query:"nickname"`
+	Motto     *string `protobuf:"bytes,3,opt,name=motto,proto3,oneof" json:"motto" form:"motto" query:"motto"`
 }
 
 func (x *UpdateUserInfoReq) Reset() {
@@ -389,8 +389,8 @@ type SearchUserReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Keyword          string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty" form:"keyword" query:"keyword"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
+	Keyword          string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword" form:"keyword" query:"keyword"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
 }
 
 func (x *SearchUserReq) Reset() {
@@ -444,9 +444,9 @@ type SearchUserResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
-	Total int64               `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
-	Token string              `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty" form:"token" query:"token"`
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
+	Total int64               `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
+	Token string              `protobuf:"bytes,3,opt,name=token,proto3" json:"token" form:"token" query:"token"`
 }
 
 func (x *SearchUserResp) Reset() {
@@ -507,8 +507,8 @@ type SearchUserForAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Keyword          string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty" form:"keyword" query:"keyword"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
+	Keyword          string                   `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword" form:"keyword" query:"keyword"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
 }
 
 func (x *SearchUserForAdminReq) Reset() {
@@ -562,9 +562,9 @@ type SearchUserForAdminResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*UserPreviewWithRole `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
-	Total int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
-	Token string                 `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty" form:"token" query:"token"`
+	Users []*UserPreviewWithRole `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
+	Total int64                  `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
+	Token string                 `protobuf:"bytes,3,opt,name=token,proto3" json:"token" form:"token" query:"token"`
 }
 
 func (x *SearchUserForAdminResp) Reset() {

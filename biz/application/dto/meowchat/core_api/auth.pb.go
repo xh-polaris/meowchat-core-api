@@ -26,12 +26,12 @@ type SignInReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AuthType   string    `protobuf:"bytes,1,opt,name=authType,proto3" json:"authType,omitempty" form:"authType" query:"authType"`
-	AuthId     string    `protobuf:"bytes,2,opt,name=authId,proto3" json:"authId,omitempty" form:"authId" query:"authId"` // authType为邮件时填邮箱，为电话时填电话号，为微信时填APP_ID
-	Password   *string   `protobuf:"bytes,3,opt,name=password,proto3,oneof" json:"password,omitempty" form:"password" query:"password"`
-	VerifyCode *string   `protobuf:"bytes,4,opt,name=verifyCode,proto3,oneof" json:"verifyCode,omitempty" form:"verifyCode" query:"verifyCode"`
-	AppId      basic.APP `protobuf:"varint,5,opt,name=appId,proto3,enum=basic.APP" json:"appId,omitempty" form:"appId" query:"appId"`
-	DeviceId   string    `protobuf:"bytes,6,opt,name=deviceId,proto3" json:"deviceId,omitempty" form:"deviceId" query:"deviceId"`
+	AuthType   string    `protobuf:"bytes,1,opt,name=authType,proto3" json:"authType" form:"authType" query:"authType"`
+	AuthId     string    `protobuf:"bytes,2,opt,name=authId,proto3" json:"authId" form:"authId" query:"authId"` // authType为邮件时填邮箱，为电话时填电话号，为微信时填APP_ID
+	Password   *string   `protobuf:"bytes,3,opt,name=password,proto3,oneof" json:"password" form:"password" query:"password"`
+	VerifyCode *string   `protobuf:"bytes,4,opt,name=verifyCode,proto3,oneof" json:"verifyCode" form:"verifyCode" query:"verifyCode"`
+	AppId      basic.APP `protobuf:"varint,5,opt,name=appId,proto3,enum=basic.APP" json:"appId" form:"appId" query:"appId"`
+	DeviceId   string    `protobuf:"bytes,6,opt,name=deviceId,proto3" json:"deviceId" form:"deviceId" query:"deviceId"`
 }
 
 func (x *SignInReq) Reset() {
@@ -113,10 +113,10 @@ type SignInResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId       string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
-	AccessToken  string `protobuf:"bytes,2,opt,name=accessToken,proto3" json:"accessToken,omitempty" form:"accessToken" query:"accessToken"`
-	AccessExpire int64  `protobuf:"varint,3,opt,name=accessExpire,proto3" json:"accessExpire,omitempty" form:"accessExpire" query:"accessExpire"`
-	IsFirst      bool   `protobuf:"varint,4,opt,name=isFirst,proto3" json:"isFirst,omitempty" form:"isFirst" query:"isFirst"`
+	UserId       string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
+	AccessToken  string `protobuf:"bytes,2,opt,name=accessToken,proto3" json:"accessToken" form:"accessToken" query:"accessToken"`
+	AccessExpire int64  `protobuf:"varint,3,opt,name=accessExpire,proto3" json:"accessExpire" form:"accessExpire" query:"accessExpire"`
+	IsFirst      bool   `protobuf:"varint,4,opt,name=isFirst,proto3" json:"isFirst" form:"isFirst" query:"isFirst"`
 }
 
 func (x *SignInResp) Reset() {
@@ -184,7 +184,7 @@ type SetPasswordReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Password string `protobuf:"bytes,1,opt,name=password,proto3" json:"password,omitempty" form:"password" query:"password"`
+	Password string `protobuf:"bytes,1,opt,name=password,proto3" json:"password" form:"password" query:"password"`
 }
 
 func (x *SetPasswordReq) Reset() {
@@ -269,8 +269,8 @@ type SendVerifyCodeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AuthType string `protobuf:"bytes,1,opt,name=authType,proto3" json:"authType,omitempty" form:"authType" query:"authType"`
-	AuthId   string `protobuf:"bytes,2,opt,name=authId,proto3" json:"authId,omitempty" form:"authId" query:"authId"` // authType为邮件时填邮箱，为电话时填电话号
+	AuthType string `protobuf:"bytes,1,opt,name=authType,proto3" json:"authType" form:"authType" query:"authType"`
+	AuthId   string `protobuf:"bytes,2,opt,name=authId,proto3" json:"authId" form:"authId" query:"authId"` // authType为邮件时填邮箱，为电话时填电话号
 }
 
 func (x *SendVerifyCodeReq) Reset() {
