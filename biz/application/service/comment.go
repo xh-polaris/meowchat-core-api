@@ -42,11 +42,11 @@ var CommentServiceSet = wire.NewSet(
 func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetCommentsReq) (*core_api.GetCommentsResp, error) {
 	resp := new(core_api.GetCommentsResp)
 
-	data, err := s.Comment.ListCommentByParent(ctx, &gencomment.ListCommentByParentReq{
-		ParentId: req.Id,
-		Type:     req.Scope,
-		Skip:     req.Page * pageSize,
-		Limit:    pageSize,
+	data, err := s.Comment.ListCommentByParentOrFirstLevelId(ctx, &gencomment.ListCommentByParentOrFirstLevelIdReq{
+		Id:    req.Id,
+		Type:  req.Scope,
+		Skip:  req.Page * pageSize,
+		Limit: pageSize,
 	})
 	if err != nil {
 		return nil, err
@@ -83,11 +83,11 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 		// 子评论数量
 		// TODO count rpc
 		count := 0
-		children, err := s.Comment.ListCommentByParent(ctx, &gencomment.ListCommentByParentReq{
-			Type:     "comment",
-			ParentId: comment.Id,
-			Skip:     0,
-			Limit:    9999,
+		children, err := s.Comment.ListCommentByParentOrFirstLevelId(ctx, &gencomment.ListCommentByParentOrFirstLevelIdReq{
+			Type:  "comment",
+			Id:    comment.Id,
+			Skip:  0,
+			Limit: 9999,
 		})
 		if children != nil && err == nil {
 			count = len(children.Comments)
@@ -108,7 +108,6 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 
 func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error) {
 	resp := new(core_api.NewCommentResp)
-
 	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
 		Text:  req.Text,
 		User:  user,
@@ -133,11 +132,12 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	}
 
 	data, err := s.Comment.CreateComment(ctx, &gencomment.CreateCommentReq{
-		Text:     req.Text,
-		AuthorId: user.UserId,
-		ReplyTo:  replyToId,
-		Type:     req.Scope,
-		ParentId: *req.Id,
+		Text:         req.Text,
+		FirstLevelId: req.FirstLevelId,
+		AuthorId:     user.UserId,
+		ReplyTo:      replyToId,
+		Type:         req.Scope,
+		ParentId:     *req.Id,
 	})
 	if err != nil {
 		return nil, err

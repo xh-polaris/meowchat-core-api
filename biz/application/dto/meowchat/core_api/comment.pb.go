@@ -121,9 +121,10 @@ type NewCommentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id    *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
-	Text  string  `protobuf:"bytes,2,opt,name=text,proto3" json:"text" form:"text" query:"text"`
-	Scope string  `protobuf:"bytes,3,opt,name=scope,proto3" json:"scope" form:"scope" query:"scope"`
+	Id           *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
+	FirstLevelId string  `protobuf:"bytes,2,opt,name=firstLevelId,proto3" json:"firstLevelId" form:"firstLevelId" query:"firstLevelId"`
+	Text         string  `protobuf:"bytes,3,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	Scope        string  `protobuf:"bytes,4,opt,name=scope,proto3" json:"scope" form:"scope" query:"scope"`
 }
 
 func (x *NewCommentReq) Reset() {
