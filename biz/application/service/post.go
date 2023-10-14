@@ -5,36 +5,34 @@ import (
 	"net/url"
 
 	"github.com/google/wire"
+	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
-	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
-	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
-	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
+	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 )
 
 type IPostService interface {
 	DeletePost(ctx context.Context, req *core_api.DeletePostReq) (*core_api.DeletePostResp, error)
-	GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq) (*core_api.GetPostDetailResp, error)
+	GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetPostDetailResp, error)
 	GetPostPreviews(ctx context.Context, req *core_api.GetPostPreviewsReq) (*core_api.GetPostPreviewsResp, error)
-	NewPost(ctx context.Context, req *core_api.NewPostReq, user *basic.UserMeta) (*core_api.NewPostResp, error)
+	NewPost(ctx context.Context, req *core_api.NewPostReq, user *genbasic.UserMeta) (*core_api.NewPostResp, error)
 	SetOfficial(ctx context.Context, req *core_api.SetOfficialReq) (*core_api.SetOfficialResp, error)
 }
 
 type PostService struct {
-	Config  *config.Config
-	Content meowchat_content.IMeowchatContent
-	User    meowchat_user.IMeowchatUser
-	Comment platform_comment.IPlatformCommment
-	Sts     platform_sts.IPlatformSts
+	Config            *config.Config
+	PostDomainService service.IPostDomainService
+	MeowchatContent   meowchat_content.IMeowchatContent
+	PlatformSts       platform_sts.IPlatformSts
 }
 
 var PostServiceSet = wire.NewSet(
@@ -45,7 +43,7 @@ var PostServiceSet = wire.NewSet(
 func (s *PostService) DeletePost(ctx context.Context, req *core_api.DeletePostReq) (*core_api.DeletePostResp, error) {
 	resp := new(core_api.DeletePostResp)
 
-	_, err := s.Content.DeletePost(ctx, &content.DeletePostReq{
+	_, err := s.MeowchatContent.DeletePost(ctx, &content.DeletePostReq{
 		Id: req.Id,
 	})
 	if err != nil {
@@ -55,42 +53,84 @@ func (s *PostService) DeletePost(ctx context.Context, req *core_api.DeletePostRe
 	return resp, nil
 }
 
-func (s *PostService) GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq) (*core_api.GetPostDetailResp, error) {
+func (s *PostService) GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetPostDetailResp, error) {
 	resp := new(core_api.GetPostDetailResp)
 
-	data, err := s.Content.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.PostId})
+	data, err := s.MeowchatContent.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.PostId})
 	if err != nil {
 		return nil, err
 	}
 
-	respPost, _ := s.toRespPost(ctx, data.Post)
-	resp.Post = &respPost
-
+	p := &core_api.Post{
+		Id:         data.Post.Id,
+		CreateAt:   data.Post.CreateAt,
+		Title:      data.Post.Title,
+		Text:       data.Post.Text,
+		CoverUrl:   lo.EmptyableToPtr(data.Post.CoverUrl),
+		Tags:       data.Post.Tags,
+		IsOfficial: data.Post.IsOfficial,
+	}
+	util.ParallelRun([]func(){
+		func() {
+			_ = s.PostDomainService.LoadAuthor(ctx, p, data.Post.UserId)
+		},
+		func() {
+			_ = s.PostDomainService.LoadLikeCount(ctx, p)
+		},
+		func() {
+			_ = s.PostDomainService.LoadCommentCount(ctx, p)
+		},
+		func() {
+			_ = s.PostDomainService.LoadIsCurrentUserLiked(ctx, p, userMeta.UserId)
+		},
+	})
+	resp.Post = p
 	return resp, nil
 }
 
 func (s *PostService) GetPostPreviews(ctx context.Context, req *core_api.GetPostPreviewsReq) (*core_api.GetPostPreviewsResp, error) {
 	resp := new(core_api.GetPostPreviewsResp)
 
-	data, err := s.Content.ListPost(ctx, s.makeRequest(req))
+	data, err := s.MeowchatContent.ListPost(ctx, s.makeRequest(req))
 	if err != nil {
 		return nil, err
 	}
 	resp.Total = data.Total
-	resp.Posts = make([]*core_api.Post, len(data.Posts))
-	for i, val := range data.Posts {
-		respPost, _ := s.toRespPost(ctx, val)
-		resp.Posts[i] = &respPost
-	}
 	resp.Token = data.Token
+	resp.Posts = make([]*core_api.Post, len(data.Posts))
+	util.ParallelRun(lo.Map(data.Posts, func(val *content.Post, i int) func() {
+		return func() {
+			p := &core_api.Post{
+				Id:         data.Posts[i].Id,
+				CreateAt:   data.Posts[i].CreateAt,
+				Title:      data.Posts[i].Title,
+				Text:       data.Posts[i].Text,
+				CoverUrl:   lo.EmptyableToPtr(data.Posts[i].CoverUrl),
+				Tags:       data.Posts[i].Tags,
+				IsOfficial: data.Posts[i].IsOfficial,
+			}
+			util.ParallelRun([]func(){
+				func() {
+					_ = s.PostDomainService.LoadAuthor(ctx, p, data.Posts[i].UserId)
+				},
+				func() {
+					_ = s.PostDomainService.LoadLikeCount(ctx, p)
+				},
+				func() {
+					_ = s.PostDomainService.LoadCommentCount(ctx, p)
+				},
+			})
+			resp.Posts[i] = p
+		}
+	}))
 
 	return resp, nil
 }
 
-func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, user *basic.UserMeta) (*core_api.NewPostResp, error) {
+func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, user *genbasic.UserMeta) (*core_api.NewPostResp, error) {
 	resp := new(core_api.NewPostResp)
 
-	r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+	r, err := s.PlatformSts.TextCheck(ctx, &sts.TextCheckReq{
 		Text:  req.Text,
 		User:  user,
 		Scene: 2,
@@ -103,36 +143,32 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 		return nil, errors.NewBizError(10001, "TextCheck don't pass")
 	}
 
-	var u *url.URL
-	u, err = url.Parse(req.CoverUrl)
-	if err != nil {
-		return resp, err
-	}
-	u.Host = s.Config.CdnHost
-	req.CoverUrl = u.String()
+	if req.GetCoverUrl() != "" {
+		var u *url.URL
+		u, err = url.Parse(req.GetCoverUrl())
+		if err != nil {
+			return resp, err
+		}
+		u.Host = s.Config.CdnHost
+		req.CoverUrl = lo.ToPtr(u.String())
 
-	var i = []string{req.CoverUrl}
-
-	res, err := s.Sts.PhotoCheck(ctx, &sts.PhotoCheckReq{
-		User: user,
-		Url:  i,
-	})
-	if err != nil {
-		return nil, err
-	}
-	if res.Pass == false {
-		return nil, errors.NewBizError(10002, "PhotoCheck don't pass")
-	}
-
-	if err != nil {
-		return nil, err
+		res, err := s.PlatformSts.PhotoCheck(ctx, &sts.PhotoCheckReq{
+			User: user,
+			Url:  []string{req.GetCoverUrl()},
+		})
+		if err != nil {
+			return nil, err
+		}
+		if res.Pass == false {
+			return nil, errors.NewBizError(10002, "PhotoCheck don't pass")
+		}
 	}
 
-	if *req.Id == "" {
-		res, err := s.Content.CreatePost(ctx, &content.CreatePostReq{
+	if req.GetId() == "" {
+		res, err := s.MeowchatContent.CreatePost(ctx, &content.CreatePostReq{
 			Title:    req.Title,
 			Text:     req.Text,
-			CoverUrl: req.CoverUrl,
+			CoverUrl: req.GetCoverUrl(),
 			Tags:     req.Tags,
 			UserId:   user.UserId,
 		})
@@ -140,7 +176,7 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 			return nil, err
 		}
 		if res.GetGetFish() == true {
-			_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
+			_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 				UserId: user.UserId,
 				Fish:   s.Config.Fish.Content,
 			})
@@ -149,11 +185,11 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 		resp.GetFishTimes = res.GetFishTimes
 		resp.PostId = res.PostId
 	} else {
-		_, err = s.Content.UpdatePost(ctx, &content.UpdatePostReq{
+		_, err = s.MeowchatContent.UpdatePost(ctx, &content.UpdatePostReq{
 			Id:       *req.Id,
 			Title:    req.Title,
 			Text:     req.Text,
-			CoverUrl: req.CoverUrl,
+			CoverUrl: req.GetCoverUrl(),
 			Tags:     req.Tags,
 		})
 		if err != nil {
@@ -169,7 +205,7 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 
 func (s *PostService) SetOfficial(ctx context.Context, req *core_api.SetOfficialReq) (*core_api.SetOfficialResp, error) {
 	resp := new(core_api.SetOfficialResp)
-	_, err := s.Content.SetOfficial(ctx, &content.SetOfficialReq{
+	_, err := s.MeowchatContent.SetOfficial(ctx, &content.SetOfficialReq{
 		PostId:   req.PostId,
 		IsRemove: *req.IsRemove,
 	})
@@ -202,7 +238,13 @@ func (s *PostService) makeRequest(req *core_api.GetPostPreviewsReq) *content.Lis
 			}
 		}
 	}
-	r.PaginationOptions = &basic.PaginationOptions{
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic.PaginationOptions{}
+	}
+	if req.PaginationOption.Limit == nil {
+		req.PaginationOption.Limit = lo.ToPtr[int64](10)
+	}
+	r.PaginationOptions = &genbasic.PaginationOptions{
 		Offset:    req.PaginationOption.Offset,
 		Limit:     req.PaginationOption.Limit,
 		Backward:  req.PaginationOption.Backward,
@@ -214,46 +256,4 @@ func (s *PostService) makeRequest(req *core_api.GetPostPreviewsReq) *content.Lis
 	}
 
 	return r
-}
-
-func (s *PostService) toRespPost(ctx context.Context, post *content.Post) (resp core_api.Post, err error) {
-	resp = core_api.Post{
-		Id:         post.Id,
-		CreateAt:   post.CreateAt,
-		Title:      post.Title,
-		Text:       post.Text,
-		CoverUrl:   post.CoverUrl,
-		Tags:       post.Tags,
-		IsOfficial: post.IsOfficial,
-	}
-
-	// user preview
-	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: post.UserId})
-	if user != nil && err == nil {
-		resp.User = &user1.UserPreview{
-			Id:        post.UserId,
-			Nickname:  user.User.Nickname,
-			AvatarUrl: user.User.AvatarUrl,
-		}
-	}
-
-	// likes
-	likes, err := s.User.GetTargetLikes(ctx, &genuser.GetTargetLikesReq{
-		TargetId: post.Id,
-		Type:     genuser.LikeType_Post,
-	})
-	if likes != nil && err == nil {
-		resp.Likes = likes.Count
-	}
-
-	// comments
-	data, err := s.Comment.CountCommentByParent(ctx, &gencomment.CountCommentByParentReq{
-		Type:     "post",
-		ParentId: post.Id,
-	})
-	if err == nil {
-		resp.Comments = data.Total
-	}
-
-	return
 }

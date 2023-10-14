@@ -385,3 +385,28 @@ func _listfishbyplanMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _prefetchMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _notificationMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _cleannotificationMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _countnotificationMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _listnotificationMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

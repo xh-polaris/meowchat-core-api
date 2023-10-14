@@ -2,12 +2,14 @@ package service
 
 import (
 	"context"
+	"net/url"
+
 	"github.com/google/wire"
 	"github.com/xh-polaris/gopkg/errors"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
-	"net/url"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 
 	"github.com/jinzhu/copier"
 	gencontent "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
@@ -23,7 +25,6 @@ type ICollectionService interface {
 	GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error)
 	GetCatDetail(ctx context.Context, req *core_api.GetCatDetailReq) (*core_api.GetCatDetailResp, error)
 	NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error)
-	SearchCat(ctx context.Context, req *core_api.SearchCatReq) (*core_api.SearchCatResp, error)
 	DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error)
 	CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *basic.UserMeta) (*core_api.CreateImageResp, error)
 	DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error)
@@ -44,25 +45,49 @@ var CollectionServiceSet = wire.NewSet(
 func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error) {
 	resp := new(core_api.GetCatPreviewsResp)
 	pageSize := consts.DefaultPageSize
-	data, err := s.Collection.ListCat(ctx, &gencontent.ListCatReq{
-		CommunityId: req.CommunityId,
-		Count:       pageSize,
-		Skip:        req.Page * pageSize,
-	})
-	if err != nil {
-		return nil, err
-	}
-	resp.Total = data.Total
-	resp.Cats = make([]*core_api.CatPreview, 0, pageSize)
-	err = copier.Copy(&resp.Cats, data.Cats)
-	for i := 0; i < len(resp.Cats); i++ {
-		if len(data.Cats[i].Avatars) > 0 {
-			resp.Cats[i].AvatarUrl = data.Cats[i].Avatars[0]
+	if req.GetKeyword() == "" {
+		data, err := s.Collection.ListCat(ctx, &gencontent.ListCatReq{
+			CommunityId: req.CommunityId,
+			Count:       pageSize,
+			Skip:        *req.PaginationOption.Page * pageSize,
+		})
+		if err != nil {
+			return nil, err
+		}
+		resp.Total = data.Total
+		resp.Cats = make([]*core_api.CatPreview, 0, pageSize)
+		err = copier.Copy(&resp.Cats, data.Cats)
+		if err != nil {
+			return nil, err
+		}
+		for i := 0; i < len(resp.Cats); i++ {
+			if len(data.Cats[i].Avatars) > 0 {
+				resp.Cats[i].AvatarUrl = data.Cats[i].Avatars[0]
+			}
+		}
+	} else {
+		data, err := s.Collection.SearchCat(ctx, &gencontent.SearchCatReq{
+			CommunityId: req.CommunityId,
+			Count:       pageSize,
+			Skip:        *req.PaginationOption.Page * pageSize,
+			Keyword:     req.GetKeyword(),
+		})
+		if err != nil {
+			return nil, err
+		}
+		resp.Total = data.Total
+		resp.Cats = make([]*core_api.CatPreview, 0, pageSize)
+		err = copier.Copy(&resp.Cats, data.Cats)
+		if err != nil {
+			return nil, err
+		}
+		for i := 0; i < len(resp.Cats); i++ {
+			if len(data.Cats[i].Avatars) > 0 {
+				resp.Cats[i].AvatarUrl = data.Cats[i].Avatars[0]
+			}
 		}
 	}
-	if err != nil {
-		return nil, err
-	}
+
 	return resp, nil
 }
 
@@ -115,32 +140,6 @@ func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq)
 			return nil, err
 		}
 		resp.CatId = cat.Id
-	}
-
-	return resp, nil
-}
-
-func (s *CollectionService) SearchCat(ctx context.Context, req *core_api.SearchCatReq) (*core_api.SearchCatResp, error) {
-	resp := new(core_api.SearchCatResp)
-	data, err := s.Collection.SearchCat(ctx, &gencontent.SearchCatReq{
-		CommunityId: req.CommunityId,
-		Count:       consts.DefaultPageSize,
-		Skip:        req.GetPaginationOption().GetPage() * consts.DefaultPageSize,
-		Keyword:     req.Keyword,
-	})
-	if err != nil {
-		return nil, err
-	}
-	resp.Total = data.Total
-	resp.Cats = make([]*core_api.CatPreview, 0, consts.DefaultPageSize)
-	err = copier.Copy(&resp.Cats, data.Cats)
-	for i := 0; i < len(resp.Cats); i++ {
-		if len(data.Cats[i].Avatars) > 0 {
-			resp.Cats[i].AvatarUrl = data.Cats[i].Avatars[0]
-		}
-	}
-	if err != nil {
-		return nil, err
 	}
 
 	return resp, nil

@@ -2,36 +2,41 @@ package service
 
 import (
 	"context"
-	"github.com/google/wire"
-	"github.com/jinzhu/copier"
-	"github.com/xh-polaris/gopkg/errors"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 	"net/url"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
-	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/google/wire"
+	"github.com/jinzhu/copier"
+	"github.com/samber/lo"
+	"github.com/xh-polaris/gopkg/errors"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
-	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
+	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 )
 
 type IMomentService interface {
 	DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error)
-	GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq) (*core_api.GetMomentDetailResp, error)
+	GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetMomentDetailResp, error)
 	GetMomentPreviews(ctx context.Context, req *core_api.GetMomentPreviewsReq) (*core_api.GetMomentPreviewsResp, error)
-	NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *basic.UserMeta) (*core_api.NewMomentResp, error)
-	SearchMoment(ctx context.Context, req *core_api.SearchMomentReq) (*core_api.SearchMomentResp, error)
+	NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *genbasic.UserMeta) (*core_api.NewMomentResp, error)
 }
 
 type MomentService struct {
-	Config *config.Config
-	Moment meowchat_content.IMeowchatContent
-	User   meowchat_user.IMeowchatUser
-	Sts    platform_sts.IPlatformSts
+	Config              *config.Config
+	MomentDomainService service.IMomentDomainService
+	MeowchatContent     meowchat_content.IMeowchatContent
+	MeowchatUser        meowchat_user.IMeowchatUser
+	PlatformCommment    platform_comment.IPlatformCommment
+	PlatformSts         platform_sts.IPlatformSts
 }
 
 var MomentServiceSet = wire.NewSet(
@@ -43,7 +48,7 @@ var PageSize int64 = 10
 
 func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error) {
 	resp := new(core_api.DeleteMomentResp)
-	_, err := s.Moment.DeleteMoment(ctx, &content.DeleteMomentReq{
+	_, err := s.MeowchatContent.DeleteMoment(ctx, &content.DeleteMomentReq{
 		MomentId: req.MomentId,
 	})
 	if err != nil {
@@ -53,9 +58,9 @@ func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMo
 	return resp, nil
 }
 
-func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq) (*core_api.GetMomentDetailResp, error) {
+func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetMomentDetailResp, error) {
 	resp := new(core_api.GetMomentDetailResp)
-	data, err := s.Moment.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.MomentId})
+	data, err := s.MeowchatContent.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.MomentId})
 	if err != nil {
 		return nil, err
 	}
@@ -66,14 +71,26 @@ func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMo
 		return nil, err
 	}
 
-	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moment.UserId})
-	if err == nil {
-		resp.Moment.User = &user1.UserPreview{
-			Id:        user.User.Id,
-			Nickname:  user.User.Nickname,
-			AvatarUrl: user.User.AvatarUrl,
-		}
-	}
+	util.ParallelRun([]func(){
+		func() {
+			if data.Moment.GetCatId() != "" {
+				_ = s.MomentDomainService.LoadCats(ctx, resp.Moment, []string{data.Moment.GetCatId()})
+			}
+		},
+		func() {
+			_ = s.MomentDomainService.LoadAuthor(ctx, resp.Moment, data.Moment.UserId)
+		},
+		func() {
+			_ = s.MomentDomainService.LoadLikeCount(ctx, resp.Moment)
+		},
+		func() {
+			_ = s.MomentDomainService.LoadCommentCount(ctx, resp.Moment)
+		},
+		func() {
+			_ = s.MomentDomainService.LoadIsCurrentUserLiked(ctx, resp.Moment, userMeta.UserId)
+		},
+	})
+
 	return resp, nil
 }
 
@@ -81,53 +98,75 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 	resp := new(core_api.GetMomentPreviewsResp)
 	var data *content.ListMomentResp
 
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic.PaginationOptions{}
+	}
 	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
+		req.PaginationOption.Limit = lo.ToPtr[int64](10)
 	}
 	request := &content.ListMomentReq{
 		FilterOptions: &content.MomentFilterOptions{
 			OnlyUserId:      req.OnlyUserId,
 			OnlyCommunityId: req.CommunityId,
 		},
-		PaginationOptions: &basic.PaginationOptions{
-			Offset:    new(int64),
+		PaginationOptions: &genbasic.PaginationOptions{
 			Limit:     req.PaginationOption.Limit,
 			Backward:  req.PaginationOption.Backward,
 			LastToken: req.PaginationOption.LastToken,
 		},
 	}
-	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
-	data, err := s.Moment.ListMoment(ctx, request)
+	if req.GetKeyword() != "" {
+		request.SearchOptions = &content.SearchOptions{
+			Type: &content.SearchOptions_AllFieldsKey{AllFieldsKey: req.GetKeyword()},
+		}
+	}
+	if req.PaginationOption.LastToken == nil {
+		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
+	}
+	data, err := s.MeowchatContent.ListMoment(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
 	resp.Total = data.Total
-	resp.Moments = make([]*core_api.Moment, 0, pageSize)
+	resp.Token = data.Token
+	resp.Moments = make([]*core_api.Moment, 0, req.PaginationOption.GetLimit())
 	err = copier.Copy(&resp.Moments, data.Moments)
 	if err != nil {
 		return nil, err
 	}
 
-	for i := 0; i < len(data.Moments); i++ {
-		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moments[i].UserId})
-		if err == nil {
-			resp.Moments[i].User = &user1.UserPreview{
-				Id:        user.User.Id,
-				Nickname:  user.User.Nickname,
-				AvatarUrl: user.User.AvatarUrl,
-			}
+	// 并发获取额外信息
+	util.ParallelRun(lo.Map(data.Moments, func(moment *content.Moment, i int) func() {
+		return func() {
+			// 并发获取用户信息、点赞数、评论数
+			util.ParallelRun([]func(){
+				func() {
+					_ = s.MomentDomainService.LoadAuthor(ctx, resp.Moments[i], moment.UserId)
+				},
+				func() {
+					_ = s.MomentDomainService.LoadLikeCount(ctx, resp.Moments[i])
+				},
+				func() {
+					_ = s.MomentDomainService.LoadCommentCount(ctx, resp.Moments[i])
+				},
+				func() {
+					if moment.GetCatId() != "" {
+						_ = s.MomentDomainService.LoadCats(ctx, resp.Moments[i], []string{moment.GetCatId()})
+					}
+				},
+			})
 		}
-	}
+	}))
 	return resp, nil
 }
 
-func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *basic.UserMeta) (*core_api.NewMomentResp, error) {
+func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *genbasic.UserMeta) (*core_api.NewMomentResp, error) {
 	resp := new(core_api.NewMomentResp)
 	m := new(content.Moment)
 
 	if req.GetText()+req.GetTitle() != "" {
-		r, err := s.Sts.TextCheck(ctx, &sts.TextCheckReq{
+		r, err := s.PlatformSts.TextCheck(ctx, &sts.TextCheckReq{
 			Text:  req.GetText() + req.GetTitle(),
 			User:  user,
 			Scene: 2,
@@ -152,7 +191,7 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 		req.Photos[i] = u.String()
 		urls[i] = req.Photos[i]
 	}
-	res, err := s.Sts.PhotoCheck(ctx, &sts.PhotoCheckReq{
+	res, err := s.PlatformSts.PhotoCheck(ctx, &sts.PhotoCheckReq{
 		User: user,
 		Url:  urls,
 	})
@@ -172,10 +211,10 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 
 	if req.GetId() == "" {
 		var data *content.CreateMomentResp
-		data, err = s.Moment.CreateMoment(ctx, &content.CreateMomentReq{Moment: m})
+		data, err = s.MeowchatContent.CreateMoment(ctx, &content.CreateMomentReq{Moment: m})
 		resp.MomentId = data.MomentId
 		if data.GetGetFish() == true {
-			_, err = s.Moment.AddUserFish(ctx, &content.AddUserFishReq{
+			_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 				UserId: user.UserId,
 				Fish:   s.Config.Fish.Content,
 			})
@@ -183,7 +222,7 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 		resp.GetFish = data.GetFish
 		resp.GetFishTimes = data.GetFishTimes
 	} else {
-		_, err = s.Moment.UpdateMoment(ctx, &content.UpdateMomentReq{Moment: m})
+		_, err = s.MeowchatContent.UpdateMoment(ctx, &content.UpdateMomentReq{Moment: m})
 		resp.MomentId = *req.Id
 		resp.GetFish = false
 		resp.GetFishTimes = 0
@@ -194,50 +233,4 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 	}
 
 	return resp, nil
-}
-
-func (s *MomentService) SearchMoment(ctx context.Context, req *core_api.SearchMomentReq) (*core_api.SearchMomentResp, error) {
-	resp := new(core_api.SearchMomentResp)
-	var data *content.ListMomentResp
-
-	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
-	}
-	request := &content.ListMomentReq{
-		SearchOptions: &content.SearchOptions{Type: &content.SearchOptions_AllFieldsKey{AllFieldsKey: *req.Keyword}},
-		FilterOptions: &content.MomentFilterOptions{
-			OnlyUserId:      req.OnlyUserId,
-			OnlyCommunityId: req.CommunityId,
-		},
-		PaginationOptions: &basic.PaginationOptions{
-			Offset:    new(int64),
-			Limit:     req.PaginationOption.Limit,
-			Backward:  req.PaginationOption.Backward,
-			LastToken: req.PaginationOption.LastToken,
-		},
-	}
-	*request.PaginationOptions.Offset = *req.PaginationOption.Limit * *req.PaginationOption.Page
-	data, err := s.Moment.ListMoment(ctx, request)
-	if err != nil {
-		return nil, err
-	}
-
-	resp.Total = data.Total
-	resp.Moments = make([]*core_api.Moment, 0, PageSize)
-	err = copier.Copy(&resp.Moments, data.Moments)
-	if err != nil {
-		return nil, err
-	}
-
-	for i := 0; i < len(data.Moments); i++ {
-		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Moments[i].UserId})
-		if err == nil {
-			resp.Moments[i].User = &user1.UserPreview{
-				Id:        user.User.Id,
-				Nickname:  user.User.Nickname,
-				AvatarUrl: user.User.AvatarUrl,
-			}
-		}
-	}
-	return resp, err
 }

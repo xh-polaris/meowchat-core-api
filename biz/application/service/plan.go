@@ -2,21 +2,26 @@ package service
 
 import (
 	"context"
+	"net/url"
+
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
+	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
-	"net/url"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
+
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
-	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 )
 
 type IPlanService interface {
@@ -24,7 +29,6 @@ type IPlanService interface {
 	GetPlanDetail(ctx context.Context, req *core_api.GetPlanDetailReq) (*core_api.GetPlanDetailResp, error)
 	GetPlanPreviews(ctx context.Context, req *core_api.GetPlanPreviewsReq) (*core_api.GetPlanPreviewsResp, error)
 	NewPlan(ctx context.Context, req *core_api.NewPlanReq, user *basic.UserMeta) (*core_api.NewPlanResp, error)
-	SearchPlan(ctx context.Context, req *core_api.SearchPlanReq) (*core_api.SearchPlanResp, error)
 	DonateFish(ctx context.Context, req *core_api.DonateFishReq, user *basic.UserMeta) (*core_api.DonateFishResp, error)
 	GetUserFish(ctx context.Context, req *core_api.GetUserFishReq, user *basic.UserMeta) (*core_api.GetUserFishResp, error)
 	ListFishByPlan(ctx context.Context, req *core_api.ListFishByPlanReq) (*core_api.ListFishByPlanResp, error)
@@ -154,6 +158,9 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 			LastToken: req.PaginationOption.LastToken,
 		},
 	}
+	if req.GetKeyword() != "" {
+		request.SearchOptions = &content.SearchOptions{Type: &content.SearchOptions_AllFieldsKey{AllFieldsKey: req.GetKeyword()}}
+	}
 	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
 	data, err := s.Plan.ListPlan(ctx, request)
 	if err != nil {
@@ -161,26 +168,30 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 	}
 
 	resp.Total = data.Total
-	resp.Plans = make([]*core_api.Plan, 0, pageSize)
+	resp.Plans = make([]*core_api.Plan, 0, len(data.Plans))
 	err = copier.Copy(&resp.Plans, data.Plans)
 	if err != nil {
 		return nil, err
 	}
 
-	for i := 0; i < len(data.Plans); i++ {
-		users := make([]*user1.UserPreview, 0, len(data.Plans[i].InitiatorIds))
-		for _, initiatorId := range data.Plans[i].InitiatorIds {
-			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
-			if err == nil {
-				users = append(users, &user1.UserPreview{
-					Id:        user.User.Id,
-					Nickname:  user.User.Nickname,
-					AvatarUrl: user.User.AvatarUrl,
-				})
-			}
+	util.ParallelRun(lo.Map(data.Plans, func(plan *content.Plan, i int) func() {
+		return func() {
+			users := make([]*user1.UserPreview, len(plan.InitiatorIds))
+			util.ParallelRun(lo.Map(plan.InitiatorIds, func(initiatorId string, j int) func() {
+				return func() {
+					rpcResp, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
+					if err == nil && rpcResp != nil {
+						users[j] = &user1.UserPreview{
+							Id:        rpcResp.User.Id,
+							Nickname:  rpcResp.User.Nickname,
+							AvatarUrl: rpcResp.User.AvatarUrl,
+						}
+					}
+				}
+			}))
+			resp.Plans[i].Users = users
 		}
-		resp.Plans[i].Users = users
-	}
+	}))
 	return resp, nil
 }
 
@@ -250,54 +261,4 @@ func (s *PlanService) NewPlan(ctx context.Context, req *core_api.NewPlanReq, use
 	}
 
 	return resp, nil
-}
-
-func (s *PlanService) SearchPlan(ctx context.Context, req *core_api.SearchPlanReq) (*core_api.SearchPlanResp, error) {
-	resp := new(core_api.SearchPlanResp)
-	var data *content.ListPlanResp
-
-	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
-	}
-	request := &content.ListPlanReq{
-		SearchOptions: &content.SearchOptions{Type: &content.SearchOptions_AllFieldsKey{AllFieldsKey: *req.Keyword}},
-		FilterOptions: &content.PlanFilterOptions{
-			OnlyUserId: req.OnlyUserId,
-			OnlyCatId:  req.CatId,
-		},
-		PaginationOptions: &basic.PaginationOptions{
-			Offset:    new(int64),
-			Limit:     req.PaginationOption.Limit,
-			Backward:  req.PaginationOption.Backward,
-			LastToken: req.PaginationOption.LastToken,
-		},
-	}
-	*request.PaginationOptions.Offset = *req.PaginationOption.Limit * *req.PaginationOption.Page
-	data, err := s.Plan.ListPlan(ctx, request)
-	if err != nil {
-		return nil, err
-	}
-
-	resp.Total = data.Total
-	resp.Plans = make([]*core_api.Plan, 0, PageSize)
-	err = copier.Copy(&resp.Plans, data.Plans)
-	if err != nil {
-		return nil, err
-	}
-
-	for i := 0; i < len(data.Plans); i++ {
-		users := make([]*user1.UserPreview, 0, len(data.Plans[i].InitiatorIds))
-		for _, initiatorId := range data.Plans[i].InitiatorIds {
-			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
-			if err == nil {
-				users = append(users, &user1.UserPreview{
-					Id:        user.User.Id,
-					Nickname:  user.User.Nickname,
-					AvatarUrl: user.User.AvatarUrl,
-				})
-			}
-		}
-		resp.Plans[i].Users = users
-	}
-	return resp, err
 }

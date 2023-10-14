@@ -17,6 +17,7 @@ import (
 func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
+	root.POST("/prefetch", append(_prefetchMw(), core_api.Prefetch)...)
 	{
 		_auth := root.Group("/auth", _authMw()...)
 		_auth.POST("/send_verify_code", append(_sendverifycodeMw(), core_api.SendVerifyCode)...)
@@ -75,6 +76,12 @@ func Register(r *server.Hertz) {
 		_notice.POST("/remove_notice", append(_deletenoticeMw(), core_api.DeleteNotice)...)
 	}
 	{
+		_notification := root.Group("/notification", _notificationMw()...)
+		_notification.GET("/clean_notification", append(_cleannotificationMw(), core_api.CleanNotification)...)
+		_notification.GET("/count_notification", append(_countnotificationMw(), core_api.CountNotification)...)
+		_notification.GET("/list_notification", append(_listnotificationMw(), core_api.ListNotification)...)
+	}
+	{
 		_plan := root.Group("/plan", _planMw()...)
 		_plan.POST("/delete_plan", append(_deleteplanMw(), core_api.DeletePlan)...)
 		_plan.GET("/donate_fish", append(_donatefishMw(), core_api.DonateFish)...)
@@ -83,7 +90,6 @@ func Register(r *server.Hertz) {
 		_plan.GET("/get_user_fish", append(_getuserfishMw(), core_api.GetUserFish)...)
 		_plan.GET("/list_fish_by_plan", append(_listfishbyplanMw(), core_api.ListFishByPlan)...)
 		_plan.POST("/new_plan", append(_newplanMw(), core_api.NewPlan)...)
-		_plan.GET("/search_plan", append(_searchplanMw(), core_api.SearchPlan)...)
 	}
 	{
 		_post := root.Group("/post", _postMw()...)
@@ -113,7 +119,6 @@ func Register(r *server.Hertz) {
 		_user := root.Group("/user", _userMw()...)
 		_user.GET("/get_user_info", append(_getuserinfoMw(), core_api.GetUserInfo)...)
 		_user.GET("/search_user", append(_searchuserMw(), core_api.SearchUser)...)
-		_user.GET("/search_user_for_admin", append(_searchuserforadminMw(), core_api.SearchUserForAdmin)...)
 		_user.POST("/update_user_info", append(_updateuserinfoMw(), core_api.UpdateUserInfo)...)
 	}
 }

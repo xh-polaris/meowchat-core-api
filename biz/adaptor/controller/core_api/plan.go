@@ -4,12 +4,14 @@ package core_api
 
 import (
 	"context"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	core_api "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 )
 
 // GetPlanPreviews .
@@ -25,7 +27,7 @@ func GetPlanPreviews(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.PlanService.GetPlanPreviews(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // GetPlanDetail .
@@ -41,7 +43,7 @@ func GetPlanDetail(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.PlanService.GetPlanDetail(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // NewPlan .
@@ -57,7 +59,7 @@ func NewPlan(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.PlanService.NewPlan(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // DeletePlan .
@@ -73,23 +75,7 @@ func DeletePlan(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.PlanService.DeletePlan(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
-}
-
-// SearchPlan .
-// @router /plan/search_plan [GET]
-func SearchPlan(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req core_api.SearchPlanReq
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	p := provider.Get()
-	resp, err := p.PlanService.SearchPlan(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // DonateFish .
@@ -105,7 +91,7 @@ func DonateFish(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.PlanService.DonateFish(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // GetUserFish .
@@ -121,7 +107,7 @@ func GetUserFish(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.PlanService.GetUserFish(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // ListFishByPlan .
@@ -137,5 +123,5 @@ func ListFishByPlan(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.PlanService.ListFishByPlan(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

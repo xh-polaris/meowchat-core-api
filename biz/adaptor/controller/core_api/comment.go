@@ -4,11 +4,13 @@ package core_api
 
 import (
 	"context"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 )
 
@@ -24,8 +26,8 @@ func GetComments(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CommentService.GetComments(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	resp, err := p.CommentService.GetComments(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // NewComment .
@@ -41,7 +43,7 @@ func NewComment(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CommentService.NewComment(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // DeleteComment .
@@ -57,5 +59,5 @@ func DeleteComment(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CommentService.DeleteComment(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

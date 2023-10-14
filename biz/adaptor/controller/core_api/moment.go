@@ -4,11 +4,13 @@ package core_api
 
 import (
 	"context"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 )
 
@@ -25,7 +27,7 @@ func GetMomentPreviews(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.MomentService.GetMomentPreviews(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // GetMomentDetail .
@@ -40,8 +42,8 @@ func GetMomentDetail(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.MomentService.GetMomentDetail(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	resp, err := p.MomentService.GetMomentDetail(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // NewMoment .
@@ -57,7 +59,7 @@ func NewMoment(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.MomentService.NewMoment(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // DeleteMoment .
@@ -73,14 +75,14 @@ func DeleteMoment(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.MomentService.DeleteMoment(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // SearchMoment .
 // @router /moment/search_moment [GET]
 func SearchMoment(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req core_api.SearchMomentReq
+	var req core_api.GetMomentPreviewsReq
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
@@ -88,6 +90,6 @@ func SearchMoment(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.MomentService.SearchMoment(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	resp, err := p.MomentService.GetMomentPreviews(ctx, &req)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

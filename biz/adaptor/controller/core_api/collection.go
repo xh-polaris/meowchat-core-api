@@ -26,7 +26,7 @@ func GetCatPreviews(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.GetCatPreviews(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // GetCatDetail .
@@ -42,7 +42,7 @@ func GetCatDetail(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.GetCatDetail(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // NewCat .
@@ -58,7 +58,7 @@ func NewCat(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.NewCat(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // DeleteCat .
@@ -74,14 +74,14 @@ func DeleteCat(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.DeleteCat(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // SearchCat .
 // @router /collection/search_cat [GET]
 func SearchCat(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req core_api.SearchCatReq
+	var req core_api.GetCatPreviewsReq
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
@@ -89,8 +89,8 @@ func SearchCat(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CollectionService.SearchCat(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	resp, err := p.CollectionService.GetCatPreviews(ctx, &req)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // CreateImage .
@@ -106,7 +106,7 @@ func CreateImage(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.CreateImage(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // DeleteImage .
@@ -122,7 +122,7 @@ func DeleteImage(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.DeleteImage(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
 // GetImageByCat .
@@ -138,5 +138,5 @@ func GetImageByCat(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.CollectionService.GetImageByCat(ctx, &req)
-	adaptor.Return(ctx, c, &req, resp, err)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

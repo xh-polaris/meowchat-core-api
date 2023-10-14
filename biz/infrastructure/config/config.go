@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/zeromicro/go-zero/core/service"
 	"os"
+
+	"github.com/zeromicro/go-zero/core/service"
 
 	"github.com/zeromicro/go-zero/core/conf"
 )
@@ -21,10 +22,11 @@ type Fish struct {
 
 type Config struct {
 	service.ServiceConf
-	ListenOn string
-	Auth     Auth
-	CdnHost  string
-	Fish     Fish
+	ListenOn           string
+	Auth               Auth
+	CdnHost            string
+	Fish               Fish
+	DefaultCommunityId string
 }
 
 func NewConfig() (*Config, error) {
