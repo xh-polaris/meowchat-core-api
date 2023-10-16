@@ -382,10 +382,11 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 					VerifyCode: req.Code,
 					AppId:      basic.APP_Meowchat,
 				})
-				if err != nil {
+				if err != nil || resp.GetSignInResp().GetUserId() == "" {
 					log.CtxError(ctx, "[Prefetch] sign in failed, err=%v", err)
+					return
 				}
-				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(params.UserId)}, &genbasic.UserMeta{})
+				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(resp.GetSignInResp().GetUserId())}, &genbasic.UserMeta{})
 				if err != nil {
 					log.CtxError(ctx, "[Prefetch] get user info failed, err=%v", err)
 				}
