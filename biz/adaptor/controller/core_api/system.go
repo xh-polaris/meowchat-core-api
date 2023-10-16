@@ -5,20 +5,20 @@ package core_api
 import (
 	"context"
 
+	"github.com/bytedance/gopkg/cloud/metainfo"
 	"github.com/bytedance/sonic"
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/samber/lo"
-	basic2 "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/gopkg/kitex/client"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 	"github.com/xh-polaris/meowchat-core-api/provider"
-
-	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
-
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 )
 
 // GetAdmins .
@@ -342,7 +342,7 @@ func UpdateRole(ctx context.Context, c *app.RequestContext) {
 }
 
 // Prefetch .
-// @router /prefetch [POST]
+// @router /prefetch [GET]
 func Prefetch(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req core_api.PrefetchReq
@@ -353,11 +353,14 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(core_api.PrefetchResp)
+	resp.Token = req.Token
 	p := provider.Get()
 	params := new(struct {
-		CommunityId string `json:"community_id"`
-		UserId      string `json:"user_id"`
+		CommunityId string `json:"communityId"`
+		UserId      string `json:"userId"`
+		Env         string `json:"env"`
 	})
+
 	if req.Token != nil {
 		err = sonic.UnmarshalString(*req.Token, params)
 		if err != nil {
@@ -367,6 +370,7 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 	if params.CommunityId == "" {
 		params.CommunityId = p.Config.DefaultCommunityId
 	}
+	ctx = metainfo.WithPersistentValue(ctx, client.EnvHeader, params.Env)
 	util.ParallelRun([]func(){
 		func() {
 			if req.Code != nil {
@@ -379,15 +383,24 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 				if err != nil {
 					log.CtxError(ctx, "[Prefetch] sign in failed, err=%v", err)
 				}
-				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(params.UserId)}, &basic2.UserMeta{})
+				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(params.UserId)}, &genbasic.UserMeta{})
 				if err != nil {
 					log.CtxError(ctx, "[Prefetch] get user info failed, err=%v", err)
 				}
 			}
 		},
 		func() {
+			resp.ListCommunityResp, err = p.SystemService.ListCommunity(ctx, &core_api.ListCommunityReq{})
+			if err != nil {
+				log.CtxError(ctx, "[Prefetch] list community failed, err=%v", err)
+			}
+		},
+		func() {
 			if params.UserId != "" {
-				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(params.UserId)}, &basic2.UserMeta{})
+				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(params.UserId)}, &genbasic.UserMeta{})
+				if err != nil {
+					log.CtxError(ctx, "[Prefetch] get user info failed, err=%v", err)
+				}
 			}
 		},
 		func() {

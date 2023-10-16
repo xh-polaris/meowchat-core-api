@@ -6,15 +6,16 @@ import (
 
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
+	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	system2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/system"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
-	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 )
 
 type ISystemService interface {
@@ -260,7 +261,7 @@ func (s *SystemService) ListApply(ctx context.Context, req *core_api.ListApplyRe
 func (s *SystemService) ListCommunity(ctx context.Context, req *core_api.ListCommunityReq) (*core_api.ListCommunityResp, error) {
 	resp := new(core_api.ListCommunityResp)
 
-	data, err := s.System.ListCommunity(ctx, &system.ListCommunityReq{ParentId: req.ParentId, PageSize: -1})
+	data, err := s.System.ListCommunity(ctx, &system.ListCommunityReq{ParentId: req.GetParentId(), PageSize: -1})
 	if err != nil {
 		return nil, err
 	}
@@ -277,7 +278,7 @@ func (s *SystemService) ListCommunity(ctx context.Context, req *core_api.ListCom
 
 func (s *SystemService) NewAdmin(ctx context.Context, req *core_api.NewAdminReq) (*core_api.NewAdminResp, error) {
 	resp := new(core_api.NewAdminResp)
-	if req.Id == "" {
+	if req.GetId() == "" {
 		data, err := s.System.CreateAdmin(ctx, &system.CreateAdminReq{
 			CommunityId: req.CommunityId,
 			Name:        req.Name,
@@ -291,9 +292,9 @@ func (s *SystemService) NewAdmin(ctx context.Context, req *core_api.NewAdminReq)
 		}
 		resp.Id = data.Id
 	} else {
-		resp.Id = req.Id
+		resp.Id = req.GetId()
 		_, err := s.System.UpdateAdmin(ctx, &system.UpdateAdminReq{
-			Id:          req.Id,
+			Id:          req.GetId(),
 			CommunityId: req.CommunityId,
 			Name:        req.Name,
 			Title:       req.Title,
@@ -311,21 +312,21 @@ func (s *SystemService) NewAdmin(ctx context.Context, req *core_api.NewAdminReq)
 func (s *SystemService) NewCommunity(ctx context.Context, req *core_api.NewCommunityReq) (*core_api.NewCommunityResp, error) {
 	resp := new(core_api.NewCommunityResp)
 
-	if req.Id == "" {
+	if req.GetId() == "" {
 		data, err := s.System.CreateCommunity(ctx, &system.CreateCommunityReq{
 			Name:     req.Name,
-			ParentId: req.ParentId,
+			ParentId: req.GetParentId(),
 		})
 		if err != nil {
 			return nil, err
 		}
 		resp.Id = data.Id
 	} else {
-		resp.Id = req.Id
+		resp.Id = req.GetId()
 		_, err := s.System.UpdateCommunity(ctx, &system.UpdateCommunityReq{
-			Id:       req.Id,
+			Id:       req.GetId(),
 			Name:     req.Name,
-			ParentId: req.ParentId,
+			ParentId: req.GetParentId(),
 		})
 		if err != nil {
 			return nil, err
@@ -338,7 +339,7 @@ func (s *SystemService) NewNews(ctx context.Context, req *core_api.NewNewsReq) (
 
 	resp := new(core_api.NewNewsResp)
 
-	if req.Id == "" {
+	if req.GetId() == "" {
 		data, err := s.System.CreateNews(ctx, &system.CreateNewsReq{
 			CommunityId: req.CommunityId,
 			ImageUrl:    req.ImageUrl,
@@ -351,9 +352,9 @@ func (s *SystemService) NewNews(ctx context.Context, req *core_api.NewNewsReq) (
 		}
 		resp.Id = data.Id
 	} else {
-		resp.Id = req.Id
+		resp.Id = req.GetId()
 		_, err := s.System.UpdateNews(ctx, &system.UpdateNewsReq{
-			Id:       req.Id,
+			Id:       req.GetId(),
 			ImageUrl: req.ImageUrl,
 			LinkUrl:  req.LinkUrl,
 			Type:     req.Type,
@@ -369,7 +370,7 @@ func (s *SystemService) NewNews(ctx context.Context, req *core_api.NewNewsReq) (
 func (s *SystemService) NewNotice(ctx context.Context, req *core_api.NewNoticeReq) (*core_api.NewNoticeResp, error) {
 	resp := new(core_api.NewNoticeResp)
 
-	if req.Id == "" {
+	if req.GetId() == "" {
 		data, err := s.System.CreateNotice(ctx, &system.CreateNoticeReq{
 			Text:        req.Text,
 			CommunityId: req.CommunityId,
@@ -379,9 +380,9 @@ func (s *SystemService) NewNotice(ctx context.Context, req *core_api.NewNoticeRe
 		}
 		resp.Id = data.Id
 	} else {
-		resp.Id = req.Id
+		resp.Id = req.GetId()
 		_, err := s.System.UpdateNotice(ctx, &system.UpdateNoticeReq{
-			Id:   req.Id,
+			Id:   req.GetId(),
 			Text: req.Text,
 		})
 		if err != nil {

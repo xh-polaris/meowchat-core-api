@@ -5,20 +5,19 @@ import (
 	"net/url"
 
 	"github.com/google/wire"
+	"github.com/jinzhu/copier"
 	"github.com/xh-polaris/gopkg/errors"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	gencontent "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
-
-	"github.com/jinzhu/copier"
-	gencontent "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
-
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/content"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 )
 
 type ICollectionService interface {
@@ -26,7 +25,7 @@ type ICollectionService interface {
 	GetCatDetail(ctx context.Context, req *core_api.GetCatDetailReq) (*core_api.GetCatDetailResp, error)
 	NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error)
 	DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error)
-	CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *basic.UserMeta) (*core_api.CreateImageResp, error)
+	CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *genbasic.UserMeta) (*core_api.CreateImageResp, error)
 	DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error)
 	GetImageByCat(ctx context.Context, req *core_api.GetImageByCatReq) (*core_api.GetImageByCatResp, error)
 }
@@ -45,11 +44,14 @@ var CollectionServiceSet = wire.NewSet(
 func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error) {
 	resp := new(core_api.GetCatPreviewsResp)
 	pageSize := consts.DefaultPageSize
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic.PaginationOptions{}
+	}
 	if req.GetKeyword() == "" {
 		data, err := s.Collection.ListCat(ctx, &gencontent.ListCatReq{
 			CommunityId: req.CommunityId,
 			Count:       pageSize,
-			Skip:        *req.PaginationOption.Page * pageSize,
+			Skip:        req.PaginationOption.GetPage() * pageSize,
 		})
 		if err != nil {
 			return nil, err
@@ -155,7 +157,7 @@ func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteC
 	return resp, nil
 }
 
-func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *basic.UserMeta) (*core_api.CreateImageResp, error) {
+func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *genbasic.UserMeta) (*core_api.CreateImageResp, error) {
 	resp := new(core_api.CreateImageResp)
 
 	for i := 0; i < len(req.Images); i++ {

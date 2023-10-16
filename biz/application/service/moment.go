@@ -130,7 +130,7 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 
 	resp.Total = data.Total
 	resp.Token = data.Token
-	resp.Moments = make([]*core_api.Moment, 0, req.PaginationOption.GetLimit())
+	resp.Moments = make([]*core_api.Moment, 0)
 	err = copier.Copy(&resp.Moments, data.Moments)
 	if err != nil {
 		return nil, err
