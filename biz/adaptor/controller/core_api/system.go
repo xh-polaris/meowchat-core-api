@@ -4,6 +4,7 @@ package core_api
 
 import (
 	"context"
+	"time"
 
 	"github.com/bytedance/gopkg/cloud/metainfo"
 	"github.com/bytedance/sonic"
@@ -354,6 +355,7 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 
 	resp := new(core_api.PrefetchResp)
 	resp.Token = req.Token
+	resp.Timestamp = time.Now().UnixMilli()
 	p := provider.Get()
 	params := new(struct {
 		CommunityId string `json:"communityId"`
