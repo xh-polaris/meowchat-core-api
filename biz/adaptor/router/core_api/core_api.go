@@ -17,7 +17,7 @@ import (
 func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
-	root.POST("/prefetch", append(_prefetchMw(), core_api.Prefetch)...)
+	root.GET("/prefetch", append(_prefetchMw(), core_api.Prefetch)...)
 	{
 		_auth := root.Group("/auth", _authMw()...)
 		_auth.POST("/send_verify_code", append(_sendverifycodeMw(), core_api.SendVerifyCode)...)
