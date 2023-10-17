@@ -27,6 +27,7 @@ type Config struct {
 	CdnHost            string
 	Fish               Fish
 	DefaultCommunityId string
+	MinVersion         string
 }
 
 func NewConfig() (*Config, error) {

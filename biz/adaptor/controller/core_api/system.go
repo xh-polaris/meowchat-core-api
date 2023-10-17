@@ -488,3 +488,19 @@ func CountNotification(ctx context.Context, c *app.RequestContext) {
 
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
+
+// GetMinVersion .
+// @router /get_min_version [GET]
+func GetMinVersion(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.GetMinVersionReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.SystemService.GetMinVersion(ctx, &req)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
+}

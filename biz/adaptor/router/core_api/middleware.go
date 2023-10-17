@@ -410,3 +410,8 @@ func _listnotificationMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _getminversionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

@@ -39,6 +39,7 @@ type ISystemService interface {
 	UpdateCommunityAdmin(ctx context.Context, req *core_api.UpdateCommunityAdminReq) (*core_api.UpdateCommunityAdminResp, error)
 	UpdateSuperAdmin(ctx context.Context, req *core_api.UpdateSuperAdminReq) (*core_api.UpdateSuperAdminResp, error)
 	UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq) (*core_api.UpdateRoleResp, error)
+	GetMinVersion(ctx context.Context, req *core_api.GetMinVersionReq) (*core_api.GetMinVersionResp, error)
 }
 
 type SystemService struct {
@@ -501,4 +502,26 @@ func (s *SystemService) UpdateRole(ctx context.Context, req *core_api.UpdateRole
 	}
 
 	return resp, nil
+}
+
+func (s *SystemService) GetMinVersion(ctx context.Context, req *core_api.GetMinVersionReq) (*core_api.GetMinVersionResp, error) {
+	version := s.Config.MinVersion
+	version = version[1:]
+	res := new(core_api.GetMinVersionResp)
+	res.MinVersion = 0
+	time, tmp, n := 1, 0, 1
+	for i := len(version) - 1; i >= 0; i-- {
+		if version[i] == '.' {
+			res.MinVersion += int64(time * tmp)
+			time *= 100
+			n = 1
+			tmp = 0
+		} else {
+			tmp += int(version[i]-'0') * n
+			n *= 10
+			println(tmp)
+		}
+	}
+	res.MinVersion += int64(time * tmp)
+	return res, nil
 }

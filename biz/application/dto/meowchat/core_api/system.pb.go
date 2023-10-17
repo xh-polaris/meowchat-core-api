@@ -28,13 +28,13 @@ type News struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
-	CreateAt    int64  `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
-	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
-	ImageUrl    string `protobuf:"bytes,4,opt,name=imageUrl,proto3" json:"imageUrl" form:"imageUrl" query:"imageUrl"`
-	LinkUrl     string `protobuf:"bytes,5,opt,name=linkUrl,proto3" json:"linkUrl" form:"linkUrl" query:"linkUrl"`
-	Type        string `protobuf:"bytes,6,opt,name=type,proto3" json:"type" form:"type" query:"type"`
-	IsPublic    int64  `protobuf:"varint,7,opt,name=isPublic,proto3" json:"isPublic" form:"isPublic" query:"isPublic"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	CreateAt    int64  `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
+	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	ImageUrl    string `protobuf:"bytes,4,opt,name=imageUrl,proto3" json:"imageUrl,omitempty" form:"imageUrl" query:"imageUrl"`
+	LinkUrl     string `protobuf:"bytes,5,opt,name=linkUrl,proto3" json:"linkUrl,omitempty" form:"linkUrl" query:"linkUrl"`
+	Type        string `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty" form:"type" query:"type"`
+	IsPublic    int64  `protobuf:"varint,7,opt,name=isPublic,proto3" json:"isPublic,omitempty" form:"isPublic" query:"isPublic"`
 }
 
 func (x *News) Reset() {
@@ -123,13 +123,13 @@ type Admin struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
-	Title       string `protobuf:"bytes,2,opt,name=title,proto3" json:"title" form:"title" query:"title"`
-	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
-	Name        string `protobuf:"bytes,4,opt,name=name,proto3" json:"name" form:"name" query:"name"`
-	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone" form:"phone" query:"phone"`
-	AvatarUrl   string `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
-	Wechat      string `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat" form:"wechat" query:"wechat"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Title       string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
+	CommunityId string `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	Name        string `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
+	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty" form:"phone" query:"phone"`
+	AvatarUrl   string `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
+	Wechat      string `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat,omitempty" form:"wechat" query:"wechat"`
 }
 
 func (x *Admin) Reset() {
@@ -218,9 +218,9 @@ type Notice struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
-	Text     string `protobuf:"bytes,2,opt,name=text,proto3" json:"text" form:"text" query:"text"`
-	CreateAt int64  `protobuf:"varint,3,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Text     string `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
+	CreateAt int64  `protobuf:"varint,3,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
 }
 
 func (x *Notice) Reset() {
@@ -281,12 +281,12 @@ type Notification struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
-	User     *user.UserPreview       `protobuf:"bytes,2,opt,name=user,proto3" json:"user" form:"user" query:"user"`
-	ParentId string                  `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId" form:"parentId" query:"parentId"`
-	Types    system.NotificationType `protobuf:"varint,4,opt,name=types,proto3,enum=meowchat.system.NotificationType" json:"types" form:"types" query:"types"`
-	Text     string                  `protobuf:"bytes,5,opt,name=text,proto3" json:"text" form:"text" query:"text"`
-	CreateAt int64                   `protobuf:"varint,6,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	Id       string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	User     *user.UserPreview       `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
+	ParentId string                  `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId,omitempty" form:"parentId" query:"parentId"`
+	Types    system.NotificationType `protobuf:"varint,4,opt,name=types,proto3,enum=meowchat.system.NotificationType" json:"types,omitempty" form:"types" query:"types"`
+	Text     string                  `protobuf:"bytes,5,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
+	CreateAt int64                   `protobuf:"varint,6,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
 }
 
 func (x *Notification) Reset() {
@@ -368,7 +368,7 @@ type GetNewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
 }
 
 func (x *GetNewsReq) Reset() {
@@ -415,7 +415,7 @@ type GetNewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	News []*News `protobuf:"bytes,1,rep,name=news,proto3" json:"news" form:"news" query:"news"`
+	News []*News `protobuf:"bytes,1,rep,name=news,proto3" json:"news,omitempty" form:"news" query:"news"`
 }
 
 func (x *GetNewsResp) Reset() {
@@ -462,7 +462,7 @@ type GetAdminsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
 }
 
 func (x *GetAdminsReq) Reset() {
@@ -509,7 +509,7 @@ type GetAdminsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Admins []*Admin `protobuf:"bytes,1,rep,name=Admins,proto3" json:"Admins" form:"Admins" query:"Admins"`
+	Admins []*Admin `protobuf:"bytes,1,rep,name=Admins,proto3" json:"Admins,omitempty" form:"Admins" query:"Admins"`
 }
 
 func (x *GetAdminsResp) Reset() {
@@ -556,7 +556,7 @@ type DeleteAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *DeleteAdminReq) Reset() {
@@ -641,13 +641,13 @@ type NewAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
-	Title       string  `protobuf:"bytes,2,opt,name=title,proto3" json:"title" form:"title" query:"title"`
-	CommunityId string  `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
-	Name        string  `protobuf:"bytes,4,opt,name=name,proto3" json:"name" form:"name" query:"name"`
-	Phone       string  `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone" form:"phone" query:"phone"`
-	AvatarUrl   string  `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
-	Wechat      string  `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat" form:"wechat" query:"wechat"`
+	Id          *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
+	Title       string  `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
+	CommunityId string  `protobuf:"bytes,3,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	Name        string  `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
+	Phone       string  `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty" form:"phone" query:"phone"`
+	AvatarUrl   string  `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
+	Wechat      string  `protobuf:"bytes,7,opt,name=wechat,proto3" json:"wechat,omitempty" form:"wechat" query:"wechat"`
 }
 
 func (x *NewAdminReq) Reset() {
@@ -736,7 +736,7 @@ type NewAdminResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *NewAdminResp) Reset() {
@@ -783,7 +783,7 @@ type GetNoticesReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
 }
 
 func (x *GetNoticesReq) Reset() {
@@ -830,7 +830,7 @@ type GetNoticesResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Notices []*Notice `protobuf:"bytes,1,rep,name=notices,proto3" json:"notices" form:"notices" query:"notices"`
+	Notices []*Notice `protobuf:"bytes,1,rep,name=notices,proto3" json:"notices,omitempty" form:"notices" query:"notices"`
 }
 
 func (x *GetNoticesResp) Reset() {
@@ -877,9 +877,9 @@ type NewNoticeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
-	CommunityId string  `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
-	Text        string  `protobuf:"bytes,3,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	Id          *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
+	CommunityId string  `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	Text        string  `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
 }
 
 func (x *NewNoticeReq) Reset() {
@@ -940,7 +940,7 @@ type NewNoticeResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *NewNoticeResp) Reset() {
@@ -987,12 +987,12 @@ type NewNewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
-	CommunityId string  `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
-	ImageUrl    string  `protobuf:"bytes,3,opt,name=imageUrl,proto3" json:"imageUrl" form:"imageUrl" query:"imageUrl"`
-	LinkUrl     string  `protobuf:"bytes,4,opt,name=linkUrl,proto3" json:"linkUrl" form:"linkUrl" query:"linkUrl"`
-	Type        string  `protobuf:"bytes,5,opt,name=Type,proto3" json:"Type" form:"Type" query:"Type"`
-	IsPublic    int64   `protobuf:"varint,6,opt,name=isPublic,proto3" json:"isPublic" form:"isPublic" query:"isPublic"`
+	Id          *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
+	CommunityId string  `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	ImageUrl    string  `protobuf:"bytes,3,opt,name=imageUrl,proto3" json:"imageUrl,omitempty" form:"imageUrl" query:"imageUrl"`
+	LinkUrl     string  `protobuf:"bytes,4,opt,name=linkUrl,proto3" json:"linkUrl,omitempty" form:"linkUrl" query:"linkUrl"`
+	Type        string  `protobuf:"bytes,5,opt,name=Type,proto3" json:"Type,omitempty" form:"Type" query:"Type"`
+	IsPublic    int64   `protobuf:"varint,6,opt,name=isPublic,proto3" json:"isPublic,omitempty" form:"isPublic" query:"isPublic"`
 }
 
 func (x *NewNewsReq) Reset() {
@@ -1074,7 +1074,7 @@ type NewNewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *NewNewsResp) Reset() {
@@ -1121,7 +1121,7 @@ type DeleteNoticeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *DeleteNoticeReq) Reset() {
@@ -1206,7 +1206,7 @@ type DeleteNewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *DeleteNewsReq) Reset() {
@@ -1291,8 +1291,8 @@ type ApplyInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyId string            `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId" form:"applyId" query:"applyId"`
-	User    *user.UserPreview `protobuf:"bytes,2,opt,name=user,proto3" json:"user" form:"user" query:"user"`
+	ApplyId string            `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId,omitempty" form:"applyId" query:"applyId"`
+	User    *user.UserPreview `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
 }
 
 func (x *ApplyInfo) Reset() {
@@ -1346,7 +1346,7 @@ type CreateApplyReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
 }
 
 func (x *CreateApplyReq) Reset() {
@@ -1431,7 +1431,7 @@ type ListApplyReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	CommunityId string `protobuf:"bytes,1,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
 }
 
 func (x *ListApplyReq) Reset() {
@@ -1478,7 +1478,7 @@ type ListApplyResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyInfo []*ApplyInfo `protobuf:"bytes,1,rep,name=applyInfo,proto3" json:"applyInfo" form:"applyInfo" query:"applyInfo"`
+	ApplyInfo []*ApplyInfo `protobuf:"bytes,1,rep,name=applyInfo,proto3" json:"applyInfo,omitempty" form:"applyInfo" query:"applyInfo"`
 }
 
 func (x *ListApplyResp) Reset() {
@@ -1525,8 +1525,8 @@ type HandleApplyReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyId    string `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId" form:"applyId" query:"applyId"`
-	IsRejected bool   `protobuf:"varint,2,opt,name=isRejected,proto3" json:"isRejected" form:"isRejected" query:"isRejected"`
+	ApplyId    string `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId,omitempty" form:"applyId" query:"applyId"`
+	IsRejected bool   `protobuf:"varint,2,opt,name=isRejected,proto3" json:"isRejected,omitempty" form:"isRejected" query:"isRejected"`
 }
 
 func (x *HandleApplyReq) Reset() {
@@ -1618,9 +1618,9 @@ type Community struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
-	Name     string  `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
-	ParentId *string `protobuf:"bytes,3,opt,name=parentId,proto3,oneof" json:"parentId" form:"parentId" query:"parentId"`
+	Id       string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Name     string  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
+	ParentId *string `protobuf:"bytes,3,opt,name=parentId,proto3,oneof" json:"parentId,omitempty" form:"parentId" query:"parentId"`
 }
 
 func (x *Community) Reset() {
@@ -1681,7 +1681,7 @@ type ListCommunityReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ParentId *string `protobuf:"bytes,1,opt,name=parentId,proto3,oneof" json:"parentId" form:"parentId" query:"parentId"`
+	ParentId *string `protobuf:"bytes,1,opt,name=parentId,proto3,oneof" json:"parentId,omitempty" form:"parentId" query:"parentId"`
 }
 
 func (x *ListCommunityReq) Reset() {
@@ -1728,7 +1728,7 @@ type ListCommunityResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Communities []*Community `protobuf:"bytes,1,rep,name=communities,proto3" json:"communities" form:"communities" query:"communities"`
+	Communities []*Community `protobuf:"bytes,1,rep,name=communities,proto3" json:"communities,omitempty" form:"communities" query:"communities"`
 }
 
 func (x *ListCommunityResp) Reset() {
@@ -1775,9 +1775,9 @@ type NewCommunityReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
-	Name     string  `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
-	ParentId *string `protobuf:"bytes,3,opt,name=parentId,proto3,oneof" json:"parentId" form:"parentId" query:"parentId"`
+	Id       *string `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
+	Name     string  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
+	ParentId *string `protobuf:"bytes,3,opt,name=parentId,proto3,oneof" json:"parentId,omitempty" form:"parentId" query:"parentId"`
 }
 
 func (x *NewCommunityReq) Reset() {
@@ -1838,7 +1838,7 @@ type NewCommunityResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *NewCommunityResp) Reset() {
@@ -1885,7 +1885,7 @@ type DeleteCommunityReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
 }
 
 func (x *DeleteCommunityReq) Reset() {
@@ -2008,7 +2008,7 @@ type GetUserRolesResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Roles []*system.Role `protobuf:"bytes,1,rep,name=roles,proto3" json:"roles" form:"roles" query:"roles"`
+	Roles []*system.Role `protobuf:"bytes,1,rep,name=roles,proto3" json:"roles,omitempty" form:"roles" query:"roles"`
 }
 
 func (x *GetUserRolesResp) Reset() {
@@ -2055,9 +2055,9 @@ type UpdateCommunityAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId      string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
-	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
-	IsRemove    bool   `protobuf:"varint,3,opt,name=isRemove,proto3" json:"isRemove" form:"isRemove" query:"isRemove"`
+	UserId      string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	IsRemove    bool   `protobuf:"varint,3,opt,name=isRemove,proto3" json:"isRemove,omitempty" form:"isRemove" query:"isRemove"`
 }
 
 func (x *UpdateCommunityAdminReq) Reset() {
@@ -2156,8 +2156,8 @@ type UpdateSuperAdminReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId   string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
-	IsRemove bool   `protobuf:"varint,2,opt,name=isRemove,proto3" json:"isRemove" form:"isRemove" query:"isRemove"`
+	UserId   string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
+	IsRemove bool   `protobuf:"varint,2,opt,name=isRemove,proto3" json:"isRemove,omitempty" form:"isRemove" query:"isRemove"`
 }
 
 func (x *UpdateSuperAdminReq) Reset() {
@@ -2249,8 +2249,8 @@ type UpdateRoleReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId string         `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
-	Roles  []*system.Role `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles" form:"roles" query:"roles"`
+	UserId string         `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
+	Roles  []*system.Role `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles,omitempty" form:"roles" query:"roles"`
 }
 
 func (x *UpdateRoleReq) Reset() {
@@ -2342,8 +2342,8 @@ type RetrieveUserPreviewReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType" form:"roleType" query:"roleType"`
-	CommunityId *string         `protobuf:"bytes,2,opt,name=communityId,proto3,oneof" json:"communityId" form:"communityId" query:"communityId"`
+	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType,omitempty" form:"roleType" query:"roleType"`
+	CommunityId *string         `protobuf:"bytes,2,opt,name=communityId,proto3,oneof" json:"communityId,omitempty" form:"communityId" query:"communityId"`
 }
 
 func (x *RetrieveUserPreviewReq) Reset() {
@@ -2397,7 +2397,7 @@ type RetrieveUserPreviewResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
 }
 
 func (x *RetrieveUserPreviewResp) Reset() {
@@ -2444,8 +2444,8 @@ type GetUserByRoleReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType" form:"roleType" query:"roleType"`
-	CommunityId string          `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	RoleType    system.RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType,omitempty" form:"roleType" query:"roleType"`
+	CommunityId string          `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
 }
 
 func (x *GetUserByRoleReq) Reset() {
@@ -2499,7 +2499,7 @@ type GetUserByRoleResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
 }
 
 func (x *GetUserByRoleResp) Reset() {
@@ -2546,7 +2546,7 @@ type ListNotificationReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,3,opt,name=paginationOptions,proto3,oneof" json:"paginationOptions" form:"paginationOptions" query:"paginationOptions"`
+	PaginationOptions *basic.PaginationOptions `protobuf:"bytes,3,opt,name=paginationOptions,proto3,oneof" json:"paginationOptions,omitempty" form:"paginationOptions" query:"paginationOptions"`
 }
 
 func (x *ListNotificationReq) Reset() {
@@ -2593,9 +2593,9 @@ type ListNotificationResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Notifications []*Notification `protobuf:"bytes,1,rep,name=notifications,proto3" json:"notifications" form:"notifications" query:"notifications"`
-	NotRead       int64           `protobuf:"varint,2,opt,name=NotRead,proto3" json:"NotRead" form:"NotRead" query:"NotRead"`
-	Total         int64           `protobuf:"varint,3,opt,name=total,proto3" json:"total" form:"total" query:"total"`
+	Notifications []*Notification `protobuf:"bytes,1,rep,name=notifications,proto3" json:"notifications,omitempty" form:"notifications" query:"notifications"`
+	NotRead       int64           `protobuf:"varint,2,opt,name=NotRead,proto3" json:"NotRead,omitempty" form:"NotRead" query:"NotRead"`
+	Total         int64           `protobuf:"varint,3,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
 }
 
 func (x *ListNotificationResp) Reset() {
@@ -2770,7 +2770,7 @@ type CountNotificationResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	NotRead int64 `protobuf:"varint,1,opt,name=NotRead,proto3" json:"NotRead" form:"NotRead" query:"NotRead"`
+	NotRead int64 `protobuf:"varint,1,opt,name=NotRead,proto3" json:"NotRead,omitempty" form:"NotRead" query:"NotRead"`
 }
 
 func (x *CountNotificationResp) Reset() {
@@ -2808,6 +2808,91 @@ func (*CountNotificationResp) Descriptor() ([]byte, []int) {
 func (x *CountNotificationResp) GetNotRead() int64 {
 	if x != nil {
 		return x.NotRead
+	}
+	return 0
+}
+
+type GetMinVersionReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GetMinVersionReq) Reset() {
+	*x = GetMinVersionReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_core_api_system_proto_msgTypes[54]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetMinVersionReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMinVersionReq) ProtoMessage() {}
+
+func (x *GetMinVersionReq) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_core_api_system_proto_msgTypes[54]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMinVersionReq.ProtoReflect.Descriptor instead.
+func (*GetMinVersionReq) Descriptor() ([]byte, []int) {
+	return file_meowchat_core_api_system_proto_rawDescGZIP(), []int{54}
+}
+
+type GetMinVersionResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MinVersion int64 `protobuf:"varint,1,opt,name=MinVersion,proto3" json:"MinVersion,omitempty" form:"MinVersion" query:"MinVersion"`
+}
+
+func (x *GetMinVersionResp) Reset() {
+	*x = GetMinVersionResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_core_api_system_proto_msgTypes[55]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetMinVersionResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMinVersionResp) ProtoMessage() {}
+
+func (x *GetMinVersionResp) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_core_api_system_proto_msgTypes[55]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMinVersionResp.ProtoReflect.Descriptor instead.
+func (*GetMinVersionResp) Descriptor() ([]byte, []int) {
+	return file_meowchat_core_api_system_proto_rawDescGZIP(), []int{55}
+}
+
+func (x *GetMinVersionResp) GetMinVersion() int64 {
+	if x != nil {
+		return x.MinVersion
 	}
 	return 0
 }
@@ -3059,16 +3144,20 @@ var file_meowchat_core_api_system_proto_rawDesc = []byte{
 	0x6e, 0x52, 0x65, 0x71, 0x22, 0x31, 0x0a, 0x15, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x4e, 0x6f, 0x74,
 	0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x12, 0x18, 0x0a,
 	0x07, 0x4e, 0x6f, 0x74, 0x52, 0x65, 0x61, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07,
-	0x4e, 0x6f, 0x74, 0x52, 0x65, 0x61, 0x64, 0x42, 0x85, 0x01, 0x0a, 0x25, 0x63, 0x6f, 0x6d, 0x2e,
-	0x78, 0x68, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2e, 0x69, 0x64, 0x6c, 0x67, 0x65, 0x6e,
-	0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x61, 0x70,
-	0x69, 0x42, 0x0b, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
-	0x5a, 0x4d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68, 0x2d,
-	0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74,
-	0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61, 0x70,
-	0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x6d, 0x65,
-	0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x4e, 0x6f, 0x74, 0x52, 0x65, 0x61, 0x64, 0x22, 0x12, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x4d, 0x69,
+	0x6e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x22, 0x33, 0x0a, 0x11, 0x47,
+	0x65, 0x74, 0x4d, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
+	0x12, 0x1e, 0x0a, 0x0a, 0x4d, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x4d, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
+	0x42, 0x85, 0x01, 0x0a, 0x25, 0x63, 0x6f, 0x6d, 0x2e, 0x78, 0x68, 0x70, 0x6f, 0x6c, 0x61, 0x72,
+	0x69, 0x73, 0x2e, 0x69, 0x64, 0x6c, 0x67, 0x65, 0x6e, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68,
+	0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x61, 0x70, 0x69, 0x42, 0x0b, 0x53, 0x79, 0x73, 0x74,
+	0x65, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x4d, 0x67, 0x69, 0x74, 0x68, 0x75,
+	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73,
+	0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61,
+	0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f,
+	0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3083,7 +3172,7 @@ func file_meowchat_core_api_system_proto_rawDescGZIP() []byte {
 	return file_meowchat_core_api_system_proto_rawDescData
 }
 
-var file_meowchat_core_api_system_proto_msgTypes = make([]protoimpl.MessageInfo, 54)
+var file_meowchat_core_api_system_proto_msgTypes = make([]protoimpl.MessageInfo, 56)
 var file_meowchat_core_api_system_proto_goTypes = []interface{}{
 	(*News)(nil),                     // 0: meowchat.core_api.News
 	(*Admin)(nil),                    // 1: meowchat.core_api.Admin
@@ -3139,28 +3228,30 @@ var file_meowchat_core_api_system_proto_goTypes = []interface{}{
 	(*CleanNotificationResp)(nil),    // 51: meowchat.core_api.CleanNotificationResp
 	(*CountNotificationReq)(nil),     // 52: meowchat.core_api.CountNotificationReq
 	(*CountNotificationResp)(nil),    // 53: meowchat.core_api.CountNotificationResp
-	(*user.UserPreview)(nil),         // 54: meowchat.user.UserPreview
-	(system.NotificationType)(0),     // 55: meowchat.system.NotificationType
-	(*system.Role)(nil),              // 56: meowchat.system.Role
-	(system.RoleType)(0),             // 57: meowchat.system.RoleType
-	(*basic.PaginationOptions)(nil),  // 58: basic.PaginationOptions
+	(*GetMinVersionReq)(nil),         // 54: meowchat.core_api.GetMinVersionReq
+	(*GetMinVersionResp)(nil),        // 55: meowchat.core_api.GetMinVersionResp
+	(*user.UserPreview)(nil),         // 56: meowchat.user.UserPreview
+	(system.NotificationType)(0),     // 57: meowchat.system.NotificationType
+	(*system.Role)(nil),              // 58: meowchat.system.Role
+	(system.RoleType)(0),             // 59: meowchat.system.RoleType
+	(*basic.PaginationOptions)(nil),  // 60: basic.PaginationOptions
 }
 var file_meowchat_core_api_system_proto_depIdxs = []int32{
-	54, // 0: meowchat.core_api.Notification.user:type_name -> meowchat.user.UserPreview
-	55, // 1: meowchat.core_api.Notification.types:type_name -> meowchat.system.NotificationType
+	56, // 0: meowchat.core_api.Notification.user:type_name -> meowchat.user.UserPreview
+	57, // 1: meowchat.core_api.Notification.types:type_name -> meowchat.system.NotificationType
 	0,  // 2: meowchat.core_api.GetNewsResp.news:type_name -> meowchat.core_api.News
 	1,  // 3: meowchat.core_api.GetAdminsResp.Admins:type_name -> meowchat.core_api.Admin
 	2,  // 4: meowchat.core_api.GetNoticesResp.notices:type_name -> meowchat.core_api.Notice
-	54, // 5: meowchat.core_api.ApplyInfo.user:type_name -> meowchat.user.UserPreview
+	56, // 5: meowchat.core_api.ApplyInfo.user:type_name -> meowchat.user.UserPreview
 	22, // 6: meowchat.core_api.ListApplyResp.applyInfo:type_name -> meowchat.core_api.ApplyInfo
 	29, // 7: meowchat.core_api.ListCommunityResp.communities:type_name -> meowchat.core_api.Community
-	56, // 8: meowchat.core_api.GetUserRolesResp.roles:type_name -> meowchat.system.Role
-	56, // 9: meowchat.core_api.UpdateRoleReq.roles:type_name -> meowchat.system.Role
-	57, // 10: meowchat.core_api.RetrieveUserPreviewReq.roleType:type_name -> meowchat.system.RoleType
-	54, // 11: meowchat.core_api.RetrieveUserPreviewResp.users:type_name -> meowchat.user.UserPreview
-	57, // 12: meowchat.core_api.GetUserByRoleReq.roleType:type_name -> meowchat.system.RoleType
-	54, // 13: meowchat.core_api.GetUserByRoleResp.users:type_name -> meowchat.user.UserPreview
-	58, // 14: meowchat.core_api.ListNotificationReq.paginationOptions:type_name -> basic.PaginationOptions
+	58, // 8: meowchat.core_api.GetUserRolesResp.roles:type_name -> meowchat.system.Role
+	58, // 9: meowchat.core_api.UpdateRoleReq.roles:type_name -> meowchat.system.Role
+	59, // 10: meowchat.core_api.RetrieveUserPreviewReq.roleType:type_name -> meowchat.system.RoleType
+	56, // 11: meowchat.core_api.RetrieveUserPreviewResp.users:type_name -> meowchat.user.UserPreview
+	59, // 12: meowchat.core_api.GetUserByRoleReq.roleType:type_name -> meowchat.system.RoleType
+	56, // 13: meowchat.core_api.GetUserByRoleResp.users:type_name -> meowchat.user.UserPreview
+	60, // 14: meowchat.core_api.ListNotificationReq.paginationOptions:type_name -> basic.PaginationOptions
 	3,  // 15: meowchat.core_api.ListNotificationResp.notifications:type_name -> meowchat.core_api.Notification
 	16, // [16:16] is the sub-list for method output_type
 	16, // [16:16] is the sub-list for method input_type
@@ -3169,6 +3260,7 @@ var file_meowchat_core_api_system_proto_depIdxs = []int32{
 	0,  // [0:16] is the sub-list for field type_name
 }
 
+func init() { file_meowchat_core_api_system_proto_init() }
 func file_meowchat_core_api_system_proto_init() {
 	if File_meowchat_core_api_system_proto != nil {
 		return
@@ -3822,6 +3914,30 @@ func file_meowchat_core_api_system_proto_init() {
 				return nil
 			}
 		}
+		file_meowchat_core_api_system_proto_msgTypes[54].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetMinVersionReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_meowchat_core_api_system_proto_msgTypes[55].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetMinVersionResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_meowchat_core_api_system_proto_msgTypes[10].OneofWrappers = []interface{}{}
 	file_meowchat_core_api_system_proto_msgTypes[14].OneofWrappers = []interface{}{}
@@ -3837,7 +3953,7 @@ func file_meowchat_core_api_system_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_meowchat_core_api_system_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   54,
+			NumMessages:   56,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
