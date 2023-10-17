@@ -155,9 +155,9 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 	_, err := s.MeowchatUser.UpdateUser(ctx, &genuser.UpdateUserReq{
 		User: &genuser.UserDetail{
 			Id:        user.UserId,
-			AvatarUrl: *req.AvatarUrl,
-			Nickname:  *req.Nickname,
-			Motto:     *req.Motto,
+			AvatarUrl: req.GetAvatarUrl(),
+			Nickname:  req.GetNickname(),
+			Motto:     req.GetMotto(),
 		},
 	})
 	if err != nil {

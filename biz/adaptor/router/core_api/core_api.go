@@ -17,7 +17,6 @@ import (
 func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
-	root.GET("/get_min_version", append(_getminversionMw(), core_api.GetMinVersion)...)
 	root.GET("/prefetch", append(_prefetchMw(), core_api.Prefetch)...)
 	{
 		_auth := root.Group("/auth", _authMw()...)

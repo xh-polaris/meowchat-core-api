@@ -6,6 +6,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
+	prometheus "github.com/hertz-contrib/monitor-prometheus"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/xh-polaris/gopkg/hertz/middleware"
 	logx "github.com/xh-polaris/gopkg/util/log"
@@ -32,6 +33,7 @@ func main() {
 	tracer, cfg := tracing.NewServerTracer()
 	h := server.New(
 		server.WithHostPorts(c.ListenOn),
+		server.WithTracer(prometheus.NewServerTracer(":9091", "/metrics")),
 		tracer,
 	)
 	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware, recovery.Recovery())
