@@ -216,8 +216,11 @@ func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentRe
 		if data.GetGetFish() == true {
 			_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 				UserId: user.UserId,
-				Fish:   s.Config.Fish.Content,
+				Fish:   s.Config.Fish.Content[data.GetFishTimes-1],
 			})
+			if err == nil {
+				resp.GetFishNum = s.Config.Fish.Content[data.GetFishTimes-1]
+			}
 		}
 		resp.GetFish = data.GetFish
 		resp.GetFishTimes = data.GetFishTimes

@@ -127,13 +127,16 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	if err != nil {
 		return nil, err
 	}
-	if data.GetIsFirst() == true {
+	if data.GetGetFish() == true {
 		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 			UserId: user.UserId,
-			Fish:   s.Config.Fish.Comment,
+			Fish:   s.Config.Fish.Comment[data.GetFishTimes-1],
 		})
+		if err == nil {
+			resp.GetFishNum = s.Config.Fish.Comment[data.GetFishTimes-1]
+		}
 	}
-	resp.IsFirst = data.IsFirst
+	resp.GetFish = data.GetGetFish()
 	return resp, nil
 }
 

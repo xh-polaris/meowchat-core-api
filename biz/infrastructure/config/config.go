@@ -14,10 +14,10 @@ type Auth struct {
 }
 
 type Fish struct {
-	SignIn  int64
+	SignIn  []int64
 	Like    int64
-	Content int64
-	Comment int64
+	Content []int64
+	Comment []int64
 }
 
 type Config struct {

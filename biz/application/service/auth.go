@@ -2,9 +2,12 @@ package service
 
 import (
 	"context"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	"fmt"
 	"time"
+
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/wire"
@@ -54,10 +57,15 @@ func (s *AuthService) SignIn(ctx context.Context, req *core_api.SignInReq) (*cor
 		return nil, err
 	}
 	if rpcResp.GetIsFirst() == true {
+		t := time.Now()
+		fmt.Println(int(t.Weekday()))
 		_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
 			UserId: rpcResp.UserId,
-			Fish:   s.Config.Fish.SignIn,
+			Fish:   s.Config.Fish.SignIn[int(t.Weekday())-1],
 		})
+		if err == nil {
+			resp.GetFishNum = s.Config.Fish.SignIn[int(t.Weekday())-1]
+		}
 	}
 	resp.IsFirst = rpcResp.GetIsFirst()
 	resp.UserId = rpcResp.GetUserId()

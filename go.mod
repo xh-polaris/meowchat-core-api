@@ -9,11 +9,12 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/google/uuid v1.3.0
 	github.com/google/wire v0.5.0
+	github.com/hertz-contrib/monitor-prometheus v0.0.0-20221109015426-47eab4e08245
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/jinzhu/copier v0.3.5
 	github.com/samber/lo v1.38.1
 	github.com/xh-polaris/gopkg v0.0.0-20231013165226-76f4d7108b9d
-	github.com/xh-polaris/service-idl-gen-go v0.0.0-20231016140245-16ffb0aa2eb7
+	github.com/xh-polaris/service-idl-gen-go v0.0.0-20231030160700-9f0bb8f39e9b
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0
 	go.opentelemetry.io/otel v1.16.0
@@ -46,7 +47,6 @@ require (
 	github.com/google/pprof v0.0.0-20230509042627-b1315fad0c5a // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 // indirect
 	github.com/henrylee2cn/ameda v1.5.1 // indirect
-	github.com/hertz-contrib/monitor-prometheus v0.0.0-20221109015426-47eab4e08245 // indirect
 	github.com/jhump/protoreflect v1.15.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kitex-contrib/obs-opentelemetry v0.2.3 // indirect

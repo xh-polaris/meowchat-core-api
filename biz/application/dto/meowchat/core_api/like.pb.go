@@ -26,8 +26,8 @@ type DoLikeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
 }
 
 func (x *DoLikeReq) Reset() {
@@ -81,7 +81,8 @@ type DoLikeResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IsFirst bool `protobuf:"varint,1,opt,name=isFirst,proto3" json:"isFirst" form:"isFirst" query:"isFirst"`
+	IsFirst    bool  `protobuf:"varint,1,opt,name=isFirst,proto3" json:"isFirst,omitempty" form:"isFirst" query:"isFirst"`
+	GetFishNum int64 `protobuf:"varint,2,opt,name=getFishNum,proto3" json:"getFishNum,omitempty" form:"getFishNum" query:"getFishNum"`
 }
 
 func (x *DoLikeResp) Reset() {
@@ -123,13 +124,20 @@ func (x *DoLikeResp) GetIsFirst() bool {
 	return false
 }
 
+func (x *DoLikeResp) GetGetFishNum() int64 {
+	if x != nil {
+		return x.GetFishNum
+	}
+	return 0
+}
+
 type GetUserLikedReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
 }
 
 func (x *GetUserLikedReq) Reset() {
@@ -183,7 +191,7 @@ type GetUserLikedResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Liked bool `protobuf:"varint,1,opt,name=liked,proto3" json:"liked" form:"liked" query:"liked"`
+	Liked bool `protobuf:"varint,1,opt,name=liked,proto3" json:"liked,omitempty" form:"liked" query:"liked"`
 }
 
 func (x *GetUserLikedResp) Reset() {
@@ -230,8 +238,8 @@ type GetLikedCountReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
 }
 
 func (x *GetLikedCountReq) Reset() {
@@ -285,7 +293,7 @@ type GetLikedCountResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count" form:"count" query:"count"`
+	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty" form:"count" query:"count"`
 }
 
 func (x *GetLikedCountResp) Reset() {
@@ -332,8 +340,8 @@ type GetUserLikesReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId     string        `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
+	UserId     string        `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
 }
 
 func (x *GetUserLikesReq) Reset() {
@@ -387,7 +395,7 @@ type GetUserLikesResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Likes []*user.Like `protobuf:"bytes,1,rep,name=likes,proto3" json:"likes" form:"likes" query:"likes"`
+	Likes []*user.Like `protobuf:"bytes,1,rep,name=likes,proto3" json:"likes,omitempty" form:"likes" query:"likes"`
 }
 
 func (x *GetUserLikesResp) Reset() {
@@ -434,8 +442,8 @@ type GetLikedUsersReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
 }
 
 func (x *GetLikedUsersReq) Reset() {
@@ -489,7 +497,7 @@ type GetLikedUsersResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
 }
 
 func (x *GetLikedUsersResp) Reset() {
@@ -545,9 +553,11 @@ var file_meowchat_core_api_like_proto_rawDesc = []byte{
 	0x54, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x17, 0x2e, 0x6d, 0x65, 0x6f,
 	0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x4c, 0x69, 0x6b, 0x65, 0x54,
 	0x79, 0x70, 0x65, 0x52, 0x0a, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x54, 0x79, 0x70, 0x65, 0x22,
-	0x26, 0x0a, 0x0a, 0x44, 0x6f, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x18, 0x0a,
+	0x46, 0x0a, 0x0a, 0x44, 0x6f, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x73, 0x70, 0x12, 0x18, 0x0a,
 	0x07, 0x69, 0x73, 0x46, 0x69, 0x72, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07,
-	0x69, 0x73, 0x46, 0x69, 0x72, 0x73, 0x74, 0x22, 0x66, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x55, 0x73,
+	0x69, 0x73, 0x46, 0x69, 0x72, 0x73, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x67, 0x65, 0x74, 0x46, 0x69,
+	0x73, 0x68, 0x4e, 0x75, 0x6d, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x67, 0x65, 0x74,
+	0x46, 0x69, 0x73, 0x68, 0x4e, 0x75, 0x6d, 0x22, 0x66, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x55, 0x73,
 	0x65, 0x72, 0x4c, 0x69, 0x6b, 0x65, 0x64, 0x52, 0x65, 0x71, 0x12, 0x1a, 0x0a, 0x08, 0x74, 0x61,
 	0x72, 0x67, 0x65, 0x74, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x74, 0x61,
 	0x72, 0x67, 0x65, 0x74, 0x49, 0x64, 0x12, 0x37, 0x0a, 0x0a, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74,

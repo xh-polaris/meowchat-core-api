@@ -125,18 +125,14 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 	if err != nil {
 		return nil, err
 	}
-	users := make([]*user1.UserPreview, 0, len(data.Plan.InitiatorIds))
-	for _, initiatorId := range data.Plan.InitiatorIds {
-		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
-		if err == nil {
-			users = append(users, &user1.UserPreview{
-				Id:        user.User.Id,
-				Nickname:  user.User.Nickname,
-				AvatarUrl: user.User.AvatarUrl,
-			})
+	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Plan.InitiatorId})
+	if err == nil {
+		resp.Plan.User = &user1.UserPreview{
+			Id:        user.User.Id,
+			Nickname:  user.User.Nickname,
+			AvatarUrl: user.User.AvatarUrl,
 		}
 	}
-	resp.Plan.Users = users
 	return resp, nil
 }
 
@@ -176,20 +172,14 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 
 	util.ParallelRun(lo.Map(data.Plans, func(plan *content.Plan, i int) func() {
 		return func() {
-			users := make([]*user1.UserPreview, len(plan.InitiatorIds))
-			util.ParallelRun(lo.Map(plan.InitiatorIds, func(initiatorId string, j int) func() {
-				return func() {
-					rpcResp, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: initiatorId})
-					if err == nil && rpcResp != nil {
-						users[j] = &user1.UserPreview{
-							Id:        rpcResp.User.Id,
-							Nickname:  rpcResp.User.Nickname,
-							AvatarUrl: rpcResp.User.AvatarUrl,
-						}
-					}
+			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: plan.InitiatorId})
+			if err == nil {
+				resp.Plans[i].User = &user1.UserPreview{
+					Id:        user.User.Id,
+					Nickname:  user.User.Nickname,
+					AvatarUrl: user.User.AvatarUrl,
 				}
-			}))
-			resp.Plans[i].Users = users
+			}
 		}
 	}))
 	return resp, nil
@@ -243,9 +233,7 @@ func (s *PlanService) NewPlan(ctx context.Context, req *core_api.NewPlanReq, use
 		return nil, err
 	}
 
-	users := make([]string, 1)
-	users[0] = user.GetUserId()
-	m.InitiatorIds = users
+	m.InitiatorId = user.GetUserId()
 
 	if req.GetId() == "" {
 		var data *content.CreatePlanResp

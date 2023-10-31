@@ -178,8 +178,11 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 		if res.GetGetFish() == true {
 			_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 				UserId: user.UserId,
-				Fish:   s.Config.Fish.Content,
+				Fish:   s.Config.Fish.Content[res.GetFishTimes-1],
 			})
+			if err == nil {
+				resp.GetFishNum = s.Config.Fish.Content[res.GetFishTimes-1]
+			}
 		}
 		resp.GetFish = res.GetFish
 		resp.GetFishTimes = res.GetFishTimes

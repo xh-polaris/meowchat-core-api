@@ -2,16 +2,18 @@ package service
 
 import (
 	"context"
+
 	"github.com/google/wire"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
-	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type ILikeService interface {
@@ -53,6 +55,9 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 			UserId: user.UserId,
 			Fish:   s.Config.Fish.Like,
 		})
+		if err == nil {
+			resp.GetFishNum = s.Config.Fish.Like
+		}
 	}
 	resp.IsFirst = r.IsFirst
 	return resp, nil
