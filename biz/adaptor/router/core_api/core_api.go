@@ -118,6 +118,7 @@ func Register(r *server.Hertz) {
 	}
 	{
 		_user := root.Group("/user", _userMw()...)
+		_user.GET("/check_in", append(_checkinMw(), core_api.CheckIn)...)
 		_user.GET("/get_user_info", append(_getuserinfoMw(), core_api.GetUserInfo)...)
 		_user.GET("/search_user", append(_searchuserMw(), core_api.SearchUser)...)
 		_user.POST("/update_user_info", append(_updateuserinfoMw(), core_api.UpdateUserInfo)...)

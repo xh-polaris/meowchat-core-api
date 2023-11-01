@@ -72,10 +72,11 @@ func NewProvider() (*Provider, error) {
 		MeowchatSystem:  meowchatSystem,
 	}
 	userService := &service.UserService{
-		Config:       configConfig,
-		UserService:  userDomainService,
-		MeowchatUser: meowchatUser,
-		PlatformSts:  platformSts,
+		Config:          configConfig,
+		UserService:     userDomainService,
+		MeowchatUser:    meowchatUser,
+		PlatformSts:     platformSts,
+		MeowchatContent: meowchatContent,
 	}
 	momentDomainService := &service2.MomentDomainService{
 		MeowchatContent:  meowchatContent,

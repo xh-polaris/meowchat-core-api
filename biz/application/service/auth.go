@@ -2,10 +2,7 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"time"
-
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 
@@ -56,18 +53,6 @@ func (s *AuthService) SignIn(ctx context.Context, req *core_api.SignInReq) (*cor
 		log.CtxError(ctx, "[generateJwtToken] fail, err=%v, config=%s, resp=%s", err, util.JSONF(s.Config.Auth), util.JSONF(rpcResp))
 		return nil, err
 	}
-	if rpcResp.GetIsFirst() == true {
-		t := time.Now()
-		fmt.Println(int(t.Weekday()))
-		_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
-			UserId: rpcResp.UserId,
-			Fish:   s.Config.Fish.SignIn[int(t.Weekday())-1],
-		})
-		if err == nil {
-			resp.GetFishNum = s.Config.Fish.SignIn[int(t.Weekday())-1]
-		}
-	}
-	resp.IsFirst = rpcResp.GetIsFirst()
 	resp.UserId = rpcResp.GetUserId()
 	return resp, nil
 }

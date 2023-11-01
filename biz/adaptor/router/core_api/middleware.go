@@ -415,3 +415,8 @@ func _getminversionMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _checkinMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

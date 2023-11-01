@@ -463,6 +463,99 @@ func (x *SearchUserResp) GetToken() string {
 	return ""
 }
 
+type CheckInReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CheckInReq) Reset() {
+	*x = CheckInReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_core_api_user_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CheckInReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckInReq) ProtoMessage() {}
+
+func (x *CheckInReq) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_core_api_user_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckInReq.ProtoReflect.Descriptor instead.
+func (*CheckInReq) Descriptor() ([]byte, []int) {
+	return file_meowchat_core_api_user_proto_rawDescGZIP(), []int{7}
+}
+
+type CheckInResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IsFirst    bool  `protobuf:"varint,1,opt,name=isFirst,proto3" json:"isFirst,omitempty" form:"isFirst" query:"isFirst"`
+	GetFishNum int64 `protobuf:"varint,2,opt,name=getFishNum,proto3" json:"getFishNum,omitempty" form:"getFishNum" query:"getFishNum"`
+}
+
+func (x *CheckInResp) Reset() {
+	*x = CheckInResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_meowchat_core_api_user_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CheckInResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckInResp) ProtoMessage() {}
+
+func (x *CheckInResp) ProtoReflect() protoreflect.Message {
+	mi := &file_meowchat_core_api_user_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckInResp.ProtoReflect.Descriptor instead.
+func (*CheckInResp) Descriptor() ([]byte, []int) {
+	return file_meowchat_core_api_user_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CheckInResp) GetIsFirst() bool {
+	if x != nil {
+		return x.IsFirst
+	}
+	return false
+}
+
+func (x *CheckInResp) GetGetFishNum() int64 {
+	if x != nil {
+		return x.GetFishNum
+	}
+	return 0
+}
+
 var File_meowchat_core_api_user_proto protoreflect.FileDescriptor
 
 var file_meowchat_core_api_user_proto_rawDesc = []byte{
@@ -534,16 +627,21 @@ var file_meowchat_core_api_user_proto_rawDesc = []byte{
 	0x70, 0x69, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x05, 0x75, 0x73, 0x65, 0x72, 0x73, 0x12, 0x14,
 	0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x74,
 	0x6f, 0x74, 0x61, 0x6c, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x83, 0x01, 0x0a, 0x25, 0x63,
-	0x6f, 0x6d, 0x2e, 0x78, 0x68, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2e, 0x69, 0x64, 0x6c,
-	0x67, 0x65, 0x6e, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72,
-	0x65, 0x61, 0x70, 0x69, 0x42, 0x09, 0x55, 0x73, 0x65, 0x72, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
-	0x01, 0x5a, 0x4d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68,
-	0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61,
-	0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61,
-	0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x6d,
-	0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x0c, 0x0a, 0x0a, 0x43, 0x68,
+	0x65, 0x63, 0x6b, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x22, 0x47, 0x0a, 0x0b, 0x43, 0x68, 0x65, 0x63,
+	0x6b, 0x49, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x12, 0x18, 0x0a, 0x07, 0x69, 0x73, 0x46, 0x69, 0x72,
+	0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x69, 0x73, 0x46, 0x69, 0x72, 0x73,
+	0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x67, 0x65, 0x74, 0x46, 0x69, 0x73, 0x68, 0x4e, 0x75, 0x6d, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x67, 0x65, 0x74, 0x46, 0x69, 0x73, 0x68, 0x4e, 0x75,
+	0x6d, 0x42, 0x83, 0x01, 0x0a, 0x25, 0x63, 0x6f, 0x6d, 0x2e, 0x78, 0x68, 0x70, 0x6f, 0x6c, 0x61,
+	0x72, 0x69, 0x73, 0x2e, 0x69, 0x64, 0x6c, 0x67, 0x65, 0x6e, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63,
+	0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x61, 0x70, 0x69, 0x42, 0x09, 0x55, 0x73, 0x65,
+	0x72, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x4d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
+	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f,
+	0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70,
+	0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x63,
+	0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -558,7 +656,7 @@ func file_meowchat_core_api_user_proto_rawDescGZIP() []byte {
 	return file_meowchat_core_api_user_proto_rawDescData
 }
 
-var file_meowchat_core_api_user_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_meowchat_core_api_user_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_meowchat_core_api_user_proto_goTypes = []interface{}{
 	(*User)(nil),                    // 0: meowchat.core_api.User
 	(*GetUserInfoReq)(nil),          // 1: meowchat.core_api.GetUserInfoReq
@@ -567,19 +665,21 @@ var file_meowchat_core_api_user_proto_goTypes = []interface{}{
 	(*UpdateUserInfoResp)(nil),      // 4: meowchat.core_api.UpdateUserInfoResp
 	(*SearchUserReq)(nil),           // 5: meowchat.core_api.SearchUserReq
 	(*SearchUserResp)(nil),          // 6: meowchat.core_api.SearchUserResp
-	(*system.Role)(nil),             // 7: meowchat.system.Role
-	(*basic.PaginationOptions)(nil), // 8: basic.PaginationOptions
+	(*CheckInReq)(nil),              // 7: meowchat.core_api.CheckInReq
+	(*CheckInResp)(nil),             // 8: meowchat.core_api.CheckInResp
+	(*system.Role)(nil),             // 9: meowchat.system.Role
+	(*basic.PaginationOptions)(nil), // 10: basic.PaginationOptions
 }
 var file_meowchat_core_api_user_proto_depIdxs = []int32{
-	7, // 0: meowchat.core_api.User.roles:type_name -> meowchat.system.Role
-	0, // 1: meowchat.core_api.GetUserInfoResp.user:type_name -> meowchat.core_api.User
-	8, // 2: meowchat.core_api.SearchUserReq.paginationOption:type_name -> basic.PaginationOptions
-	0, // 3: meowchat.core_api.SearchUserResp.users:type_name -> meowchat.core_api.User
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	9,  // 0: meowchat.core_api.User.roles:type_name -> meowchat.system.Role
+	0,  // 1: meowchat.core_api.GetUserInfoResp.user:type_name -> meowchat.core_api.User
+	10, // 2: meowchat.core_api.SearchUserReq.paginationOption:type_name -> basic.PaginationOptions
+	0,  // 3: meowchat.core_api.SearchUserResp.users:type_name -> meowchat.core_api.User
+	4,  // [4:4] is the sub-list for method output_type
+	4,  // [4:4] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_meowchat_core_api_user_proto_init() }
@@ -672,6 +772,30 @@ func file_meowchat_core_api_user_proto_init() {
 				return nil
 			}
 		}
+		file_meowchat_core_api_user_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckInReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_meowchat_core_api_user_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckInResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_meowchat_core_api_user_proto_msgTypes[0].OneofWrappers = []interface{}{}
 	file_meowchat_core_api_user_proto_msgTypes[1].OneofWrappers = []interface{}{}
@@ -682,7 +806,7 @@ func file_meowchat_core_api_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_meowchat_core_api_user_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
