@@ -144,8 +144,10 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 	}
 	request := &content.ListPlanReq{
 		FilterOptions: &content.PlanFilterOptions{
-			OnlyUserId: req.OnlyUserId,
-			OnlyCatId:  req.CatId,
+			OnlyUserId:      req.OnlyUserId,
+			OnlyCatId:       req.CatId,
+			OnlyCommunityId: req.OnlyCommunityId,
+			IncludeGlobal:   req.IncludeGlobal,
 		},
 		PaginationOptions: &basic.PaginationOptions{
 			Offset:    new(int64),

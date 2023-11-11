@@ -3,8 +3,9 @@ package meowchat_content
 import (
 	"github.com/google/wire"
 	"github.com/xh-polaris/gopkg/kitex/client"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	content "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content/contentservice"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 )
 
 type IMeowchatContent interface {

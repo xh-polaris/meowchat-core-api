@@ -3,8 +3,9 @@ package meowchat_user
 import (
 	"github.com/google/wire"
 	"github.com/xh-polaris/gopkg/kitex/client"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	user "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user/userservice"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 )
 
 type IMeowchatUser interface {
