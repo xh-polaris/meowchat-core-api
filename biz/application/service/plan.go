@@ -167,6 +167,7 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 
 	resp.Total = data.Total
 	resp.Plans = make([]*core_api.Plan, 0, len(data.Plans))
+	resp.Token = data.Token
 	err = copier.Copy(&resp.Plans, data.Plans)
 	if err != nil {
 		return nil, err
