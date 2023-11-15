@@ -420,3 +420,18 @@ func _checkinMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _listdonatebyuserMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _countdonatebyplanMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _countdonatebyuserMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

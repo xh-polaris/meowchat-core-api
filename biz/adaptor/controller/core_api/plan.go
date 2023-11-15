@@ -125,3 +125,51 @@ func ListFishByPlan(ctx context.Context, c *app.RequestContext) {
 	resp, err := p.PlanService.ListFishByPlan(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
+
+// ListDonateByUser .
+// @router /plan/list_donate_by_user [GET]
+func ListDonateByUser(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.ListDonateByUserReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.PlanService.ListDonateByUser(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	adaptor.PostProcess(ctx, c, &req, resp, err)
+}
+
+// CountDonateByUser .
+// @router /plan/count_donate_by_user [GET]
+func CountDonateByUser(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.CountDonateByUserReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.PlanService.CountDonateByUser(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	adaptor.PostProcess(ctx, c, &req, resp, err)
+}
+
+// CountDonateByPlan .
+// @router /plan/count_donate_by_plan [GET]
+func CountDonateByPlan(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.CountDonateByPlanReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.PlanService.CountDonateByPlan(ctx, &req)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
+}

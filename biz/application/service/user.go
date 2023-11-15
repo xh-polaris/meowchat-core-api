@@ -46,6 +46,14 @@ var UserServiceSet = wire.NewSet(
 func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq, user *basic.UserMeta) (*core_api.GetUserInfoResp, error) {
 	resp := new(core_api.GetUserInfoResp)
 
+	if user.WechatUserMeta != nil {
+		_, _ = s.PlatformSts.AddUserAuth(ctx, &sts.AddUserAuthReq{
+			UserId:  user.UserId,
+			Type:    "wechat",
+			UnionId: user.WechatUserMeta.UnionId,
+		})
+	}
+
 	var userId string
 	if req.UserId != nil {
 		userId = *req.UserId

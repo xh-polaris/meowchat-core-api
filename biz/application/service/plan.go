@@ -32,6 +32,9 @@ type IPlanService interface {
 	DonateFish(ctx context.Context, req *core_api.DonateFishReq, user *basic.UserMeta) (*core_api.DonateFishResp, error)
 	GetUserFish(ctx context.Context, req *core_api.GetUserFishReq, user *basic.UserMeta) (*core_api.GetUserFishResp, error)
 	ListFishByPlan(ctx context.Context, req *core_api.ListFishByPlanReq) (*core_api.ListFishByPlanResp, error)
+	ListDonateByUser(ctx context.Context, req *core_api.ListDonateByUserReq, user *basic.UserMeta) (*core_api.ListDonateByUserResp, error)
+	CountDonateByPlan(ctx context.Context, req *core_api.CountDonateByPlanReq) (*core_api.CountDonateByPlanResp, error)
+	CountDonateByUser(ctx context.Context, req *core_api.CountDonateByUserReq, user *basic.UserMeta) (*core_api.CountDonateByUserResp, error)
 }
 
 type PlanService struct {
@@ -79,7 +82,18 @@ func (s *PlanService) GetUserFish(ctx context.Context, req *core_api.GetUserFish
 
 func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFishByPlanReq) (*core_api.ListFishByPlanResp, error) {
 	resp := new(core_api.ListFishByPlanResp)
-	data, err := s.Plan.ListFishByPlan(ctx, &content.ListFishByPlanReq{PlanId: req.PlanId})
+	request := &content.ListFishByPlanReq{
+		PlanId: req.PlanId,
+		PaginationOptions: &basic.PaginationOptions{
+			Offset:    new(int64),
+			Limit:     req.PaginationOption.Limit,
+			Backward:  req.PaginationOption.Backward,
+			LastToken: req.PaginationOption.LastToken,
+		},
+	}
+	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+
+	data, err := s.Plan.ListFishByPlan(ctx, request)
 	if err != nil {
 		return nil, err
 	}
@@ -95,9 +109,53 @@ func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFish
 			})
 		}
 	}
-
+	resp.Total = data.GetTotal()
 	resp.Users = users
 	resp.FishMap = data.FishMap
+	return resp, nil
+}
+
+func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDonateByUserReq, user *basic.UserMeta) (*core_api.ListDonateByUserResp, error) {
+	resp := new(core_api.ListDonateByUserResp)
+
+	request := &content.ListDonateByUserReq{
+		PaginationOptions: &basic.PaginationOptions{
+			Offset:    new(int64),
+			Limit:     req.PaginationOption.Limit,
+			Backward:  req.PaginationOption.Backward,
+			LastToken: req.PaginationOption.LastToken,
+		},
+	}
+	if req.GetUserId() != "" {
+		request.UserId = req.GetUserId()
+	} else {
+		request.UserId = user.UserId
+	}
+	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+
+	data, err := s.Plan.ListDonateByUser(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	p := make([]*core_api.PlanPre, 0)
+	for _, planpre := range data.PlanPreviews {
+		catName, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: planpre.CatId})
+		if err == nil {
+			p = append(p, &core_api.PlanPre{
+				Id:         planpre.Id,
+				Name:       planpre.Name,
+				CatName:    catName.Cat.Name,
+				DonateNum:  planpre.DonateNum,
+				DonateTime: planpre.DonateTime,
+			})
+		}
+	}
+
+	resp.Total = data.GetTotal()
+	resp.Token = data.GetToken()
+	resp.PlanPreviews = p
+
 	return resp, nil
 }
 
@@ -252,4 +310,27 @@ func (s *PlanService) NewPlan(ctx context.Context, req *core_api.NewPlanReq, use
 	}
 
 	return resp, nil
+}
+
+func (s *PlanService) CountDonateByPlan(ctx context.Context, req *core_api.CountDonateByPlanReq) (*core_api.CountDonateByPlanResp, error) {
+	total, err := s.Plan.CountDonateByPlan(ctx, &content.CountDonateByPlanReq{PlanId: req.PlanId})
+	if err != nil {
+		return nil, err
+	}
+	return &core_api.CountDonateByPlanResp{Total: total.Total}, nil
+}
+
+func (s *PlanService) CountDonateByUser(ctx context.Context, req *core_api.CountDonateByUserReq, user *basic.UserMeta) (*core_api.CountDonateByUserResp, error) {
+	userId := ""
+	if req.GetUserId() != "" {
+		userId = req.GetUserId()
+	} else {
+		userId = user.UserId
+	}
+
+	total, err := s.Plan.CountDonateByUser(ctx, &content.CountDonateByUserReq{UserId: userId})
+	if err != nil {
+		return nil, err
+	}
+	return &core_api.CountDonateByUserResp{Total: total.Total}, nil
 }
