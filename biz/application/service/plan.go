@@ -183,6 +183,8 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 	if err != nil {
 		return nil, err
 	}
+	cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: data.Plan.CatId})
+	resp.Plan.CatName = cat.Cat.Name
 	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Plan.InitiatorId})
 	if err == nil {
 		resp.Plan.User = &user1.UserPreview{
