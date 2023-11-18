@@ -26,8 +26,8 @@ type DoLikeReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
 }
 
 func (x *DoLikeReq) Reset() {
@@ -81,8 +81,8 @@ type DoLikeResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	IsFirst    bool  `protobuf:"varint,1,opt,name=isFirst,proto3" json:"isFirst,omitempty" form:"isFirst" query:"isFirst"`
-	GetFishNum int64 `protobuf:"varint,2,opt,name=getFishNum,proto3" json:"getFishNum,omitempty" form:"getFishNum" query:"getFishNum"`
+	IsFirst    bool  `protobuf:"varint,1,opt,name=isFirst,proto3" json:"isFirst" form:"isFirst" query:"isFirst"`
+	GetFishNum int64 `protobuf:"varint,2,opt,name=getFishNum,proto3" json:"getFishNum" form:"getFishNum" query:"getFishNum"`
 }
 
 func (x *DoLikeResp) Reset() {
@@ -136,8 +136,8 @@ type GetUserLikedReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
 }
 
 func (x *GetUserLikedReq) Reset() {
@@ -191,7 +191,7 @@ type GetUserLikedResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Liked bool `protobuf:"varint,1,opt,name=liked,proto3" json:"liked,omitempty" form:"liked" query:"liked"`
+	Liked bool `protobuf:"varint,1,opt,name=liked,proto3" json:"liked" form:"liked" query:"liked"`
 }
 
 func (x *GetUserLikedResp) Reset() {
@@ -238,8 +238,8 @@ type GetLikedCountReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
 }
 
 func (x *GetLikedCountReq) Reset() {
@@ -293,7 +293,7 @@ type GetLikedCountResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty" form:"count" query:"count"`
+	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count" form:"count" query:"count"`
 }
 
 func (x *GetLikedCountResp) Reset() {
@@ -340,8 +340,8 @@ type GetUserLikesReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId     string        `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
+	UserId     string        `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
 }
 
 func (x *GetUserLikesReq) Reset() {
@@ -395,7 +395,7 @@ type GetUserLikesResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Likes []*user.Like `protobuf:"bytes,1,rep,name=likes,proto3" json:"likes,omitempty" form:"likes" query:"likes"`
+	Likes []*user.Like `protobuf:"bytes,1,rep,name=likes,proto3" json:"likes" form:"likes" query:"likes"`
 }
 
 func (x *GetUserLikesResp) Reset() {
@@ -442,8 +442,8 @@ type GetLikedUsersReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId,omitempty" form:"targetId" query:"targetId"`
-	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType,omitempty" form:"targetType" query:"targetType"`
+	TargetId   string        `protobuf:"bytes,1,opt,name=targetId,proto3" json:"targetId" form:"targetId" query:"targetId"`
+	TargetType user.LikeType `protobuf:"varint,2,opt,name=targetType,proto3,enum=meowchat.user.LikeType" json:"targetType" form:"targetType" query:"targetType"`
 }
 
 func (x *GetLikedUsersReq) Reset() {
@@ -497,7 +497,7 @@ type GetLikedUsersResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
+	Users []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
 }
 
 func (x *GetLikedUsersResp) Reset() {

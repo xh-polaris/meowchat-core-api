@@ -26,15 +26,15 @@ type Comment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id           string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	FirstLevelId *string `protobuf:"bytes,2,opt,name=firstLevelId,proto3,oneof" json:"firstLevelId,omitempty" form:"firstLevelId" query:"firstLevelId"`
-	Text         string  `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	User         *User   `protobuf:"bytes,4,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
-	ReplyUser    *User   `protobuf:"bytes,5,opt,name=replyUser,proto3,oneof" json:"replyUser,omitempty" form:"replyUser" query:"replyUser"` // 这条评论回复的用户
-	Comments     *int64  `protobuf:"varint,6,opt,name=comments,proto3,oneof" json:"comments,omitempty" form:"comments" query:"comments"`
-	CreateAt     int64   `protobuf:"varint,7,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	LikeCount    *int64  `protobuf:"varint,8,opt,name=likeCount,proto3,oneof" json:"likeCount,omitempty" form:"likeCount" query:"likeCount"`
-	IsLiked      *bool   `protobuf:"varint,9,opt,name=isLiked,proto3,oneof" json:"isLiked,omitempty" form:"isLiked" query:"isLiked"`
+	Id           string  `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	FirstLevelId *string `protobuf:"bytes,2,opt,name=firstLevelId,proto3,oneof" json:"firstLevelId" form:"firstLevelId" query:"firstLevelId"`
+	Text         string  `protobuf:"bytes,3,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	User         *User   `protobuf:"bytes,4,opt,name=user,proto3" json:"user" form:"user" query:"user"`
+	ReplyUser    *User   `protobuf:"bytes,5,opt,name=replyUser,proto3,oneof" json:"replyUser" form:"replyUser" query:"replyUser"` // 这条评论回复的用户
+	Comments     *int64  `protobuf:"varint,6,opt,name=comments,proto3,oneof" json:"comments" form:"comments" query:"comments"`
+	CreateAt     int64   `protobuf:"varint,7,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	LikeCount    *int64  `protobuf:"varint,8,opt,name=likeCount,proto3,oneof" json:"likeCount" form:"likeCount" query:"likeCount"`
+	IsLiked      *bool   `protobuf:"varint,9,opt,name=isLiked,proto3,oneof" json:"isLiked" form:"isLiked" query:"isLiked"`
 }
 
 func (x *Comment) Reset() {
@@ -137,10 +137,10 @@ type NewCommentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id           *string             `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
-	FirstLevelId *string             `protobuf:"bytes,2,opt,name=firstLevelId,proto3,oneof" json:"firstLevelId,omitempty" form:"firstLevelId" query:"firstLevelId"`
-	Text         string              `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	Type         comment.CommentType `protobuf:"varint,4,opt,name=type,proto3,enum=platform.comment.CommentType" json:"type,omitempty" form:"type" query:"type"`
+	Id           *string             `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
+	FirstLevelId *string             `protobuf:"bytes,2,opt,name=firstLevelId,proto3,oneof" json:"firstLevelId" form:"firstLevelId" query:"firstLevelId"`
+	Text         string              `protobuf:"bytes,3,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	Type         comment.CommentType `protobuf:"varint,4,opt,name=type,proto3,enum=platform.comment.CommentType" json:"type" form:"type" query:"type"`
 }
 
 func (x *NewCommentReq) Reset() {
@@ -208,9 +208,9 @@ type NewCommentResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	GetFish      bool  `protobuf:"varint,1,opt,name=getFish,proto3" json:"getFish,omitempty" form:"getFish" query:"getFish"`
-	GetFishTimes int64 `protobuf:"varint,2,opt,name=getFishTimes,proto3" json:"getFishTimes,omitempty" form:"getFishTimes" query:"getFishTimes"`
-	GetFishNum   int64 `protobuf:"varint,3,opt,name=getFishNum,proto3" json:"getFishNum,omitempty" form:"getFishNum" query:"getFishNum"`
+	GetFish      bool  `protobuf:"varint,1,opt,name=getFish,proto3" json:"getFish" form:"getFish" query:"getFish"`
+	GetFishTimes int64 `protobuf:"varint,2,opt,name=getFishTimes,proto3" json:"getFishTimes" form:"getFishTimes" query:"getFishTimes"`
+	GetFishNum   int64 `protobuf:"varint,3,opt,name=getFishNum,proto3" json:"getFishNum" form:"getFishNum" query:"getFishNum"`
 }
 
 func (x *NewCommentResp) Reset() {
@@ -271,9 +271,9 @@ type GetCommentsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Type comment.CommentType `protobuf:"varint,2,opt,name=type,proto3,enum=platform.comment.CommentType" json:"type,omitempty" form:"type" query:"type"`
-	Page int64               `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty" form:"page" query:"page"`
+	Id   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Type comment.CommentType `protobuf:"varint,2,opt,name=type,proto3,enum=platform.comment.CommentType" json:"type" form:"type" query:"type"`
+	Page int64               `protobuf:"varint,3,opt,name=page,proto3" json:"page" form:"page" query:"page"`
 }
 
 func (x *GetCommentsReq) Reset() {
@@ -334,8 +334,8 @@ type GetCommentsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Comments []*Comment `protobuf:"bytes,1,rep,name=comments,proto3" json:"comments,omitempty" form:"comments" query:"comments"`
-	Total    int64      `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Comments []*Comment `protobuf:"bytes,1,rep,name=comments,proto3" json:"comments" form:"comments" query:"comments"`
+	Total    int64      `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *GetCommentsResp) Reset() {
@@ -389,7 +389,7 @@ type DeleteCommentReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CommentId string `protobuf:"bytes,1,opt,name=commentId,proto3" json:"commentId,omitempty" form:"commentId" query:"commentId"`
+	CommentId string `protobuf:"bytes,1,opt,name=commentId,proto3" json:"commentId" form:"commentId" query:"commentId"`
 }
 
 func (x *DeleteCommentReq) Reset() {

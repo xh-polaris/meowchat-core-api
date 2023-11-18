@@ -28,24 +28,24 @@ type Plan struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Name        string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	CoverUrl    string            `protobuf:"bytes,3,opt,name=coverUrl,proto3" json:"coverUrl,omitempty" form:"coverUrl" query:"coverUrl"`
-	Description string            `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty" form:"description" query:"description"`
-	PlanType    content.PlanType  `protobuf:"varint,5,opt,name=planType,proto3,enum=meowchat.content.PlanType" json:"planType,omitempty" form:"planType" query:"planType"`
-	Instruction string            `protobuf:"bytes,6,opt,name=instruction,proto3" json:"instruction,omitempty" form:"instruction" query:"instruction"`
-	StartTime   int64             `protobuf:"varint,7,opt,name=startTime,proto3" json:"startTime,omitempty" form:"startTime" query:"startTime"`
-	EndTime     int64             `protobuf:"varint,8,opt,name=endTime,proto3" json:"endTime,omitempty" form:"endTime" query:"endTime"`
-	CatId       string            `protobuf:"bytes,9,opt,name=catId,proto3" json:"catId,omitempty" form:"catId" query:"catId"`
-	CommunityId string            `protobuf:"bytes,10,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	User        *user.UserPreview `protobuf:"bytes,11,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
-	ImageUrls   []string          `protobuf:"bytes,12,rep,name=imageUrls,proto3" json:"imageUrls,omitempty" form:"imageUrls" query:"imageUrls"`
-	CreateAt    int64             `protobuf:"varint,13,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	MaxFish     int64             `protobuf:"varint,14,opt,name=maxFish,proto3" json:"maxFish,omitempty" form:"maxFish" query:"maxFish"`
-	NowFish     int64             `protobuf:"varint,15,opt,name=nowFish,proto3" json:"nowFish,omitempty" form:"nowFish" query:"nowFish"`
-	Summary     string            `protobuf:"bytes,16,opt,name=summary,proto3" json:"summary,omitempty" form:"summary" query:"summary"`
-	CatName     string            `protobuf:"bytes,17,opt,name=catName,proto3" json:"catName,omitempty" form:"catName" query:"catName"`
-	PlanState   content.PlanState `protobuf:"varint,18,opt,name=planState,proto3,enum=meowchat.content.PlanState" json:"planState,omitempty" form:"planState" query:"planState"`
+	Id          string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Name        string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	CoverUrl    string            `protobuf:"bytes,3,opt,name=coverUrl,proto3" json:"coverUrl" form:"coverUrl" query:"coverUrl"`
+	Description string            `protobuf:"bytes,4,opt,name=description,proto3" json:"description" form:"description" query:"description"`
+	PlanType    content.PlanType  `protobuf:"varint,5,opt,name=planType,proto3,enum=meowchat.content.PlanType" json:"planType" form:"planType" query:"planType"`
+	Instruction string            `protobuf:"bytes,6,opt,name=instruction,proto3" json:"instruction" form:"instruction" query:"instruction"`
+	StartTime   int64             `protobuf:"varint,7,opt,name=startTime,proto3" json:"startTime" form:"startTime" query:"startTime"`
+	EndTime     int64             `protobuf:"varint,8,opt,name=endTime,proto3" json:"endTime" form:"endTime" query:"endTime"`
+	CatId       string            `protobuf:"bytes,9,opt,name=catId,proto3" json:"catId" form:"catId" query:"catId"`
+	CommunityId string            `protobuf:"bytes,10,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	User        *user.UserPreview `protobuf:"bytes,11,opt,name=user,proto3" json:"user" form:"user" query:"user"`
+	ImageUrls   []string          `protobuf:"bytes,12,rep,name=imageUrls,proto3" json:"imageUrls" form:"imageUrls" query:"imageUrls"`
+	CreateAt    int64             `protobuf:"varint,13,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	MaxFish     int64             `protobuf:"varint,14,opt,name=maxFish,proto3" json:"maxFish" form:"maxFish" query:"maxFish"`
+	NowFish     int64             `protobuf:"varint,15,opt,name=nowFish,proto3" json:"nowFish" form:"nowFish" query:"nowFish"`
+	Summary     string            `protobuf:"bytes,16,opt,name=summary,proto3" json:"summary" form:"summary" query:"summary"`
+	CatName     string            `protobuf:"bytes,17,opt,name=catName,proto3" json:"catName" form:"catName" query:"catName"`
+	PlanState   content.PlanState `protobuf:"varint,18,opt,name=planState,proto3,enum=meowchat.content.PlanState" json:"planState" form:"planState" query:"planState"`
 }
 
 func (x *Plan) Reset() {
@@ -211,11 +211,11 @@ type PlanPre struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Name       string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	CatName    string `protobuf:"bytes,3,opt,name=catName,proto3" json:"catName,omitempty" form:"catName" query:"catName"`
-	DonateNum  int64  `protobuf:"varint,4,opt,name=donateNum,proto3" json:"donateNum,omitempty" form:"donateNum" query:"donateNum"`
-	DonateTime int64  `protobuf:"varint,5,opt,name=donateTime,proto3" json:"donateTime,omitempty" form:"donateTime" query:"donateTime"`
+	Id         string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Name       string `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	CatName    string `protobuf:"bytes,3,opt,name=catName,proto3" json:"catName" form:"catName" query:"catName"`
+	DonateNum  int64  `protobuf:"varint,4,opt,name=donateNum,proto3" json:"donateNum" form:"donateNum" query:"donateNum"`
+	DonateTime int64  `protobuf:"varint,5,opt,name=donateTime,proto3" json:"donateTime" form:"donateTime" query:"donateTime"`
 }
 
 func (x *PlanPre) Reset() {
@@ -290,12 +290,12 @@ type GetPlanPreviewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CatId            *string                  `protobuf:"bytes,1,opt,name=catId,proto3,oneof" json:"catId,omitempty" form:"catId" query:"catId"`
-	OnlyUserId       *string                  `protobuf:"bytes,2,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId,omitempty" form:"onlyUserId" query:"onlyUserId"`
-	OnlyCommunityId  *string                  `protobuf:"bytes,3,opt,name=onlyCommunityId,proto3,oneof" json:"onlyCommunityId,omitempty" form:"onlyCommunityId" query:"onlyCommunityId"`
-	IncludeGlobal    *bool                    `protobuf:"varint,4,opt,name=includeGlobal,proto3,oneof" json:"includeGlobal,omitempty" form:"includeGlobal" query:"includeGlobal"`
-	Keyword          *string                  `protobuf:"bytes,5,opt,name=keyword,proto3,oneof" json:"keyword,omitempty" form:"keyword" query:"keyword"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,6,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
+	CatId            *string                  `protobuf:"bytes,1,opt,name=catId,proto3,oneof" json:"catId" form:"catId" query:"catId"`
+	OnlyUserId       *string                  `protobuf:"bytes,2,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId" form:"onlyUserId" query:"onlyUserId"`
+	OnlyCommunityId  *string                  `protobuf:"bytes,3,opt,name=onlyCommunityId,proto3,oneof" json:"onlyCommunityId" form:"onlyCommunityId" query:"onlyCommunityId"`
+	IncludeGlobal    *bool                    `protobuf:"varint,4,opt,name=includeGlobal,proto3,oneof" json:"includeGlobal" form:"includeGlobal" query:"includeGlobal"`
+	Keyword          *string                  `protobuf:"bytes,5,opt,name=keyword,proto3,oneof" json:"keyword" form:"keyword" query:"keyword"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,6,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
 }
 
 func (x *GetPlanPreviewsReq) Reset() {
@@ -377,9 +377,9 @@ type GetPlanPreviewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Plans []*Plan `protobuf:"bytes,1,rep,name=plans,proto3" json:"plans,omitempty" form:"plans" query:"plans"`
-	Total int64   `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
-	Token string  `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty" form:"token" query:"token"`
+	Plans []*Plan `protobuf:"bytes,1,rep,name=plans,proto3" json:"plans" form:"plans" query:"plans"`
+	Total int64   `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
+	Token string  `protobuf:"bytes,3,opt,name=token,proto3" json:"token" form:"token" query:"token"`
 }
 
 func (x *GetPlanPreviewsResp) Reset() {
@@ -440,7 +440,7 @@ type GetPlanDetailReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId,omitempty" form:"planId" query:"planId"`
+	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId" form:"planId" query:"planId"`
 }
 
 func (x *GetPlanDetailReq) Reset() {
@@ -487,7 +487,7 @@ type GetPlanDetailResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Plan *Plan `protobuf:"bytes,1,opt,name=plan,proto3" json:"plan,omitempty" form:"plan" query:"plan"`
+	Plan *Plan `protobuf:"bytes,1,opt,name=plan,proto3" json:"plan" form:"plan" query:"plan"`
 }
 
 func (x *GetPlanDetailResp) Reset() {
@@ -534,7 +534,7 @@ type DeletePlanReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId,omitempty" form:"planId" query:"planId"`
+	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId" form:"planId" query:"planId"`
 }
 
 func (x *DeletePlanReq) Reset() {
@@ -619,20 +619,20 @@ type NewPlanReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          *string            `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
-	Name        *string            `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty" form:"name" query:"name"`
-	Description *string            `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty" form:"description" query:"description"`
-	CoverUrl    *string            `protobuf:"bytes,4,opt,name=coverUrl,proto3,oneof" json:"coverUrl,omitempty" form:"coverUrl" query:"coverUrl"`
-	PlanType    *content.PlanType  `protobuf:"varint,5,opt,name=planType,proto3,enum=meowchat.content.PlanType,oneof" json:"planType,omitempty" form:"planType" query:"planType"`
-	Instruction *string            `protobuf:"bytes,6,opt,name=instruction,proto3,oneof" json:"instruction,omitempty" form:"instruction" query:"instruction"`
-	StartTime   *int64             `protobuf:"varint,7,opt,name=startTime,proto3,oneof" json:"startTime,omitempty" form:"startTime" query:"startTime"`
-	EndTime     *int64             `protobuf:"varint,8,opt,name=endTime,proto3,oneof" json:"endTime,omitempty" form:"endTime" query:"endTime"`
-	CatId       *string            `protobuf:"bytes,9,opt,name=catId,proto3,oneof" json:"catId,omitempty" form:"catId" query:"catId"`
-	CommunityId *string            `protobuf:"bytes,10,opt,name=communityId,proto3,oneof" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	MaxFish     *int64             `protobuf:"varint,11,opt,name=maxFish,proto3,oneof" json:"maxFish,omitempty" form:"maxFish" query:"maxFish"`
-	ImageUrls   []string           `protobuf:"bytes,12,rep,name=imageUrls,proto3" json:"imageUrls,omitempty" form:"imageUrls" query:"imageUrls"`
-	Summary     *string            `protobuf:"bytes,13,opt,name=summary,proto3,oneof" json:"summary,omitempty" form:"summary" query:"summary"`
-	PlanState   *content.PlanState `protobuf:"varint,14,opt,name=planState,proto3,enum=meowchat.content.PlanState,oneof" json:"planState,omitempty" form:"planState" query:"planState"`
+	Id          *string            `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
+	Name        *string            `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name" form:"name" query:"name"`
+	Description *string            `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description" form:"description" query:"description"`
+	CoverUrl    *string            `protobuf:"bytes,4,opt,name=coverUrl,proto3,oneof" json:"coverUrl" form:"coverUrl" query:"coverUrl"`
+	PlanType    *content.PlanType  `protobuf:"varint,5,opt,name=planType,proto3,enum=meowchat.content.PlanType,oneof" json:"planType" form:"planType" query:"planType"`
+	Instruction *string            `protobuf:"bytes,6,opt,name=instruction,proto3,oneof" json:"instruction" form:"instruction" query:"instruction"`
+	StartTime   *int64             `protobuf:"varint,7,opt,name=startTime,proto3,oneof" json:"startTime" form:"startTime" query:"startTime"`
+	EndTime     *int64             `protobuf:"varint,8,opt,name=endTime,proto3,oneof" json:"endTime" form:"endTime" query:"endTime"`
+	CatId       *string            `protobuf:"bytes,9,opt,name=catId,proto3,oneof" json:"catId" form:"catId" query:"catId"`
+	CommunityId *string            `protobuf:"bytes,10,opt,name=communityId,proto3,oneof" json:"communityId" form:"communityId" query:"communityId"`
+	MaxFish     *int64             `protobuf:"varint,11,opt,name=maxFish,proto3,oneof" json:"maxFish" form:"maxFish" query:"maxFish"`
+	ImageUrls   []string           `protobuf:"bytes,12,rep,name=imageUrls,proto3" json:"imageUrls" form:"imageUrls" query:"imageUrls"`
+	Summary     *string            `protobuf:"bytes,13,opt,name=summary,proto3,oneof" json:"summary" form:"summary" query:"summary"`
+	PlanState   *content.PlanState `protobuf:"varint,14,opt,name=planState,proto3,enum=meowchat.content.PlanState,oneof" json:"planState" form:"planState" query:"planState"`
 }
 
 func (x *NewPlanReq) Reset() {
@@ -770,7 +770,7 @@ type NewPlanResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId,omitempty" form:"planId" query:"planId"`
+	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId" form:"planId" query:"planId"`
 }
 
 func (x *NewPlanResp) Reset() {
@@ -817,8 +817,8 @@ type DonateFishReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId,omitempty" form:"planId" query:"planId"`
-	Fish   int64  `protobuf:"varint,2,opt,name=fish,proto3" json:"fish,omitempty" form:"fish" query:"fish"`
+	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId" form:"planId" query:"planId"`
+	Fish   int64  `protobuf:"varint,2,opt,name=fish,proto3" json:"fish" form:"fish" query:"fish"`
 }
 
 func (x *DonateFishReq) Reset() {
@@ -910,7 +910,7 @@ type GetUserFishReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId *string `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId,omitempty" form:"userId" query:"userId"`
+	UserId *string `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId" form:"userId" query:"userId"`
 }
 
 func (x *GetUserFishReq) Reset() {
@@ -957,7 +957,7 @@ type GetUserFishResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Fish int64 `protobuf:"varint,1,opt,name=fish,proto3" json:"fish,omitempty" form:"fish" query:"fish"`
+	Fish int64 `protobuf:"varint,1,opt,name=fish,proto3" json:"fish" form:"fish" query:"fish"`
 }
 
 func (x *GetUserFishResp) Reset() {
@@ -1004,8 +1004,8 @@ type ListFishByPlanReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlanId           string                   `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId,omitempty" form:"planId" query:"planId"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
+	PlanId           string                   `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId" form:"planId" query:"planId"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
 }
 
 func (x *ListFishByPlanReq) Reset() {
@@ -1059,9 +1059,9 @@ type ListFishByPlanResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Users   []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" form:"users" query:"users"`
-	FishMap map[string]int64    `protobuf:"bytes,2,rep,name=fishMap,proto3" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3" json:"fishMap,omitempty" form:"fishMap" query:"fishMap"`
-	Total   int64               `protobuf:"varint,3,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Users   []*user.UserPreview `protobuf:"bytes,1,rep,name=users,proto3" json:"users" form:"users" query:"users"`
+	FishMap map[string]int64    `protobuf:"bytes,2,rep,name=fishMap,proto3" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3" json:"fishMap" form:"fishMap" query:"fishMap"`
+	Total   int64               `protobuf:"varint,3,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *ListFishByPlanResp) Reset() {
@@ -1122,8 +1122,8 @@ type ListDonateByUserReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId           *string                  `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId,omitempty" form:"userId" query:"userId"`
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
+	UserId           *string                  `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId" form:"userId" query:"userId"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,2,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
 }
 
 func (x *ListDonateByUserReq) Reset() {
@@ -1177,9 +1177,9 @@ type ListDonateByUserResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlanPreviews []*PlanPre `protobuf:"bytes,1,rep,name=planPreviews,proto3" json:"planPreviews,omitempty" form:"planPreviews" query:"planPreviews"`
-	Total        int64      `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
-	Token        string     `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty" form:"token" query:"token"`
+	PlanPreviews []*PlanPre `protobuf:"bytes,1,rep,name=planPreviews,proto3" json:"planPreviews" form:"planPreviews" query:"planPreviews"`
+	Total        int64      `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
+	Token        string     `protobuf:"bytes,3,opt,name=token,proto3" json:"token" form:"token" query:"token"`
 }
 
 func (x *ListDonateByUserResp) Reset() {
@@ -1240,7 +1240,7 @@ type CountDonateByUserReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	UserId *string `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId,omitempty" form:"userId" query:"userId"`
+	UserId *string `protobuf:"bytes,1,opt,name=userId,proto3,oneof" json:"userId" form:"userId" query:"userId"`
 }
 
 func (x *CountDonateByUserReq) Reset() {
@@ -1287,7 +1287,7 @@ type CountDonateByUserResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *CountDonateByUserResp) Reset() {
@@ -1334,7 +1334,7 @@ type CountDonateByPlanReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId,omitempty" form:"planId" query:"planId"`
+	PlanId string `protobuf:"bytes,1,opt,name=planId,proto3" json:"planId" form:"planId" query:"planId"`
 }
 
 func (x *CountDonateByPlanReq) Reset() {
@@ -1381,7 +1381,7 @@ type CountDonateByPlanResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
+	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total" form:"total" query:"total"`
 }
 
 func (x *CountDonateByPlanResp) Reset() {

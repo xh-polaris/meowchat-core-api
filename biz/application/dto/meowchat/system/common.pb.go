@@ -184,11 +184,11 @@ type Notice struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Text        string `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CreateAt    int64  `protobuf:"varint,4,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	UpdateAt    int64  `protobuf:"varint,5,opt,name=updateAt,proto3" json:"updateAt,omitempty" form:"updateAt" query:"updateAt"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Text        string `protobuf:"bytes,3,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CreateAt    int64  `protobuf:"varint,4,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	UpdateAt    int64  `protobuf:"varint,5,opt,name=updateAt,proto3" json:"updateAt" form:"updateAt" query:"updateAt"`
 }
 
 func (x *Notice) Reset() {
@@ -263,12 +263,12 @@ type News struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	ImageUrl    string `protobuf:"bytes,3,opt,name=imageUrl,proto3" json:"imageUrl,omitempty" form:"imageUrl" query:"imageUrl"`
-	LinkUrl     string `protobuf:"bytes,4,opt,name=linkUrl,proto3" json:"linkUrl,omitempty" form:"linkUrl" query:"linkUrl"`
-	Type        string `protobuf:"bytes,5,opt,name=type,proto3" json:"type,omitempty" form:"type" query:"type"`
-	IsPublic    int64  `protobuf:"varint,6,opt,name=isPublic,proto3" json:"isPublic,omitempty" form:"isPublic" query:"isPublic"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	ImageUrl    string `protobuf:"bytes,3,opt,name=imageUrl,proto3" json:"imageUrl" form:"imageUrl" query:"imageUrl"`
+	LinkUrl     string `protobuf:"bytes,4,opt,name=linkUrl,proto3" json:"linkUrl" form:"linkUrl" query:"linkUrl"`
+	Type        string `protobuf:"bytes,5,opt,name=type,proto3" json:"type" form:"type" query:"type"`
+	IsPublic    int64  `protobuf:"varint,6,opt,name=isPublic,proto3" json:"isPublic" form:"isPublic" query:"isPublic"`
 }
 
 func (x *News) Reset() {
@@ -350,13 +350,13 @@ type Admin struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
-	Name        string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	Title       string `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty" form:"phone" query:"phone"`
-	Wechat      string `protobuf:"bytes,6,opt,name=wechat,proto3" json:"wechat,omitempty" form:"wechat" query:"wechat"`
-	AvatarUrl   string `protobuf:"bytes,7,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty" form:"avatarUrl" query:"avatarUrl"`
+	Id          string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CommunityId string `protobuf:"bytes,2,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
+	Name        string `protobuf:"bytes,3,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	Title       string `protobuf:"bytes,4,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	Phone       string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone" form:"phone" query:"phone"`
+	Wechat      string `protobuf:"bytes,6,opt,name=wechat,proto3" json:"wechat" form:"wechat" query:"wechat"`
+	AvatarUrl   string `protobuf:"bytes,7,opt,name=avatarUrl,proto3" json:"avatarUrl" form:"avatarUrl" query:"avatarUrl"`
 }
 
 func (x *Admin) Reset() {
@@ -445,9 +445,9 @@ type Community struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" form:"name" query:"name"`
-	ParentId string `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId,omitempty" form:"parentId" query:"parentId"`
+	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name" form:"name" query:"name"`
+	ParentId string `protobuf:"bytes,3,opt,name=parentId,proto3" json:"parentId" form:"parentId" query:"parentId"`
 }
 
 func (x *Community) Reset() {
@@ -508,8 +508,8 @@ type Role struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RoleType    RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType,omitempty" form:"roleType" query:"roleType"`
-	CommunityId *string  `protobuf:"bytes,2,opt,name=communityId,proto3,oneof" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	RoleType    RoleType `protobuf:"varint,1,opt,name=roleType,proto3,enum=meowchat.system.RoleType" json:"roleType" form:"roleType" query:"roleType"`
+	CommunityId *string  `protobuf:"bytes,2,opt,name=communityId,proto3,oneof" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *Role) Reset() {
@@ -563,9 +563,9 @@ type Apply struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ApplyId     string `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId,omitempty" form:"applyId" query:"applyId"`
-	ApplicantId string `protobuf:"bytes,2,opt,name=applicantId,proto3" json:"applicantId,omitempty" form:"applicantId" query:"applicantId"`
-	CommunityId string `protobuf:"bytes,4,opt,name=communityId,proto3" json:"communityId,omitempty" form:"communityId" query:"communityId"`
+	ApplyId     string `protobuf:"bytes,1,opt,name=applyId,proto3" json:"applyId" form:"applyId" query:"applyId"`
+	ApplicantId string `protobuf:"bytes,2,opt,name=applicantId,proto3" json:"applicantId" form:"applicantId" query:"applicantId"`
+	CommunityId string `protobuf:"bytes,4,opt,name=communityId,proto3" json:"communityId" form:"communityId" query:"communityId"`
 }
 
 func (x *Apply) Reset() {
@@ -626,12 +626,12 @@ type Notification struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	NotificationId string           `protobuf:"bytes,1,opt,name=notificationId,proto3" json:"notificationId,omitempty" form:"notificationId" query:"notificationId"`
-	UserId         string           `protobuf:"bytes,2,opt,name=userId,proto3" json:"userId,omitempty" form:"userId" query:"userId"`
-	ParenId        string           `protobuf:"bytes,3,opt,name=parenId,proto3" json:"parenId,omitempty" form:"parenId" query:"parenId"`
-	Type           NotificationType `protobuf:"varint,4,opt,name=type,proto3,enum=meowchat.system.NotificationType" json:"type,omitempty" form:"type" query:"type"`
-	Text           string           `protobuf:"bytes,5,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CreateAt       int64            `protobuf:"varint,6,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
+	NotificationId string           `protobuf:"bytes,1,opt,name=notificationId,proto3" json:"notificationId" form:"notificationId" query:"notificationId"`
+	UserId         string           `protobuf:"bytes,2,opt,name=userId,proto3" json:"userId" form:"userId" query:"userId"`
+	ParenId        string           `protobuf:"bytes,3,opt,name=parenId,proto3" json:"parenId" form:"parenId" query:"parenId"`
+	Type           NotificationType `protobuf:"varint,4,opt,name=type,proto3,enum=meowchat.system.NotificationType" json:"type" form:"type" query:"type"`
+	Text           string           `protobuf:"bytes,5,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CreateAt       int64            `protobuf:"varint,6,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
 }
 
 func (x *Notification) Reset() {

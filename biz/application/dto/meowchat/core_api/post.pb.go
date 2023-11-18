@@ -27,18 +27,18 @@ type Post struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
-	CreateAt   int64             `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt,omitempty" form:"createAt" query:"createAt"`
-	UpdateAt   int64             `protobuf:"varint,3,opt,name=updateAt,proto3" json:"updateAt,omitempty" form:"updateAt" query:"updateAt"`
-	Title      string            `protobuf:"bytes,5,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	Text       string            `protobuf:"bytes,6,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CoverUrl   *string           `protobuf:"bytes,7,opt,name=coverUrl,proto3,oneof" json:"coverUrl,omitempty" form:"coverUrl" query:"coverUrl"`
-	Tags       []string          `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags,omitempty" form:"tags" query:"tags"`
-	User       *user.UserPreview `protobuf:"bytes,9,opt,name=user,proto3" json:"user,omitempty" form:"user" query:"user"`
-	IsOfficial bool              `protobuf:"varint,10,opt,name=isOfficial,proto3" json:"isOfficial,omitempty" form:"isOfficial" query:"isOfficial"`
-	Likes      *int64            `protobuf:"varint,11,opt,name=likes,proto3,oneof" json:"likes,omitempty" form:"likes" query:"likes"`
-	Comments   *int64            `protobuf:"varint,12,opt,name=comments,proto3,oneof" json:"comments,omitempty" form:"comments" query:"comments"`
-	IsLiked    *bool             `protobuf:"varint,13,opt,name=isLiked,proto3,oneof" json:"isLiked,omitempty" form:"isLiked" query:"isLiked"`
+	Id         string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
+	CreateAt   int64             `protobuf:"varint,2,opt,name=createAt,proto3" json:"createAt" form:"createAt" query:"createAt"`
+	UpdateAt   int64             `protobuf:"varint,3,opt,name=updateAt,proto3" json:"updateAt" form:"updateAt" query:"updateAt"`
+	Title      string            `protobuf:"bytes,5,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	Text       string            `protobuf:"bytes,6,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CoverUrl   *string           `protobuf:"bytes,7,opt,name=coverUrl,proto3,oneof" json:"coverUrl" form:"coverUrl" query:"coverUrl"`
+	Tags       []string          `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags" form:"tags" query:"tags"`
+	User       *user.UserPreview `protobuf:"bytes,9,opt,name=user,proto3" json:"user" form:"user" query:"user"`
+	IsOfficial bool              `protobuf:"varint,10,opt,name=isOfficial,proto3" json:"isOfficial" form:"isOfficial" query:"isOfficial"`
+	Likes      *int64            `protobuf:"varint,11,opt,name=likes,proto3,oneof" json:"likes" form:"likes" query:"likes"`
+	Comments   *int64            `protobuf:"varint,12,opt,name=comments,proto3,oneof" json:"comments" form:"comments" query:"comments"`
+	IsLiked    *bool             `protobuf:"varint,13,opt,name=isLiked,proto3,oneof" json:"isLiked" form:"isLiked" query:"isLiked"`
 }
 
 func (x *Post) Reset() {
@@ -164,11 +164,11 @@ type SearchOptions struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 查询全部字段
-	Key *string `protobuf:"bytes,1,opt,name=key,proto3,oneof" json:"key,omitempty" form:"key" query:"key"`
+	Key *string `protobuf:"bytes,1,opt,name=key,proto3,oneof" json:"key" form:"key" query:"key"`
 	// 各自匹配对应字段
-	Title *string `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title,omitempty" form:"title" query:"title"`
-	Text  *string `protobuf:"bytes,3,opt,name=text,proto3,oneof" json:"text,omitempty" form:"text" query:"text"`
-	Tag   *string `protobuf:"bytes,4,opt,name=tag,proto3,oneof" json:"tag,omitempty" form:"tag" query:"tag"`
+	Title *string `protobuf:"bytes,2,opt,name=title,proto3,oneof" json:"title" form:"title" query:"title"`
+	Text  *string `protobuf:"bytes,3,opt,name=text,proto3,oneof" json:"text" form:"text" query:"text"`
+	Tag   *string `protobuf:"bytes,4,opt,name=tag,proto3,oneof" json:"tag" form:"tag" query:"tag"`
 }
 
 func (x *SearchOptions) Reset() {
@@ -236,10 +236,10 @@ type GetPostPreviewsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PaginationOption *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOption,proto3" json:"paginationOption,omitempty" form:"paginationOption" query:"paginationOption"`
-	OnlyOfficial     *bool                    `protobuf:"varint,2,opt,name=onlyOfficial,proto3,oneof" json:"onlyOfficial,omitempty" form:"onlyOfficial" query:"onlyOfficial"`
-	OnlyUserId       *string                  `protobuf:"bytes,3,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId,omitempty" form:"onlyUserId" query:"onlyUserId"`
-	SearchOptions    *SearchOptions           `protobuf:"bytes,4,opt,name=searchOptions,proto3,oneof" json:"searchOptions,omitempty" form:"searchOptions" query:"searchOptions"`
+	PaginationOption *basic.PaginationOptions `protobuf:"bytes,1,opt,name=paginationOption,proto3" json:"paginationOption" form:"paginationOption" query:"paginationOption"`
+	OnlyOfficial     *bool                    `protobuf:"varint,2,opt,name=onlyOfficial,proto3,oneof" json:"onlyOfficial" form:"onlyOfficial" query:"onlyOfficial"`
+	OnlyUserId       *string                  `protobuf:"bytes,3,opt,name=onlyUserId,proto3,oneof" json:"onlyUserId" form:"onlyUserId" query:"onlyUserId"`
+	SearchOptions    *SearchOptions           `protobuf:"bytes,4,opt,name=searchOptions,proto3,oneof" json:"searchOptions" form:"searchOptions" query:"searchOptions"`
 }
 
 func (x *GetPostPreviewsReq) Reset() {
@@ -307,9 +307,9 @@ type GetPostPreviewsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Posts []*Post `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty" form:"posts" query:"posts"`
-	Total int64   `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty" form:"total" query:"total"`
-	Token string  `protobuf:"bytes,3,opt,name=token,proto3" json:"token,omitempty" form:"token" query:"token"`
+	Posts []*Post `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts" form:"posts" query:"posts"`
+	Total int64   `protobuf:"varint,2,opt,name=total,proto3" json:"total" form:"total" query:"total"`
+	Token string  `protobuf:"bytes,3,opt,name=token,proto3" json:"token" form:"token" query:"token"`
 }
 
 func (x *GetPostPreviewsResp) Reset() {
@@ -370,7 +370,7 @@ type GetPostDetailReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PostId string `protobuf:"bytes,1,opt,name=postId,proto3" json:"postId,omitempty" form:"postId" query:"postId"`
+	PostId string `protobuf:"bytes,1,opt,name=postId,proto3" json:"postId" form:"postId" query:"postId"`
 }
 
 func (x *GetPostDetailReq) Reset() {
@@ -417,7 +417,7 @@ type GetPostDetailResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Post *Post `protobuf:"bytes,1,opt,name=post,proto3" json:"post,omitempty" form:"post" query:"post"`
+	Post *Post `protobuf:"bytes,1,opt,name=post,proto3" json:"post" form:"post" query:"post"`
 }
 
 func (x *GetPostDetailResp) Reset() {
@@ -464,11 +464,11 @@ type NewPostReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       *string  `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty" form:"id" query:"id"`
-	Title    string   `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" form:"title" query:"title"`
-	Text     string   `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty" form:"text" query:"text"`
-	CoverUrl *string  `protobuf:"bytes,4,opt,name=coverUrl,proto3,oneof" json:"coverUrl,omitempty" form:"coverUrl" query:"coverUrl"`
-	Tags     []string `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty" form:"tags" query:"tags"`
+	Id       *string  `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id" form:"id" query:"id"`
+	Title    string   `protobuf:"bytes,2,opt,name=title,proto3" json:"title" form:"title" query:"title"`
+	Text     string   `protobuf:"bytes,3,opt,name=text,proto3" json:"text" form:"text" query:"text"`
+	CoverUrl *string  `protobuf:"bytes,4,opt,name=coverUrl,proto3,oneof" json:"coverUrl" form:"coverUrl" query:"coverUrl"`
+	Tags     []string `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags" form:"tags" query:"tags"`
 }
 
 func (x *NewPostReq) Reset() {
@@ -543,10 +543,10 @@ type NewPostResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PostId       string `protobuf:"bytes,1,opt,name=postId,proto3" json:"postId,omitempty" form:"postId" query:"postId"`
-	GetFish      bool   `protobuf:"varint,2,opt,name=getFish,proto3" json:"getFish,omitempty" form:"getFish" query:"getFish"`
-	GetFishTimes int64  `protobuf:"varint,3,opt,name=getFishTimes,proto3" json:"getFishTimes,omitempty" form:"getFishTimes" query:"getFishTimes"`
-	GetFishNum   int64  `protobuf:"varint,4,opt,name=getFishNum,proto3" json:"getFishNum,omitempty" form:"getFishNum" query:"getFishNum"`
+	PostId       string `protobuf:"bytes,1,opt,name=postId,proto3" json:"postId" form:"postId" query:"postId"`
+	GetFish      bool   `protobuf:"varint,2,opt,name=getFish,proto3" json:"getFish" form:"getFish" query:"getFish"`
+	GetFishTimes int64  `protobuf:"varint,3,opt,name=getFishTimes,proto3" json:"getFishTimes" form:"getFishTimes" query:"getFishTimes"`
+	GetFishNum   int64  `protobuf:"varint,4,opt,name=getFishNum,proto3" json:"getFishNum" form:"getFishNum" query:"getFishNum"`
 }
 
 func (x *NewPostResp) Reset() {
@@ -614,7 +614,7 @@ type DeletePostReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" query:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" form:"id" query:"id"`
 }
 
 func (x *DeletePostReq) Reset() {
@@ -699,8 +699,8 @@ type SetOfficialReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PostId   string `protobuf:"bytes,1,opt,name=postId,proto3" json:"postId,omitempty" form:"postId" query:"postId"`
-	IsRemove *bool  `protobuf:"varint,2,opt,name=isRemove,proto3,oneof" json:"isRemove,omitempty" form:"isRemove" query:"isRemove"`
+	PostId   string `protobuf:"bytes,1,opt,name=postId,proto3" json:"postId" form:"postId" query:"postId"`
+	IsRemove *bool  `protobuf:"varint,2,opt,name=isRemove,proto3,oneof" json:"isRemove" form:"isRemove" query:"isRemove"`
 }
 
 func (x *SetOfficialReq) Reset() {
