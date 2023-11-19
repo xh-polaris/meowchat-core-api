@@ -196,12 +196,12 @@ func (s *UserService) CheckIn(ctx context.Context, req *core_api.CheckInReq, use
 		fmt.Println(int(t.Weekday()))
 		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 			UserId: user.UserId,
-			Fish:   s.Config.Fish.SignIn[int(t.Weekday())-1],
+			Fish:   s.Config.Fish.SignIn[int(t.Weekday())],
 		})
 		if err != nil {
 			return nil, err
 		}
-		resp.GetFishNum = s.Config.Fish.SignIn[int(t.Weekday())-1]
+		resp.GetFishNum = s.Config.Fish.SignIn[int(t.Weekday())]
 	}
 	resp.IsFirst = rpcResp.GetIsFirst()
 	return resp, nil
