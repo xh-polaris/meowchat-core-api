@@ -243,6 +243,10 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 					AvatarUrl: user.User.AvatarUrl,
 				}
 			}
+			cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: plan.CatId})
+			if err == nil {
+				resp.Plans[i].CatName = cat.Cat.Name
+			}
 		}
 	}))
 	return resp, nil
