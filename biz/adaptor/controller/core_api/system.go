@@ -452,8 +452,8 @@ func ListNotification(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.ListNotificationResp)
-
+	p := provider.Get()
+	resp, err := p.SystemService.ListNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -468,8 +468,8 @@ func CleanNotification(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.CleanNotificationResp)
-
+	p := provider.Get()
+	resp, err := p.SystemService.CleanNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -484,8 +484,8 @@ func CountNotification(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.CountNotificationResp)
-
+	p := provider.Get()
+	resp, err := p.SystemService.CountNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -502,5 +502,21 @@ func GetMinVersion(ctx context.Context, c *app.RequestContext) {
 
 	p := provider.Get()
 	resp, err := p.SystemService.GetMinVersion(ctx, &req)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
+}
+
+// ReadNotification .
+// @router /notification/read_notification [GET]
+func ReadNotification(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.ReadNotificationReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.SystemService.ReadNotification(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

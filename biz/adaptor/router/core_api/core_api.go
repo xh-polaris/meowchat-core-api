@@ -81,6 +81,7 @@ func Register(r *server.Hertz) {
 		_notification.GET("/clean_notification", append(_cleannotificationMw(), core_api.CleanNotification)...)
 		_notification.GET("/count_notification", append(_countnotificationMw(), core_api.CountNotification)...)
 		_notification.GET("/list_notification", append(_listnotificationMw(), core_api.ListNotification)...)
+		_notification.GET("/read_notification", append(_readnotificationMw(), core_api.ReadNotification)...)
 	}
 	{
 		_plan := root.Group("/plan", _planMw()...)

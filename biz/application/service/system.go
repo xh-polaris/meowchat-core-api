@@ -6,20 +6,23 @@ import (
 
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	"github.com/samber/lo"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	system2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/system"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 )
 
 type ISystemService interface {
-	CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *basic.UserMeta) (*core_api.CreateApplyResp, error)
+	CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *genbasic.UserMeta) (*core_api.CreateApplyResp, error)
 	DeleteAdmin(ctx context.Context, req *core_api.DeleteAdminReq) (*core_api.DeleteAdminResp, error)
 	DeleteCommunity(ctx context.Context, req *core_api.DeleteCommunityReq) (*core_api.DeleteCommunityResp, error)
 	DeleteNews(ctx context.Context, req *core_api.DeleteNewsReq) (*core_api.DeleteNewsResp, error)
@@ -28,7 +31,7 @@ type ISystemService interface {
 	GetNews(ctx context.Context, req *core_api.GetNewsReq) (*core_api.GetNewsResp, error)
 	GetNotices(ctx context.Context, req *core_api.GetNoticesReq) (*core_api.GetNoticesResp, error)
 	GetUserByRole(ctx context.Context, req *core_api.RetrieveUserPreviewReq) (*core_api.RetrieveUserPreviewResp, error)
-	GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq, user *basic.UserMeta) (*core_api.GetUserRolesResp, error)
+	GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq, user *genbasic.UserMeta) (*core_api.GetUserRolesResp, error)
 	HandleApply(ctx context.Context, req *core_api.HandleApplyReq) (*core_api.HandleApplyResp, error)
 	ListApply(ctx context.Context, req *core_api.ListApplyReq) (*core_api.ListApplyResp, error)
 	ListCommunity(ctx context.Context, req *core_api.ListCommunityReq) (*core_api.ListCommunityResp, error)
@@ -40,6 +43,10 @@ type ISystemService interface {
 	UpdateSuperAdmin(ctx context.Context, req *core_api.UpdateSuperAdminReq) (*core_api.UpdateSuperAdminResp, error)
 	UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq) (*core_api.UpdateRoleResp, error)
 	GetMinVersion(ctx context.Context, req *core_api.GetMinVersionReq) (*core_api.GetMinVersionResp, error)
+	ListNotification(ctx context.Context, req *core_api.ListNotificationReq, user *genbasic.UserMeta) (*core_api.ListNotificationResp, error)
+	ReadNotification(ctx context.Context, req *core_api.ReadNotificationReq) (*core_api.ReadNotificationResp, error)
+	CountNotification(ctx context.Context, req *core_api.CountNotificationReq, user *genbasic.UserMeta) (*core_api.CountNotificationResp, error)
+	CleanNotification(ctx context.Context, req *core_api.CleanNotificationReq, user *genbasic.UserMeta) (*core_api.CleanNotificationResp, error)
 }
 
 type SystemService struct {
@@ -53,7 +60,89 @@ var SystemServiceSet = wire.NewSet(
 	wire.Bind(new(ISystemService), new(*SystemService)),
 )
 
-func (s *SystemService) CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *basic.UserMeta) (*core_api.CreateApplyResp, error) {
+func (s *SystemService) ListNotification(ctx context.Context, req *core_api.ListNotificationReq, user *genbasic.UserMeta) (*core_api.ListNotificationResp, error) {
+	resp := new(core_api.ListNotificationResp)
+
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic.PaginationOptions{}
+	}
+	if req.PaginationOption.Limit == nil {
+		req.PaginationOption.Limit = lo.ToPtr[int64](10)
+	}
+	request := &system.ListNotificationReq{
+		UserId: user.UserId,
+		PaginationOptions: &genbasic.PaginationOptions{
+			Limit:     req.PaginationOption.Limit,
+			Backward:  req.PaginationOption.Backward,
+			LastToken: req.PaginationOption.LastToken,
+		},
+	}
+	if req.PaginationOption.LastToken == nil {
+		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
+	}
+
+	data, err := s.System.ListNotification(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.Total = data.Total
+	resp.NotRead = data.NotRead
+	resp.Notifications = make([]*core_api.Notification, 0, len(data.Notifications))
+	err = copier.Copy(&resp.Notifications, data.Notifications)
+	if err != nil {
+		return nil, err
+	}
+
+	util.ParallelRun(lo.Map(data.Notifications, func(notification *system.Notification, i int) func() {
+		return func() {
+			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: notification.SourceUserId})
+			if err == nil {
+				resp.Notifications[i].User = &user1.UserPreview{
+					Id:        user.User.Id,
+					Nickname:  user.User.Nickname,
+					AvatarUrl: user.User.AvatarUrl,
+				}
+			}
+		}
+	}))
+
+	return resp, nil
+}
+
+func (s *SystemService) ReadNotification(ctx context.Context, req *core_api.ReadNotificationReq) (*core_api.ReadNotificationResp, error) {
+	_, err := s.System.ReadNotification(ctx, &system.ReadNotificationReq{
+		NotificationId: req.NotificationId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &core_api.ReadNotificationResp{}, nil
+}
+
+func (s *SystemService) CountNotification(ctx context.Context, req *core_api.CountNotificationReq, user *genbasic.UserMeta) (*core_api.CountNotificationResp, error) {
+	data, err := s.System.CountNotification(ctx, &system.CountNotificationReq{
+		UserId: user.UserId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &core_api.CountNotificationResp{
+		NotRead: data.NotificationCount,
+	}, nil
+}
+
+func (s *SystemService) CleanNotification(ctx context.Context, req *core_api.CleanNotificationReq, user *genbasic.UserMeta) (*core_api.CleanNotificationResp, error) {
+	_, err := s.System.CleanNotification(ctx, &system.CleanNotificationReq{
+		UserId: user.UserId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &core_api.CleanNotificationResp{}, nil
+}
+
+func (s *SystemService) CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *genbasic.UserMeta) (*core_api.CreateApplyResp, error) {
 	resp := new(core_api.CreateApplyResp)
 	ApplicantId := user.UserId
 	_, err := s.System.CreateApply(ctx, &system.CreateApplyReq{
@@ -209,7 +298,7 @@ func (s *SystemService) GetOneUser(userid string, wg *sync.WaitGroup, i int, Use
 	return nil
 }
 
-func (s *SystemService) GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq, user *basic.UserMeta) (*core_api.GetUserRolesResp, error) {
+func (s *SystemService) GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq, user *genbasic.UserMeta) (*core_api.GetUserRolesResp, error) {
 	resp := new(core_api.GetUserRolesResp)
 	data, err := s.System.RetrieveUserRole(ctx, &system.RetrieveUserRoleReq{UserId: user.UserId})
 	if err != nil {

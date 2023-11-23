@@ -105,6 +105,7 @@ func NewProvider() (*Provider, error) {
 		Config:  configConfig,
 		User:    meowchatUser,
 		Content: meowchatContent,
+		Comment: platformComment,
 	}
 	stsService := &service.StsService{
 		PlatformSts: platformSts,

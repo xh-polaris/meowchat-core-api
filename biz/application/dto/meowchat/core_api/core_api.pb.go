@@ -380,7 +380,7 @@ var file_meowchat_core_api_core_api_proto_rawDesc = []byte{
 	0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x53,
 	0x65, 0x74, 0x4f, 0x66, 0x66, 0x69, 0x63, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x22, 0x16,
 	0xd2, 0xc1, 0x18, 0x12, 0x2f, 0x70, 0x6f, 0x73, 0x74, 0x2f, 0x73, 0x65, 0x74, 0x5f, 0x6f, 0x66,
-	0x66, 0x69, 0x63, 0x69, 0x61, 0x6c, 0x32, 0xd4, 0x16, 0x0a, 0x06, 0x73, 0x79, 0x73, 0x74, 0x65,
+	0x66, 0x69, 0x63, 0x69, 0x61, 0x6c, 0x32, 0xdf, 0x17, 0x0a, 0x06, 0x73, 0x79, 0x73, 0x74, 0x65,
 	0x6d, 0x12, 0x66, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x73, 0x12, 0x1f,
 	0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61,
 	0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x1a,
@@ -549,28 +549,37 @@ var file_meowchat_core_api_core_api_proto_rawDesc = []byte{
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x22, 0x24, 0xca, 0xc1, 0x18, 0x20, 0x2f,
 	0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x6f, 0x75,
 	0x6e, 0x74, 0x5f, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12,
-	0x5a, 0x0a, 0x08, 0x50, 0x72, 0x65, 0x66, 0x65, 0x74, 0x63, 0x68, 0x12, 0x1e, 0x2e, 0x6d, 0x65,
-	0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e,
-	0x50, 0x72, 0x65, 0x66, 0x65, 0x74, 0x63, 0x68, 0x52, 0x65, 0x71, 0x1a, 0x1f, 0x2e, 0x6d, 0x65,
-	0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e,
-	0x50, 0x72, 0x65, 0x66, 0x65, 0x74, 0x63, 0x68, 0x52, 0x65, 0x73, 0x70, 0x22, 0x0d, 0xca, 0xc1,
-	0x18, 0x09, 0x2f, 0x70, 0x72, 0x65, 0x66, 0x65, 0x74, 0x63, 0x68, 0x12, 0x70, 0x0a, 0x0d, 0x47,
-	0x65, 0x74, 0x4d, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x2e, 0x6d,
+	0x88, 0x01, 0x0a, 0x10, 0x52, 0x65, 0x61, 0x64, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x26, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e,
+	0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x61, 0x64, 0x4e, 0x6f, 0x74,
+	0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x1a, 0x27, 0x2e, 0x6d,
+	0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69,
+	0x2e, 0x52, 0x65, 0x61, 0x64, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x22, 0x23, 0xca, 0xc1, 0x18, 0x1f, 0x2f, 0x6e, 0x6f, 0x74, 0x69,
+	0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x72, 0x65, 0x61, 0x64, 0x5f, 0x6e, 0x6f,
+	0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5a, 0x0a, 0x08, 0x50, 0x72,
+	0x65, 0x66, 0x65, 0x74, 0x63, 0x68, 0x12, 0x1e, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61,
+	0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x50, 0x72, 0x65, 0x66, 0x65,
+	0x74, 0x63, 0x68, 0x52, 0x65, 0x71, 0x1a, 0x1f, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61,
+	0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x50, 0x72, 0x65, 0x66, 0x65,
+	0x74, 0x63, 0x68, 0x52, 0x65, 0x73, 0x70, 0x22, 0x0d, 0xca, 0xc1, 0x18, 0x09, 0x2f, 0x70, 0x72,
+	0x65, 0x66, 0x65, 0x74, 0x63, 0x68, 0x12, 0x70, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x4d, 0x69, 0x6e,
+	0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x23, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68,
+	0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x4d,
+	0x69, 0x6e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x1a, 0x24, 0x2e, 0x6d,
 	0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70, 0x69,
 	0x2e, 0x47, 0x65, 0x74, 0x4d, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65,
-	0x71, 0x1a, 0x24, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72,
-	0x65, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x4d, 0x69, 0x6e, 0x56, 0x65, 0x72, 0x73,
-	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x22, 0x14, 0xca, 0xc1, 0x18, 0x10, 0x2f, 0x67, 0x65,
-	0x74, 0x5f, 0x6d, 0x69, 0x6e, 0x5f, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x86, 0x01,
-	0x0a, 0x25, 0x63, 0x6f, 0x6d, 0x2e, 0x78, 0x68, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2e,
-	0x69, 0x64, 0x6c, 0x67, 0x65, 0x6e, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e,
-	0x63, 0x6f, 0x72, 0x65, 0x61, 0x70, 0x69, 0x42, 0x0c, 0x43, 0x6f, 0x72, 0x65, 0x41, 0x70, 0x69,
-	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x4d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f, 0x6d,
-	0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70, 0x69,
-	0x2f, 0x62, 0x69, 0x7a, 0x2f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x2f, 0x64, 0x74, 0x6f, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x63, 0x6f,
-	0x72, 0x65, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x70, 0x22, 0x14, 0xca, 0xc1, 0x18, 0x10, 0x2f, 0x67, 0x65, 0x74, 0x5f, 0x6d, 0x69, 0x6e,
+	0x5f, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x86, 0x01, 0x0a, 0x25, 0x63, 0x6f, 0x6d,
+	0x2e, 0x78, 0x68, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2e, 0x69, 0x64, 0x6c, 0x67, 0x65,
+	0x6e, 0x2e, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2e, 0x63, 0x6f, 0x72, 0x65, 0x61,
+	0x70, 0x69, 0x42, 0x0c, 0x43, 0x6f, 0x72, 0x65, 0x41, 0x70, 0x69, 0x50, 0x72, 0x6f, 0x74, 0x6f,
+	0x50, 0x01, 0x5a, 0x4d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78,
+	0x68, 0x2d, 0x70, 0x6f, 0x6c, 0x61, 0x72, 0x69, 0x73, 0x2f, 0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68,
+	0x61, 0x74, 0x2d, 0x63, 0x6f, 0x72, 0x65, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x69, 0x7a, 0x2f,
+	0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x64, 0x74, 0x6f, 0x2f,
+	0x6d, 0x65, 0x6f, 0x77, 0x63, 0x68, 0x61, 0x74, 0x2f, 0x63, 0x6f, 0x72, 0x65, 0x5f, 0x61, 0x70,
+	0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var file_meowchat_core_api_core_api_proto_goTypes = []interface{}{
@@ -642,78 +651,80 @@ var file_meowchat_core_api_core_api_proto_goTypes = []interface{}{
 	(*ListNotificationReq)(nil),           // 65: meowchat.core_api.ListNotificationReq
 	(*CleanNotificationReq)(nil),          // 66: meowchat.core_api.CleanNotificationReq
 	(*CountNotificationReq)(nil),          // 67: meowchat.core_api.CountNotificationReq
-	(*PrefetchReq)(nil),                   // 68: meowchat.core_api.PrefetchReq
-	(*GetMinVersionReq)(nil),              // 69: meowchat.core_api.GetMinVersionReq
-	(*ApplySignedUrlResp)(nil),            // 70: meowchat.core_api.ApplySignedUrlResp
-	(*ApplySignedUrlAsCommunityResp)(nil), // 71: meowchat.core_api.ApplySignedUrlAsCommunityResp
-	(*GetUserInfoResp)(nil),               // 72: meowchat.core_api.GetUserInfoResp
-	(*UpdateUserInfoResp)(nil),            // 73: meowchat.core_api.UpdateUserInfoResp
-	(*SearchUserResp)(nil),                // 74: meowchat.core_api.SearchUserResp
-	(*CheckInResp)(nil),                   // 75: meowchat.core_api.CheckInResp
-	(*SignInResp)(nil),                    // 76: meowchat.core_api.SignInResp
-	(*SendVerifyCodeResp)(nil),            // 77: meowchat.core_api.SendVerifyCodeResp
-	(*SetPasswordResp)(nil),               // 78: meowchat.core_api.SetPasswordResp
-	(*GetCatPreviewsResp)(nil),            // 79: meowchat.core_api.GetCatPreviewsResp
-	(*GetCatDetailResp)(nil),              // 80: meowchat.core_api.GetCatDetailResp
-	(*NewCatResp)(nil),                    // 81: meowchat.core_api.NewCatResp
-	(*DeleteCatResp)(nil),                 // 82: meowchat.core_api.DeleteCatResp
-	(*SearchCatResp)(nil),                 // 83: meowchat.core_api.SearchCatResp
-	(*CreateImageResp)(nil),               // 84: meowchat.core_api.CreateImageResp
-	(*DeleteImageResp)(nil),               // 85: meowchat.core_api.DeleteImageResp
-	(*GetImageByCatResp)(nil),             // 86: meowchat.core_api.GetImageByCatResp
-	(*GetCommentsResp)(nil),               // 87: meowchat.core_api.GetCommentsResp
-	(*NewCommentResp)(nil),                // 88: meowchat.core_api.NewCommentResp
-	(*DeleteCommentResp)(nil),             // 89: meowchat.core_api.DeleteCommentResp
-	(*DoLikeResp)(nil),                    // 90: meowchat.core_api.DoLikeResp
-	(*GetUserLikedResp)(nil),              // 91: meowchat.core_api.GetUserLikedResp
-	(*GetLikedCountResp)(nil),             // 92: meowchat.core_api.GetLikedCountResp
-	(*GetLikedUsersResp)(nil),             // 93: meowchat.core_api.GetLikedUsersResp
-	(*GetUserLikesResp)(nil),              // 94: meowchat.core_api.GetUserLikesResp
-	(*GetMomentPreviewsResp)(nil),         // 95: meowchat.core_api.GetMomentPreviewsResp
-	(*GetMomentDetailResp)(nil),           // 96: meowchat.core_api.GetMomentDetailResp
-	(*NewMomentResp)(nil),                 // 97: meowchat.core_api.NewMomentResp
-	(*DeleteMomentResp)(nil),              // 98: meowchat.core_api.DeleteMomentResp
-	(*SearchMomentResp)(nil),              // 99: meowchat.core_api.SearchMomentResp
-	(*GetPlanPreviewsResp)(nil),           // 100: meowchat.core_api.GetPlanPreviewsResp
-	(*GetPlanDetailResp)(nil),             // 101: meowchat.core_api.GetPlanDetailResp
-	(*NewPlanResp)(nil),                   // 102: meowchat.core_api.NewPlanResp
-	(*DeletePlanResp)(nil),                // 103: meowchat.core_api.DeletePlanResp
-	(*DonateFishResp)(nil),                // 104: meowchat.core_api.DonateFishResp
-	(*GetUserFishResp)(nil),               // 105: meowchat.core_api.GetUserFishResp
-	(*ListFishByPlanResp)(nil),            // 106: meowchat.core_api.ListFishByPlanResp
-	(*ListDonateByUserResp)(nil),          // 107: meowchat.core_api.ListDonateByUserResp
-	(*CountDonateByUserResp)(nil),         // 108: meowchat.core_api.CountDonateByUserResp
-	(*CountDonateByPlanResp)(nil),         // 109: meowchat.core_api.CountDonateByPlanResp
-	(*GetPostPreviewsResp)(nil),           // 110: meowchat.core_api.GetPostPreviewsResp
-	(*GetPostDetailResp)(nil),             // 111: meowchat.core_api.GetPostDetailResp
-	(*NewPostResp)(nil),                   // 112: meowchat.core_api.NewPostResp
-	(*DeletePostResp)(nil),                // 113: meowchat.core_api.DeletePostResp
-	(*SetOfficialResp)(nil),               // 114: meowchat.core_api.SetOfficialResp
-	(*GetAdminsResp)(nil),                 // 115: meowchat.core_api.GetAdminsResp
-	(*NewAdminResp)(nil),                  // 116: meowchat.core_api.NewAdminResp
-	(*DeleteAdminResp)(nil),               // 117: meowchat.core_api.DeleteAdminResp
-	(*GetNewsResp)(nil),                   // 118: meowchat.core_api.GetNewsResp
-	(*NewNewsResp)(nil),                   // 119: meowchat.core_api.NewNewsResp
-	(*DeleteNewsResp)(nil),                // 120: meowchat.core_api.DeleteNewsResp
-	(*GetNoticesResp)(nil),                // 121: meowchat.core_api.GetNoticesResp
-	(*NewNoticeResp)(nil),                 // 122: meowchat.core_api.NewNoticeResp
-	(*DeleteNoticeResp)(nil),              // 123: meowchat.core_api.DeleteNoticeResp
-	(*ListCommunityResp)(nil),             // 124: meowchat.core_api.ListCommunityResp
-	(*NewCommunityResp)(nil),              // 125: meowchat.core_api.NewCommunityResp
-	(*DeleteCommunityResp)(nil),           // 126: meowchat.core_api.DeleteCommunityResp
-	(*GetUserRolesResp)(nil),              // 127: meowchat.core_api.GetUserRolesResp
-	(*UpdateCommunityAdminResp)(nil),      // 128: meowchat.core_api.UpdateCommunityAdminResp
-	(*UpdateSuperAdminResp)(nil),          // 129: meowchat.core_api.UpdateSuperAdminResp
-	(*GetUserByRoleResp)(nil),             // 130: meowchat.core_api.GetUserByRoleResp
-	(*UpdateRoleResp)(nil),                // 131: meowchat.core_api.UpdateRoleResp
-	(*ListApplyResp)(nil),                 // 132: meowchat.core_api.ListApplyResp
-	(*HandleApplyResp)(nil),               // 133: meowchat.core_api.HandleApplyResp
-	(*CreateApplyResp)(nil),               // 134: meowchat.core_api.CreateApplyResp
-	(*ListNotificationResp)(nil),          // 135: meowchat.core_api.ListNotificationResp
-	(*CleanNotificationResp)(nil),         // 136: meowchat.core_api.CleanNotificationResp
-	(*CountNotificationResp)(nil),         // 137: meowchat.core_api.CountNotificationResp
-	(*PrefetchResp)(nil),                  // 138: meowchat.core_api.PrefetchResp
-	(*GetMinVersionResp)(nil),             // 139: meowchat.core_api.GetMinVersionResp
+	(*ReadNotificationReq)(nil),           // 68: meowchat.core_api.ReadNotificationReq
+	(*PrefetchReq)(nil),                   // 69: meowchat.core_api.PrefetchReq
+	(*GetMinVersionReq)(nil),              // 70: meowchat.core_api.GetMinVersionReq
+	(*ApplySignedUrlResp)(nil),            // 71: meowchat.core_api.ApplySignedUrlResp
+	(*ApplySignedUrlAsCommunityResp)(nil), // 72: meowchat.core_api.ApplySignedUrlAsCommunityResp
+	(*GetUserInfoResp)(nil),               // 73: meowchat.core_api.GetUserInfoResp
+	(*UpdateUserInfoResp)(nil),            // 74: meowchat.core_api.UpdateUserInfoResp
+	(*SearchUserResp)(nil),                // 75: meowchat.core_api.SearchUserResp
+	(*CheckInResp)(nil),                   // 76: meowchat.core_api.CheckInResp
+	(*SignInResp)(nil),                    // 77: meowchat.core_api.SignInResp
+	(*SendVerifyCodeResp)(nil),            // 78: meowchat.core_api.SendVerifyCodeResp
+	(*SetPasswordResp)(nil),               // 79: meowchat.core_api.SetPasswordResp
+	(*GetCatPreviewsResp)(nil),            // 80: meowchat.core_api.GetCatPreviewsResp
+	(*GetCatDetailResp)(nil),              // 81: meowchat.core_api.GetCatDetailResp
+	(*NewCatResp)(nil),                    // 82: meowchat.core_api.NewCatResp
+	(*DeleteCatResp)(nil),                 // 83: meowchat.core_api.DeleteCatResp
+	(*SearchCatResp)(nil),                 // 84: meowchat.core_api.SearchCatResp
+	(*CreateImageResp)(nil),               // 85: meowchat.core_api.CreateImageResp
+	(*DeleteImageResp)(nil),               // 86: meowchat.core_api.DeleteImageResp
+	(*GetImageByCatResp)(nil),             // 87: meowchat.core_api.GetImageByCatResp
+	(*GetCommentsResp)(nil),               // 88: meowchat.core_api.GetCommentsResp
+	(*NewCommentResp)(nil),                // 89: meowchat.core_api.NewCommentResp
+	(*DeleteCommentResp)(nil),             // 90: meowchat.core_api.DeleteCommentResp
+	(*DoLikeResp)(nil),                    // 91: meowchat.core_api.DoLikeResp
+	(*GetUserLikedResp)(nil),              // 92: meowchat.core_api.GetUserLikedResp
+	(*GetLikedCountResp)(nil),             // 93: meowchat.core_api.GetLikedCountResp
+	(*GetLikedUsersResp)(nil),             // 94: meowchat.core_api.GetLikedUsersResp
+	(*GetUserLikesResp)(nil),              // 95: meowchat.core_api.GetUserLikesResp
+	(*GetMomentPreviewsResp)(nil),         // 96: meowchat.core_api.GetMomentPreviewsResp
+	(*GetMomentDetailResp)(nil),           // 97: meowchat.core_api.GetMomentDetailResp
+	(*NewMomentResp)(nil),                 // 98: meowchat.core_api.NewMomentResp
+	(*DeleteMomentResp)(nil),              // 99: meowchat.core_api.DeleteMomentResp
+	(*SearchMomentResp)(nil),              // 100: meowchat.core_api.SearchMomentResp
+	(*GetPlanPreviewsResp)(nil),           // 101: meowchat.core_api.GetPlanPreviewsResp
+	(*GetPlanDetailResp)(nil),             // 102: meowchat.core_api.GetPlanDetailResp
+	(*NewPlanResp)(nil),                   // 103: meowchat.core_api.NewPlanResp
+	(*DeletePlanResp)(nil),                // 104: meowchat.core_api.DeletePlanResp
+	(*DonateFishResp)(nil),                // 105: meowchat.core_api.DonateFishResp
+	(*GetUserFishResp)(nil),               // 106: meowchat.core_api.GetUserFishResp
+	(*ListFishByPlanResp)(nil),            // 107: meowchat.core_api.ListFishByPlanResp
+	(*ListDonateByUserResp)(nil),          // 108: meowchat.core_api.ListDonateByUserResp
+	(*CountDonateByUserResp)(nil),         // 109: meowchat.core_api.CountDonateByUserResp
+	(*CountDonateByPlanResp)(nil),         // 110: meowchat.core_api.CountDonateByPlanResp
+	(*GetPostPreviewsResp)(nil),           // 111: meowchat.core_api.GetPostPreviewsResp
+	(*GetPostDetailResp)(nil),             // 112: meowchat.core_api.GetPostDetailResp
+	(*NewPostResp)(nil),                   // 113: meowchat.core_api.NewPostResp
+	(*DeletePostResp)(nil),                // 114: meowchat.core_api.DeletePostResp
+	(*SetOfficialResp)(nil),               // 115: meowchat.core_api.SetOfficialResp
+	(*GetAdminsResp)(nil),                 // 116: meowchat.core_api.GetAdminsResp
+	(*NewAdminResp)(nil),                  // 117: meowchat.core_api.NewAdminResp
+	(*DeleteAdminResp)(nil),               // 118: meowchat.core_api.DeleteAdminResp
+	(*GetNewsResp)(nil),                   // 119: meowchat.core_api.GetNewsResp
+	(*NewNewsResp)(nil),                   // 120: meowchat.core_api.NewNewsResp
+	(*DeleteNewsResp)(nil),                // 121: meowchat.core_api.DeleteNewsResp
+	(*GetNoticesResp)(nil),                // 122: meowchat.core_api.GetNoticesResp
+	(*NewNoticeResp)(nil),                 // 123: meowchat.core_api.NewNoticeResp
+	(*DeleteNoticeResp)(nil),              // 124: meowchat.core_api.DeleteNoticeResp
+	(*ListCommunityResp)(nil),             // 125: meowchat.core_api.ListCommunityResp
+	(*NewCommunityResp)(nil),              // 126: meowchat.core_api.NewCommunityResp
+	(*DeleteCommunityResp)(nil),           // 127: meowchat.core_api.DeleteCommunityResp
+	(*GetUserRolesResp)(nil),              // 128: meowchat.core_api.GetUserRolesResp
+	(*UpdateCommunityAdminResp)(nil),      // 129: meowchat.core_api.UpdateCommunityAdminResp
+	(*UpdateSuperAdminResp)(nil),          // 130: meowchat.core_api.UpdateSuperAdminResp
+	(*GetUserByRoleResp)(nil),             // 131: meowchat.core_api.GetUserByRoleResp
+	(*UpdateRoleResp)(nil),                // 132: meowchat.core_api.UpdateRoleResp
+	(*ListApplyResp)(nil),                 // 133: meowchat.core_api.ListApplyResp
+	(*HandleApplyResp)(nil),               // 134: meowchat.core_api.HandleApplyResp
+	(*CreateApplyResp)(nil),               // 135: meowchat.core_api.CreateApplyResp
+	(*ListNotificationResp)(nil),          // 136: meowchat.core_api.ListNotificationResp
+	(*CleanNotificationResp)(nil),         // 137: meowchat.core_api.CleanNotificationResp
+	(*CountNotificationResp)(nil),         // 138: meowchat.core_api.CountNotificationResp
+	(*ReadNotificationResp)(nil),          // 139: meowchat.core_api.ReadNotificationResp
+	(*PrefetchResp)(nil),                  // 140: meowchat.core_api.PrefetchResp
+	(*GetMinVersionResp)(nil),             // 141: meowchat.core_api.GetMinVersionResp
 }
 var file_meowchat_core_api_core_api_proto_depIdxs = []int32{
 	0,   // 0: meowchat.core_api.sts.ApplySignedUrl:input_type -> meowchat.core_api.ApplySignedUrlReq
@@ -784,80 +795,82 @@ var file_meowchat_core_api_core_api_proto_depIdxs = []int32{
 	65,  // 65: meowchat.core_api.system.ListNotification:input_type -> meowchat.core_api.ListNotificationReq
 	66,  // 66: meowchat.core_api.system.CleanNotification:input_type -> meowchat.core_api.CleanNotificationReq
 	67,  // 67: meowchat.core_api.system.CountNotification:input_type -> meowchat.core_api.CountNotificationReq
-	68,  // 68: meowchat.core_api.system.Prefetch:input_type -> meowchat.core_api.PrefetchReq
-	69,  // 69: meowchat.core_api.system.GetMinVersion:input_type -> meowchat.core_api.GetMinVersionReq
-	70,  // 70: meowchat.core_api.sts.ApplySignedUrl:output_type -> meowchat.core_api.ApplySignedUrlResp
-	71,  // 71: meowchat.core_api.sts.ApplySignedUrlAsCommunity:output_type -> meowchat.core_api.ApplySignedUrlAsCommunityResp
-	72,  // 72: meowchat.core_api.user.GetUserInfo:output_type -> meowchat.core_api.GetUserInfoResp
-	73,  // 73: meowchat.core_api.user.UpdateUserInfo:output_type -> meowchat.core_api.UpdateUserInfoResp
-	74,  // 74: meowchat.core_api.user.SearchUser:output_type -> meowchat.core_api.SearchUserResp
-	75,  // 75: meowchat.core_api.user.CheckIn:output_type -> meowchat.core_api.CheckInResp
-	76,  // 76: meowchat.core_api.auth.SignIn:output_type -> meowchat.core_api.SignInResp
-	77,  // 77: meowchat.core_api.auth.SendVerifyCode:output_type -> meowchat.core_api.SendVerifyCodeResp
-	78,  // 78: meowchat.core_api.auth.SetPassword:output_type -> meowchat.core_api.SetPasswordResp
-	79,  // 79: meowchat.core_api.collection.GetCatPreviews:output_type -> meowchat.core_api.GetCatPreviewsResp
-	80,  // 80: meowchat.core_api.collection.GetCatDetail:output_type -> meowchat.core_api.GetCatDetailResp
-	81,  // 81: meowchat.core_api.collection.NewCat:output_type -> meowchat.core_api.NewCatResp
-	82,  // 82: meowchat.core_api.collection.DeleteCat:output_type -> meowchat.core_api.DeleteCatResp
-	83,  // 83: meowchat.core_api.collection.SearchCat:output_type -> meowchat.core_api.SearchCatResp
-	84,  // 84: meowchat.core_api.collection.CreateImage:output_type -> meowchat.core_api.CreateImageResp
-	85,  // 85: meowchat.core_api.collection.DeleteImage:output_type -> meowchat.core_api.DeleteImageResp
-	86,  // 86: meowchat.core_api.collection.GetImageByCat:output_type -> meowchat.core_api.GetImageByCatResp
-	87,  // 87: meowchat.core_api.comment.GetComments:output_type -> meowchat.core_api.GetCommentsResp
-	88,  // 88: meowchat.core_api.comment.NewComment:output_type -> meowchat.core_api.NewCommentResp
-	89,  // 89: meowchat.core_api.comment.DeleteComment:output_type -> meowchat.core_api.DeleteCommentResp
-	90,  // 90: meowchat.core_api.like.DoLike:output_type -> meowchat.core_api.DoLikeResp
-	91,  // 91: meowchat.core_api.like.GetUserLiked:output_type -> meowchat.core_api.GetUserLikedResp
-	92,  // 92: meowchat.core_api.like.GetLikedCount:output_type -> meowchat.core_api.GetLikedCountResp
-	93,  // 93: meowchat.core_api.like.GetLikedUsers:output_type -> meowchat.core_api.GetLikedUsersResp
-	94,  // 94: meowchat.core_api.like.GetUserLikes:output_type -> meowchat.core_api.GetUserLikesResp
-	95,  // 95: meowchat.core_api.moment.GetMomentPreviews:output_type -> meowchat.core_api.GetMomentPreviewsResp
-	96,  // 96: meowchat.core_api.moment.GetMomentDetail:output_type -> meowchat.core_api.GetMomentDetailResp
-	97,  // 97: meowchat.core_api.moment.NewMoment:output_type -> meowchat.core_api.NewMomentResp
-	98,  // 98: meowchat.core_api.moment.DeleteMoment:output_type -> meowchat.core_api.DeleteMomentResp
-	99,  // 99: meowchat.core_api.moment.SearchMoment:output_type -> meowchat.core_api.SearchMomentResp
-	100, // 100: meowchat.core_api.plan.GetPlanPreviews:output_type -> meowchat.core_api.GetPlanPreviewsResp
-	101, // 101: meowchat.core_api.plan.GetPlanDetail:output_type -> meowchat.core_api.GetPlanDetailResp
-	102, // 102: meowchat.core_api.plan.NewPlan:output_type -> meowchat.core_api.NewPlanResp
-	103, // 103: meowchat.core_api.plan.DeletePlan:output_type -> meowchat.core_api.DeletePlanResp
-	104, // 104: meowchat.core_api.plan.DonateFish:output_type -> meowchat.core_api.DonateFishResp
-	105, // 105: meowchat.core_api.plan.GetUserFish:output_type -> meowchat.core_api.GetUserFishResp
-	106, // 106: meowchat.core_api.plan.ListFishByPlan:output_type -> meowchat.core_api.ListFishByPlanResp
-	107, // 107: meowchat.core_api.plan.ListDonateByUser:output_type -> meowchat.core_api.ListDonateByUserResp
-	108, // 108: meowchat.core_api.plan.CountDonateByUser:output_type -> meowchat.core_api.CountDonateByUserResp
-	109, // 109: meowchat.core_api.plan.CountDonateByPlan:output_type -> meowchat.core_api.CountDonateByPlanResp
-	110, // 110: meowchat.core_api.post.GetPostPreviews:output_type -> meowchat.core_api.GetPostPreviewsResp
-	111, // 111: meowchat.core_api.post.GetPostDetail:output_type -> meowchat.core_api.GetPostDetailResp
-	112, // 112: meowchat.core_api.post.NewPost:output_type -> meowchat.core_api.NewPostResp
-	113, // 113: meowchat.core_api.post.DeletePost:output_type -> meowchat.core_api.DeletePostResp
-	114, // 114: meowchat.core_api.post.SetOfficial:output_type -> meowchat.core_api.SetOfficialResp
-	115, // 115: meowchat.core_api.system.GetAdmins:output_type -> meowchat.core_api.GetAdminsResp
-	116, // 116: meowchat.core_api.system.NewAdmin:output_type -> meowchat.core_api.NewAdminResp
-	117, // 117: meowchat.core_api.system.DeleteAdmin:output_type -> meowchat.core_api.DeleteAdminResp
-	118, // 118: meowchat.core_api.system.GetNews:output_type -> meowchat.core_api.GetNewsResp
-	119, // 119: meowchat.core_api.system.NewNews:output_type -> meowchat.core_api.NewNewsResp
-	120, // 120: meowchat.core_api.system.DeleteNews:output_type -> meowchat.core_api.DeleteNewsResp
-	121, // 121: meowchat.core_api.system.GetNotices:output_type -> meowchat.core_api.GetNoticesResp
-	122, // 122: meowchat.core_api.system.NewNotice:output_type -> meowchat.core_api.NewNoticeResp
-	123, // 123: meowchat.core_api.system.DeleteNotice:output_type -> meowchat.core_api.DeleteNoticeResp
-	124, // 124: meowchat.core_api.system.ListCommunity:output_type -> meowchat.core_api.ListCommunityResp
-	125, // 125: meowchat.core_api.system.NewCommunity:output_type -> meowchat.core_api.NewCommunityResp
-	126, // 126: meowchat.core_api.system.DeleteCommunity:output_type -> meowchat.core_api.DeleteCommunityResp
-	127, // 127: meowchat.core_api.system.GetUserRoles:output_type -> meowchat.core_api.GetUserRolesResp
-	128, // 128: meowchat.core_api.system.UpdateCommunityAdmin:output_type -> meowchat.core_api.UpdateCommunityAdminResp
-	129, // 129: meowchat.core_api.system.UpdateSuperAdmin:output_type -> meowchat.core_api.UpdateSuperAdminResp
-	130, // 130: meowchat.core_api.system.GetUserByRole:output_type -> meowchat.core_api.GetUserByRoleResp
-	131, // 131: meowchat.core_api.system.UpdateRole:output_type -> meowchat.core_api.UpdateRoleResp
-	132, // 132: meowchat.core_api.system.ListApply:output_type -> meowchat.core_api.ListApplyResp
-	133, // 133: meowchat.core_api.system.HandleApply:output_type -> meowchat.core_api.HandleApplyResp
-	134, // 134: meowchat.core_api.system.CreateApply:output_type -> meowchat.core_api.CreateApplyResp
-	135, // 135: meowchat.core_api.system.ListNotification:output_type -> meowchat.core_api.ListNotificationResp
-	136, // 136: meowchat.core_api.system.CleanNotification:output_type -> meowchat.core_api.CleanNotificationResp
-	137, // 137: meowchat.core_api.system.CountNotification:output_type -> meowchat.core_api.CountNotificationResp
-	138, // 138: meowchat.core_api.system.Prefetch:output_type -> meowchat.core_api.PrefetchResp
-	139, // 139: meowchat.core_api.system.GetMinVersion:output_type -> meowchat.core_api.GetMinVersionResp
-	70,  // [70:140] is the sub-list for method output_type
-	0,   // [0:70] is the sub-list for method input_type
+	68,  // 68: meowchat.core_api.system.ReadNotification:input_type -> meowchat.core_api.ReadNotificationReq
+	69,  // 69: meowchat.core_api.system.Prefetch:input_type -> meowchat.core_api.PrefetchReq
+	70,  // 70: meowchat.core_api.system.GetMinVersion:input_type -> meowchat.core_api.GetMinVersionReq
+	71,  // 71: meowchat.core_api.sts.ApplySignedUrl:output_type -> meowchat.core_api.ApplySignedUrlResp
+	72,  // 72: meowchat.core_api.sts.ApplySignedUrlAsCommunity:output_type -> meowchat.core_api.ApplySignedUrlAsCommunityResp
+	73,  // 73: meowchat.core_api.user.GetUserInfo:output_type -> meowchat.core_api.GetUserInfoResp
+	74,  // 74: meowchat.core_api.user.UpdateUserInfo:output_type -> meowchat.core_api.UpdateUserInfoResp
+	75,  // 75: meowchat.core_api.user.SearchUser:output_type -> meowchat.core_api.SearchUserResp
+	76,  // 76: meowchat.core_api.user.CheckIn:output_type -> meowchat.core_api.CheckInResp
+	77,  // 77: meowchat.core_api.auth.SignIn:output_type -> meowchat.core_api.SignInResp
+	78,  // 78: meowchat.core_api.auth.SendVerifyCode:output_type -> meowchat.core_api.SendVerifyCodeResp
+	79,  // 79: meowchat.core_api.auth.SetPassword:output_type -> meowchat.core_api.SetPasswordResp
+	80,  // 80: meowchat.core_api.collection.GetCatPreviews:output_type -> meowchat.core_api.GetCatPreviewsResp
+	81,  // 81: meowchat.core_api.collection.GetCatDetail:output_type -> meowchat.core_api.GetCatDetailResp
+	82,  // 82: meowchat.core_api.collection.NewCat:output_type -> meowchat.core_api.NewCatResp
+	83,  // 83: meowchat.core_api.collection.DeleteCat:output_type -> meowchat.core_api.DeleteCatResp
+	84,  // 84: meowchat.core_api.collection.SearchCat:output_type -> meowchat.core_api.SearchCatResp
+	85,  // 85: meowchat.core_api.collection.CreateImage:output_type -> meowchat.core_api.CreateImageResp
+	86,  // 86: meowchat.core_api.collection.DeleteImage:output_type -> meowchat.core_api.DeleteImageResp
+	87,  // 87: meowchat.core_api.collection.GetImageByCat:output_type -> meowchat.core_api.GetImageByCatResp
+	88,  // 88: meowchat.core_api.comment.GetComments:output_type -> meowchat.core_api.GetCommentsResp
+	89,  // 89: meowchat.core_api.comment.NewComment:output_type -> meowchat.core_api.NewCommentResp
+	90,  // 90: meowchat.core_api.comment.DeleteComment:output_type -> meowchat.core_api.DeleteCommentResp
+	91,  // 91: meowchat.core_api.like.DoLike:output_type -> meowchat.core_api.DoLikeResp
+	92,  // 92: meowchat.core_api.like.GetUserLiked:output_type -> meowchat.core_api.GetUserLikedResp
+	93,  // 93: meowchat.core_api.like.GetLikedCount:output_type -> meowchat.core_api.GetLikedCountResp
+	94,  // 94: meowchat.core_api.like.GetLikedUsers:output_type -> meowchat.core_api.GetLikedUsersResp
+	95,  // 95: meowchat.core_api.like.GetUserLikes:output_type -> meowchat.core_api.GetUserLikesResp
+	96,  // 96: meowchat.core_api.moment.GetMomentPreviews:output_type -> meowchat.core_api.GetMomentPreviewsResp
+	97,  // 97: meowchat.core_api.moment.GetMomentDetail:output_type -> meowchat.core_api.GetMomentDetailResp
+	98,  // 98: meowchat.core_api.moment.NewMoment:output_type -> meowchat.core_api.NewMomentResp
+	99,  // 99: meowchat.core_api.moment.DeleteMoment:output_type -> meowchat.core_api.DeleteMomentResp
+	100, // 100: meowchat.core_api.moment.SearchMoment:output_type -> meowchat.core_api.SearchMomentResp
+	101, // 101: meowchat.core_api.plan.GetPlanPreviews:output_type -> meowchat.core_api.GetPlanPreviewsResp
+	102, // 102: meowchat.core_api.plan.GetPlanDetail:output_type -> meowchat.core_api.GetPlanDetailResp
+	103, // 103: meowchat.core_api.plan.NewPlan:output_type -> meowchat.core_api.NewPlanResp
+	104, // 104: meowchat.core_api.plan.DeletePlan:output_type -> meowchat.core_api.DeletePlanResp
+	105, // 105: meowchat.core_api.plan.DonateFish:output_type -> meowchat.core_api.DonateFishResp
+	106, // 106: meowchat.core_api.plan.GetUserFish:output_type -> meowchat.core_api.GetUserFishResp
+	107, // 107: meowchat.core_api.plan.ListFishByPlan:output_type -> meowchat.core_api.ListFishByPlanResp
+	108, // 108: meowchat.core_api.plan.ListDonateByUser:output_type -> meowchat.core_api.ListDonateByUserResp
+	109, // 109: meowchat.core_api.plan.CountDonateByUser:output_type -> meowchat.core_api.CountDonateByUserResp
+	110, // 110: meowchat.core_api.plan.CountDonateByPlan:output_type -> meowchat.core_api.CountDonateByPlanResp
+	111, // 111: meowchat.core_api.post.GetPostPreviews:output_type -> meowchat.core_api.GetPostPreviewsResp
+	112, // 112: meowchat.core_api.post.GetPostDetail:output_type -> meowchat.core_api.GetPostDetailResp
+	113, // 113: meowchat.core_api.post.NewPost:output_type -> meowchat.core_api.NewPostResp
+	114, // 114: meowchat.core_api.post.DeletePost:output_type -> meowchat.core_api.DeletePostResp
+	115, // 115: meowchat.core_api.post.SetOfficial:output_type -> meowchat.core_api.SetOfficialResp
+	116, // 116: meowchat.core_api.system.GetAdmins:output_type -> meowchat.core_api.GetAdminsResp
+	117, // 117: meowchat.core_api.system.NewAdmin:output_type -> meowchat.core_api.NewAdminResp
+	118, // 118: meowchat.core_api.system.DeleteAdmin:output_type -> meowchat.core_api.DeleteAdminResp
+	119, // 119: meowchat.core_api.system.GetNews:output_type -> meowchat.core_api.GetNewsResp
+	120, // 120: meowchat.core_api.system.NewNews:output_type -> meowchat.core_api.NewNewsResp
+	121, // 121: meowchat.core_api.system.DeleteNews:output_type -> meowchat.core_api.DeleteNewsResp
+	122, // 122: meowchat.core_api.system.GetNotices:output_type -> meowchat.core_api.GetNoticesResp
+	123, // 123: meowchat.core_api.system.NewNotice:output_type -> meowchat.core_api.NewNoticeResp
+	124, // 124: meowchat.core_api.system.DeleteNotice:output_type -> meowchat.core_api.DeleteNoticeResp
+	125, // 125: meowchat.core_api.system.ListCommunity:output_type -> meowchat.core_api.ListCommunityResp
+	126, // 126: meowchat.core_api.system.NewCommunity:output_type -> meowchat.core_api.NewCommunityResp
+	127, // 127: meowchat.core_api.system.DeleteCommunity:output_type -> meowchat.core_api.DeleteCommunityResp
+	128, // 128: meowchat.core_api.system.GetUserRoles:output_type -> meowchat.core_api.GetUserRolesResp
+	129, // 129: meowchat.core_api.system.UpdateCommunityAdmin:output_type -> meowchat.core_api.UpdateCommunityAdminResp
+	130, // 130: meowchat.core_api.system.UpdateSuperAdmin:output_type -> meowchat.core_api.UpdateSuperAdminResp
+	131, // 131: meowchat.core_api.system.GetUserByRole:output_type -> meowchat.core_api.GetUserByRoleResp
+	132, // 132: meowchat.core_api.system.UpdateRole:output_type -> meowchat.core_api.UpdateRoleResp
+	133, // 133: meowchat.core_api.system.ListApply:output_type -> meowchat.core_api.ListApplyResp
+	134, // 134: meowchat.core_api.system.HandleApply:output_type -> meowchat.core_api.HandleApplyResp
+	135, // 135: meowchat.core_api.system.CreateApply:output_type -> meowchat.core_api.CreateApplyResp
+	136, // 136: meowchat.core_api.system.ListNotification:output_type -> meowchat.core_api.ListNotificationResp
+	137, // 137: meowchat.core_api.system.CleanNotification:output_type -> meowchat.core_api.CleanNotificationResp
+	138, // 138: meowchat.core_api.system.CountNotification:output_type -> meowchat.core_api.CountNotificationResp
+	139, // 139: meowchat.core_api.system.ReadNotification:output_type -> meowchat.core_api.ReadNotificationResp
+	140, // 140: meowchat.core_api.system.Prefetch:output_type -> meowchat.core_api.PrefetchResp
+	141, // 141: meowchat.core_api.system.GetMinVersion:output_type -> meowchat.core_api.GetMinVersionResp
+	71,  // [71:142] is the sub-list for method output_type
+	0,   // [0:71] is the sub-list for method input_type
 	0,   // [0:0] is the sub-list for extension type_name
 	0,   // [0:0] is the sub-list for extension extendee
 	0,   // [0:0] is the sub-list for field type_name

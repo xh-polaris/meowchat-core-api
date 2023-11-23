@@ -7,6 +7,7 @@ import (
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
@@ -14,6 +15,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 )
 
 type ILikeService interface {
@@ -28,6 +30,7 @@ type LikeService struct {
 	Config  *config.Config
 	User    meowchat_user.IMeowchatUser
 	Content meowchat_content.IMeowchatContent
+	Comment platform_comment.IPlatformCommment
 }
 
 var LikeServiceSet = wire.NewSet(
@@ -39,12 +42,41 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 	resp := new(core_api.DoLikeResp)
 
 	userId := user.UserId
+	associatedId := ""
+	likedUserId := ""
+
+	if req.GetTargetType() == 1 {
+		data, err := s.Content.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.TargetId})
+		if err != nil {
+			return nil, err
+		}
+		associatedId = data.Post.Id
+		likedUserId = data.Post.UserId
+	} else if req.GetTargetType() == 4 {
+		data, err := s.Content.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.TargetId})
+		if err != nil {
+			return nil, err
+		}
+		associatedId = data.Moment.Id
+		likedUserId = data.Moment.UserId
+	} else if req.GetTargetType() == 2 {
+		data, err := s.Comment.RetrieveCommentById(ctx, &comment.RetrieveCommentByIdReq{Id: req.TargetId})
+		if err != nil {
+			return nil, err
+		}
+		associatedId = data.Comment.ParentId
+		likedUserId = data.Comment.AuthorId
+	} else if req.GetTargetType() == 6 {
+		associatedId = req.TargetId
+		likedUserId = req.TargetId
+	}
 
 	r, err := s.User.DoLike(ctx, &genlike.DoLikeReq{
 		UserId:       userId,
 		TargetId:     req.TargetId,
 		Type:         genlike.LikeType(req.TargetType),
-		AssociatedId: "",
+		AssociatedId: associatedId,
+		LikedUserId:  likedUserId,
 	})
 
 	if err != nil {
