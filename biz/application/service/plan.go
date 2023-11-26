@@ -145,6 +145,7 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 			p = append(p, &core_api.PlanPre{
 				Id:         planpre.Id,
 				Name:       planpre.Name,
+				CoverUrl:   planpre.CoverUrl,
 				CatName:    catName.Cat.Name,
 				DonateNum:  planpre.DonateNum,
 				DonateTime: planpre.DonateTime,
