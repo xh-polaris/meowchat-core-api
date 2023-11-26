@@ -15,7 +15,7 @@ type Auth struct {
 
 type Fish struct {
 	SignIn  []int64
-	Like    int64
+	Like    []int64
 	Content []int64
 	Comment []int64
 }

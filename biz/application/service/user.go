@@ -2,9 +2,7 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"net/url"
-	"time"
 
 	"github.com/google/wire"
 	"github.com/samber/lo"
@@ -191,18 +189,15 @@ func (s *UserService) CheckIn(ctx context.Context, req *core_api.CheckInReq, use
 	if err != nil {
 		return nil, err
 	}
-	if rpcResp.GetIsFirst() == true {
-		t := time.Now()
-		fmt.Println(int(t.Weekday()))
+	if rpcResp.GetGetFish() == true {
 		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 			UserId: user.UserId,
-			Fish:   s.Config.Fish.SignIn[int(t.Weekday())],
+			Fish:   s.Config.Fish.Like[rpcResp.GetFishTimes-1],
 		})
-		if err != nil {
-			return nil, err
+		if err == nil {
+			resp.GetFishNum = s.Config.Fish.Like[rpcResp.GetFishTimes-1]
 		}
-		resp.GetFishNum = s.Config.Fish.SignIn[int(t.Weekday())]
 	}
-	resp.IsFirst = rpcResp.GetIsFirst()
+	resp.GetFish = rpcResp.GetGetFish()
 	return resp, nil
 }

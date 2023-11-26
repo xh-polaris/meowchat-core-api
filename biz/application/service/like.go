@@ -82,16 +82,16 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 	if err != nil {
 		return nil, err
 	}
-	if r.GetIsFirst() == true {
+	if r.GetGetFish() == true {
 		_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
 			UserId: user.UserId,
-			Fish:   s.Config.Fish.Like,
+			Fish:   s.Config.Fish.Like[r.GetFishTimes-1],
 		})
 		if err == nil {
-			resp.GetFishNum = s.Config.Fish.Like
+			resp.GetFishNum = s.Config.Fish.Like[r.GetFishTimes-1]
 		}
 	}
-	resp.IsFirst = r.IsFirst
+	resp.GetFish = r.GetGetFish()
 	return resp, nil
 }
 
