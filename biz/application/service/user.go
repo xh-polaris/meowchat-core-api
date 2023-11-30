@@ -53,7 +53,7 @@ func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfo
 	}
 
 	var userId string
-	if req.UserId != nil {
+	if req.GetUserId() != "" {
 		userId = *req.UserId
 	} else {
 		userId = user.GetUserId()
