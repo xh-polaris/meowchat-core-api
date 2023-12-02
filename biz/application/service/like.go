@@ -5,12 +5,13 @@ import (
 
 	"github.com/google/wire"
 	"github.com/samber/lo"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
@@ -22,10 +23,10 @@ import (
 )
 
 type ILikeService interface {
-	DoLike(ctx context.Context, req *core_api.DoLikeReq, user *basic.UserMeta) (*core_api.DoLikeResp, error)
+	DoLike(ctx context.Context, req *core_api.DoLikeReq, user *genbasic.UserMeta) (*core_api.DoLikeResp, error)
 	GetLikedCount(ctx context.Context, req *core_api.GetLikedCountReq) (*core_api.GetLikedCountResp, error)
 	GetLikedUsers(ctx context.Context, req *core_api.GetLikedUsersReq) (*core_api.GetLikedUsersResp, error)
-	GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq, user *basic.UserMeta) (*core_api.GetUserLikedResp, error)
+	GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq, user *genbasic.UserMeta) (*core_api.GetUserLikedResp, error)
 	GetUserLikes(ctx context.Context, req *core_api.GetUserLikesReq) (*core_api.GetUserLikesResp, error)
 	GetUserLikeContents(ctx context.Context, req *core_api.GetUserLikeContentsReq) (*core_api.GetUserLikeContentsResp, error)
 }
@@ -45,7 +46,7 @@ var LikeServiceSet = wire.NewSet(
 	wire.Bind(new(ILikeService), new(*LikeService)),
 )
 
-func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user *basic.UserMeta) (*core_api.DoLikeResp, error) {
+func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user *genbasic.UserMeta) (*core_api.DoLikeResp, error) {
 	resp := new(core_api.DoLikeResp)
 
 	userId := user.UserId
@@ -142,7 +143,7 @@ func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedU
 	return resp, nil
 }
 
-func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq, user *basic.UserMeta) (*core_api.GetUserLikedResp, error) {
+func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLikedReq, user *genbasic.UserMeta) (*core_api.GetUserLikedResp, error) {
 	resp := new(core_api.GetUserLikedResp)
 
 	userId := user.UserId
@@ -162,20 +163,25 @@ func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLik
 
 func (s *LikeService) GetUserLikes(ctx context.Context, req *core_api.GetUserLikesReq) (*core_api.GetUserLikesResp, error) {
 	resp := new(core_api.GetUserLikesResp)
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic.PaginationOptions{}
+	}
 	if req.PaginationOption.Limit == nil {
 		req.PaginationOption.Limit = &PageSize
 	}
 	request := &genlike.GetUserLikesReq{
 		UserId: req.UserId,
 		Type:   genlike.LikeType(req.TargetType),
-		PaginationOptions: &basic.PaginationOptions{
+		PaginationOptions: &genbasic.PaginationOptions{
 			Offset:    new(int64),
 			Limit:     req.PaginationOption.Limit,
 			Backward:  req.PaginationOption.Backward,
 			LastToken: req.PaginationOption.LastToken,
 		},
 	}
-	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+	if req.PaginationOption.LastToken == nil {
+		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
+	}
 	data, err := s.User.GetUserLikes(ctx, request)
 	if err != nil {
 		return nil, err
@@ -194,20 +200,25 @@ func (s *LikeService) GetUserLikes(ctx context.Context, req *core_api.GetUserLik
 
 func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.GetUserLikeContentsReq) (*core_api.GetUserLikeContentsResp, error) {
 	resp := new(core_api.GetUserLikeContentsResp)
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic.PaginationOptions{}
+	}
 	if req.PaginationOption.Limit == nil {
 		req.PaginationOption.Limit = &PageSize
 	}
 	request := &genlike.GetUserLikesReq{
 		UserId: req.UserId,
 		Type:   genlike.LikeType(req.TargetType),
-		PaginationOptions: &basic.PaginationOptions{
+		PaginationOptions: &genbasic.PaginationOptions{
 			Offset:    new(int64),
 			Limit:     req.PaginationOption.Limit,
 			Backward:  req.PaginationOption.Backward,
 			LastToken: req.PaginationOption.LastToken,
 		},
 	}
-	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+	if req.PaginationOption.LastToken == nil {
+		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
+	}
 	data, err := s.User.GetUserLikes(ctx, request)
 	if err != nil {
 		return nil, err
