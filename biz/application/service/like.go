@@ -162,10 +162,21 @@ func (s *LikeService) GetUserLiked(ctx context.Context, req *core_api.GetUserLik
 
 func (s *LikeService) GetUserLikes(ctx context.Context, req *core_api.GetUserLikesReq) (*core_api.GetUserLikesResp, error) {
 	resp := new(core_api.GetUserLikesResp)
-	data, err := s.User.GetUserLikes(ctx, &genlike.GetUserLikesReq{
+	if req.PaginationOption.Limit == nil {
+		req.PaginationOption.Limit = &PageSize
+	}
+	request := &genlike.GetUserLikesReq{
 		UserId: req.UserId,
 		Type:   genlike.LikeType(req.TargetType),
-	})
+		PaginationOptions: &basic.PaginationOptions{
+			Offset:    new(int64),
+			Limit:     req.PaginationOption.Limit,
+			Backward:  req.PaginationOption.Backward,
+			LastToken: req.PaginationOption.LastToken,
+		},
+	}
+	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+	data, err := s.User.GetUserLikes(ctx, request)
 	if err != nil {
 		return nil, err
 	}
@@ -176,15 +187,28 @@ func (s *LikeService) GetUserLikes(ctx context.Context, req *core_api.GetUserLik
 			AssociatedId: like.AssociatedId,
 		})
 	}
+	resp.Total = data.GetTotal()
+	resp.Token = data.GetToken()
 	return resp, nil
 }
 
 func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.GetUserLikeContentsReq) (*core_api.GetUserLikeContentsResp, error) {
 	resp := new(core_api.GetUserLikeContentsResp)
-	data, err := s.User.GetUserLikes(ctx, &genlike.GetUserLikesReq{
+	if req.PaginationOption.Limit == nil {
+		req.PaginationOption.Limit = &PageSize
+	}
+	request := &genlike.GetUserLikesReq{
 		UserId: req.UserId,
 		Type:   genlike.LikeType(req.TargetType),
-	})
+		PaginationOptions: &basic.PaginationOptions{
+			Offset:    new(int64),
+			Limit:     req.PaginationOption.Limit,
+			Backward:  req.PaginationOption.Backward,
+			LastToken: req.PaginationOption.LastToken,
+		},
+	}
+	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+	data, err := s.User.GetUserLikes(ctx, request)
 	if err != nil {
 		return nil, err
 	}
@@ -300,5 +324,7 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 			}
 		}))
 	}
+	resp.Total = data.GetTotal()
+	resp.Token = data.GetToken()
 	return resp, nil
 }
