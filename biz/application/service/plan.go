@@ -158,29 +158,31 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 	}
 
 	p := make([]*core_api.Plan, 0)
-	for key, _plan := range data.Plans {
+	for _, _plan := range data.Plans {
 		temp := new(core_api.Plan)
 		err = copier.Copy(temp, _plan)
 		if err != nil {
 			return nil, err
 		}
-		p = append(p, temp)
-		_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: _plan.CatId})
-		if err == nil {
-			c := new(content2.Cat)
-			err = copier.Copy(c, _cat.Cat)
+		if _plan.CatId != "" {
+			_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: _plan.CatId})
 			if err == nil {
-				resp.Plans[key].Cat = c
+				c := new(content2.Cat)
+				err = copier.Copy(c, _cat.Cat)
+				if err == nil {
+					temp.Cat = c
+				}
 			}
 		}
 		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: _plan.InitiatorId})
 		if err == nil {
-			resp.Plans[key].User = &user1.UserPreview{
+			temp.User = &user1.UserPreview{
 				Id:        user.User.Id,
 				Nickname:  user.User.Nickname,
 				AvatarUrl: user.User.AvatarUrl,
 			}
 		}
+		p = append(p, temp)
 	}
 
 	resp.Total = data.GetTotal()
