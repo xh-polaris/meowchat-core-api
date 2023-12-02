@@ -18,6 +18,7 @@ import (
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 
+	basic2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
@@ -82,6 +83,14 @@ func (s *PlanService) GetUserFish(ctx context.Context, req *core_api.GetUserFish
 
 func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFishByPlanReq) (*core_api.ListFishByPlanResp, error) {
 	resp := new(core_api.ListFishByPlanResp)
+
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic2.PaginationOptions{}
+	}
+	if req.PaginationOption.Limit == nil {
+		req.PaginationOption.Limit = &PageSize
+	}
+
 	request := &content.ListFishByPlanReq{
 		PlanId: req.PlanId,
 		PaginationOptions: &basic.PaginationOptions{
@@ -118,6 +127,13 @@ func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFish
 func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDonateByUserReq, user *basic.UserMeta) (*core_api.ListDonateByUserResp, error) {
 	resp := new(core_api.ListDonateByUserResp)
 
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic2.PaginationOptions{}
+	}
+	if req.PaginationOption.Limit == nil {
+		req.PaginationOption.Limit = &PageSize
+	}
+
 	request := &content.ListDonateByUserReq{
 		PaginationOptions: &basic.PaginationOptions{
 			Offset:    new(int64),
@@ -131,7 +147,9 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 	} else {
 		request.UserId = user.UserId
 	}
-	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+	if req.PaginationOption.LastToken == nil {
+		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
+	}
 
 	data, err := s.Plan.ListDonateByUser(ctx, request)
 	if err != nil {
@@ -139,17 +157,17 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 	}
 
 	p := make([]*core_api.PlanPre, 0)
-	for _, planpre := range data.PlanPreviews {
+	for key, planpre := range data.PlanPreviews {
+		p = append(p, &core_api.PlanPre{
+			Id:         planpre.Id,
+			Name:       planpre.Name,
+			CoverUrl:   planpre.CoverUrl,
+			DonateNum:  planpre.DonateNum,
+			DonateTime: planpre.DonateTime,
+		})
 		catName, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: planpre.CatId})
 		if err == nil {
-			p = append(p, &core_api.PlanPre{
-				Id:         planpre.Id,
-				Name:       planpre.Name,
-				CoverUrl:   planpre.CoverUrl,
-				CatName:    catName.Cat.Name,
-				DonateNum:  planpre.DonateNum,
-				DonateTime: planpre.DonateTime,
-			})
+			p[key].CatName = catName.Cat.Name
 		}
 	}
 
@@ -202,6 +220,10 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlanPreviewsReq) (*core_api.GetPlanPreviewsResp, error) {
 	resp := new(core_api.GetPlanPreviewsResp)
 	var data *content.ListPlanResp
+
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic2.PaginationOptions{}
+	}
 	if req.PaginationOption.Limit == nil {
 		req.PaginationOption.Limit = &PageSize
 	}
@@ -222,7 +244,9 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 	if req.GetKeyword() != "" {
 		request.SearchOptions = &content.SearchOptions{Type: &content.SearchOptions_AllFieldsKey{AllFieldsKey: req.GetKeyword()}}
 	}
-	*request.PaginationOptions.Offset = req.PaginationOption.GetLimit() * *req.PaginationOption.Page
+	if req.PaginationOption.LastToken == nil {
+		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
+	}
 	data, err := s.Plan.ListPlan(ctx, request)
 	if err != nil {
 		return nil, err
