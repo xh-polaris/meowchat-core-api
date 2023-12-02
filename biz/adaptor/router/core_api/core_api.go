@@ -53,6 +53,7 @@ func Register(r *server.Hertz) {
 		_like.POST("/do_like", append(_dolikeMw(), core_api.DoLike)...)
 		_like.GET("/get_count", append(_getlikedcountMw(), core_api.GetLikedCount)...)
 		_like.GET("/get_liked_users", append(_getlikedusersMw(), core_api.GetLikedUsers)...)
+		_like.GET("/get_user_like_contents", append(_getuserlikecontentsMw(), core_api.GetUserLikeContents)...)
 		_like.GET("/get_user_liked", append(_getuserlikedMw(), core_api.GetUserLiked)...)
 		_like.GET("/get_user_likes", append(_getuserlikesMw(), core_api.GetUserLikes)...)
 	}

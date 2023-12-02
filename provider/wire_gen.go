@@ -102,10 +102,13 @@ func NewProvider() (*Provider, error) {
 		PlatformSts:       platformSts,
 	}
 	likeService := &service.LikeService{
-		Config:  configConfig,
-		User:    meowchatUser,
-		Content: meowchatContent,
-		Comment: platformComment,
+		Config:               configConfig,
+		User:                 meowchatUser,
+		Content:              meowchatContent,
+		Comment:              platformComment,
+		PostDomainService:    postDomainService,
+		MomentDomainService:  momentDomainService,
+		CommentDomainService: commentDomainService,
 	}
 	stsService := &service.StsService{
 		PlatformSts: platformSts,

@@ -440,3 +440,8 @@ func _readnotificationMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _getuserlikecontentsMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

@@ -93,3 +93,19 @@ func GetUserLikes(ctx context.Context, c *app.RequestContext) {
 	resp, err := p.LikeService.GetUserLikes(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
+
+// GetUserLikeContents .
+// @router /like/get_user_like_contents [GET]
+func GetUserLikeContents(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req core_api.GetUserLikeContentsReq
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	p := provider.Get()
+	resp, err := p.LikeService.GetUserLikeContents(ctx, &req)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
+}
