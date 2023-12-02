@@ -10,6 +10,7 @@ import (
 	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	content2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
@@ -156,24 +157,35 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 		return nil, err
 	}
 
-	p := make([]*core_api.PlanPre, 0)
-	for key, planpre := range data.PlanPreviews {
-		p = append(p, &core_api.PlanPre{
-			Id:         planpre.Id,
-			Name:       planpre.Name,
-			CoverUrl:   planpre.CoverUrl,
-			DonateNum:  planpre.DonateNum,
-			DonateTime: planpre.DonateTime,
-		})
-		catName, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: planpre.CatId})
+	p := make([]*core_api.Plan, 0)
+	for key, _plan := range data.Plans {
+		temp := new(core_api.Plan)
+		err = copier.Copy(temp, _plan)
+		if err != nil {
+			return nil, err
+		}
+		p = append(p, temp)
+		_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: _plan.CatId})
 		if err == nil {
-			p[key].CatName = catName.Cat.Name
+			c := new(content2.Cat)
+			err = copier.Copy(c, _cat.Cat)
+			if err == nil {
+				resp.Plans[key].Cat = c
+			}
+		}
+		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: _plan.InitiatorId})
+		if err == nil {
+			resp.Plans[key].User = &user1.UserPreview{
+				Id:        user.User.Id,
+				Nickname:  user.User.Nickname,
+				AvatarUrl: user.User.AvatarUrl,
+			}
 		}
 	}
 
 	resp.Total = data.GetTotal()
 	resp.Token = data.GetToken()
-	resp.PlanPreviews = p
+	resp.Plans = p
 
 	return resp, nil
 }
@@ -202,9 +214,13 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 	if err != nil {
 		return nil, err
 	}
-	cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: data.Plan.CatId})
+	_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: data.Plan.CatId})
 	if err == nil {
-		resp.Plan.CatName = cat.Cat.GetName()
+		c := new(content2.Cat)
+		err = copier.Copy(c, _cat.Cat)
+		if err == nil {
+			resp.Plan.Cat = c
+		}
 	}
 	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Plan.InitiatorId})
 	if err == nil {
@@ -270,9 +286,13 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 					AvatarUrl: user.User.AvatarUrl,
 				}
 			}
-			cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: plan.CatId})
+			_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: plan.CatId})
 			if err == nil {
-				resp.Plans[i].CatName = cat.Cat.Name
+				c := new(content2.Cat)
+				err = copier.Copy(c, _cat.Cat)
+				if err == nil {
+					resp.Plans[i].Cat = c
+				}
 			}
 		}
 	}))
