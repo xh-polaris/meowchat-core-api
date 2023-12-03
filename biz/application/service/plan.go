@@ -186,6 +186,7 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 			Plan:       temp,
 			DonateTime: _donation.DonateTime,
 			DonateNum:  _donation.DonateNum,
+			DonateId:   _donation.DonateId,
 		})
 	}
 
