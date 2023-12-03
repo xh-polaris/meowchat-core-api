@@ -157,15 +157,15 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 		return nil, err
 	}
 
-	p := make([]*core_api.Plan, 0)
-	for _, _plan := range data.Plans {
+	p := make([]*core_api.Donation, 0)
+	for _, _donation := range data.Donations {
 		temp := new(core_api.Plan)
-		err = copier.Copy(temp, _plan)
+		err = copier.Copy(temp, _donation.Plan)
 		if err != nil {
 			return nil, err
 		}
-		if _plan.CatId != "" {
-			_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: _plan.CatId})
+		if _donation.Plan.CatId != "" {
+			_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: _donation.Plan.CatId})
 			if err == nil {
 				c := new(content2.Cat)
 				err = copier.Copy(c, _cat.Cat)
@@ -174,7 +174,7 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 				}
 			}
 		}
-		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: _plan.InitiatorId})
+		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: _donation.Plan.InitiatorId})
 		if err == nil {
 			temp.User = &user1.UserPreview{
 				Id:        user.User.Id,
@@ -182,12 +182,16 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 				AvatarUrl: user.User.AvatarUrl,
 			}
 		}
-		p = append(p, temp)
+		p = append(p, &core_api.Donation{
+			Plan:       temp,
+			DonateTime: _donation.DonateTime,
+			DonateNum:  _donation.DonateNum,
+		})
 	}
 
 	resp.Total = data.GetTotal()
 	resp.Token = data.GetToken()
-	resp.Plans = p
+	resp.Donations = p
 
 	return resp, nil
 }
