@@ -224,7 +224,7 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 		return nil, err
 	}
 	if req.GetTargetType() == 1 { //post
-		resp.Posts = make([]*core_api.Post, len(data.Likes))
+		resp.Posts = make([]*core_api.Post, 0)
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
 			return func() {
 				post, err := s.Content.RetrievePost(ctx, &content.RetrievePostReq{PostId: like.TargetId})
@@ -249,17 +249,17 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 							_ = s.PostDomainService.LoadCommentCount(ctx, p)
 						},
 					})
-					resp.Posts[i] = p
+					resp.Posts = append(resp.Posts, p)
 				}
 			}
 		}))
 	} else if req.GetTargetType() == 4 { //moment
-		resp.Moments = make([]*core_api.Moment, len(data.Likes))
+		resp.Moments = make([]*core_api.Moment, 0)
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
 			return func() {
 				moment, err := s.Content.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: like.TargetId})
 				if err == nil {
-					resp.Moments[i] = &core_api.Moment{
+					m := &core_api.Moment{
 						Id:          moment.Moment.Id,
 						CreateAt:    moment.Moment.CreateAt,
 						Photos:      moment.Moment.Photos,
@@ -267,29 +267,28 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 						Text:        moment.Moment.Text,
 						CommunityId: moment.Moment.CommunityId,
 					}
-					if err == nil {
-						util.ParallelRun([]func(){
-							func() {
-								if moment.Moment.GetCatId() != "" {
-									_ = s.MomentDomainService.LoadCats(ctx, resp.Moments[i], []string{moment.Moment.GetCatId()})
-								}
-							},
-							func() {
-								_ = s.MomentDomainService.LoadAuthor(ctx, resp.Moments[i], moment.Moment.UserId)
-							},
-							func() {
-								_ = s.MomentDomainService.LoadLikeCount(ctx, resp.Moments[i])
-							},
-							func() {
-								_ = s.MomentDomainService.LoadCommentCount(ctx, resp.Moments[i])
-							},
-						})
-					}
+					util.ParallelRun([]func(){
+						func() {
+							if moment.Moment.GetCatId() != "" {
+								_ = s.MomentDomainService.LoadCats(ctx, m, []string{moment.Moment.GetCatId()})
+							}
+						},
+						func() {
+							_ = s.MomentDomainService.LoadAuthor(ctx, m, moment.Moment.UserId)
+						},
+						func() {
+							_ = s.MomentDomainService.LoadLikeCount(ctx, m)
+						},
+						func() {
+							_ = s.MomentDomainService.LoadCommentCount(ctx, m)
+						},
+					})
+					resp.Moments = append(resp.Moments, m)
 				}
 			}
 		}))
 	} else if req.GetTargetType() == 2 { //comment
-		resp.Comments = make([]*core_api.Comment, len(data.Likes))
+		resp.Comments = make([]*core_api.Comment, 0)
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
 			return func() {
 				_comment, err := s.Comment.RetrieveCommentById(ctx, &comment.RetrieveCommentByIdReq{Id: like.TargetId})
@@ -316,21 +315,22 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 							_ = s.CommentDomainService.LoadAuthor(ctx, c, _comment.Comment.AuthorId)
 						},
 					})
-					resp.Comments[i] = c
+					resp.Comments = append(resp.Comments, c)
 				}
 			}
 		}))
 	} else if req.GetTargetType() == 6 { //user
-		resp.Users = make([]*user.UserPreview, len(data.Likes))
+		resp.Users = make([]*user.UserPreview, 0)
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
 			return func() {
 				_user, err := s.User.GetUserDetail(ctx, &genlike.GetUserDetailReq{UserId: like.TargetId})
 				if err == nil {
-					resp.Users[i] = &user.UserPreview{
+					u := &user.UserPreview{
 						Id:        _user.User.Id,
 						Nickname:  _user.User.Nickname,
 						AvatarUrl: _user.User.AvatarUrl,
 					}
+					resp.Users = append(resp.Users, u)
 				}
 			}
 		}))
