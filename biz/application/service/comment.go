@@ -134,6 +134,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 		})
 		if err == nil {
 			resp.GetFishNum = s.Config.Fish.Comment[data.GetFishTimes-1]
+			resp.GetFishTimes = data.GetGetFishTimes()
 		}
 	}
 	resp.GetFish = data.GetGetFish()

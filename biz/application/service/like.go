@@ -97,6 +97,7 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 		})
 		if err == nil {
 			resp.GetFishNum = s.Config.Fish.Like[r.GetFishTimes-1]
+			resp.GetFishTimes = r.GetGetFishTimes()
 		}
 	}
 	resp.GetFish = r.GetGetFish()

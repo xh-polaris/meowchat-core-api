@@ -192,10 +192,11 @@ func (s *UserService) CheckIn(ctx context.Context, req *core_api.CheckInReq, use
 	if rpcResp.GetGetFish() == true {
 		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 			UserId: user.UserId,
-			Fish:   s.Config.Fish.Like[rpcResp.GetFishTimes-1],
+			Fish:   s.Config.Fish.SignIn[rpcResp.GetFishTimes-1],
 		})
 		if err == nil {
-			resp.GetFishNum = s.Config.Fish.Like[rpcResp.GetFishTimes-1]
+			resp.GetFishNum = s.Config.Fish.SignIn[rpcResp.GetFishTimes-1]
+			resp.GetFishTimes = rpcResp.GetFishTimes
 		}
 	}
 	resp.GetFish = rpcResp.GetGetFish()
