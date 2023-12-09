@@ -71,9 +71,13 @@ func (s *PlanService) DonateFish(ctx context.Context, req *core_api.DonateFishRe
 
 func (s *PlanService) GetUserFish(ctx context.Context, req *core_api.GetUserFishReq, user *basic.UserMeta) (*core_api.GetUserFishResp, error) {
 	resp := new(core_api.GetUserFishResp)
-	uid := user.UserId
+	var uid string
 	if req.GetUserId() != "" {
 		uid = req.GetUserId()
+	} else if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	} else {
+		uid = user.GetUserId()
 	}
 	data, err := s.Plan.RetrieveUserFish(ctx, &content.RetrieveUserFishReq{
 		UserId: uid,
