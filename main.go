@@ -33,7 +33,7 @@ func main() {
 	tracer, cfg := tracing.NewServerTracer()
 	h := server.New(
 		server.WithHostPorts(c.ListenOn),
-		server.WithTracer(prometheus.NewServerTracer(":9091", "/metrics")),
+		server.WithTracer(prometheus.NewServerTracer(":9091", "/server/metrics")),
 		tracer,
 	)
 	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware, recovery.Recovery())
