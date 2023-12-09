@@ -2,20 +2,23 @@ package service
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/google/wire"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
-	"net/http"
 
 	"github.com/google/uuid"
 
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 )
 
 type IStsService interface {
 	ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq, user *basic.UserMeta) (*core_api.ApplySignedUrlResp, error)
-	ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq) (*core_api.ApplySignedUrlAsCommunityResp, error)
+	ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq, user *basic.UserMeta) (*core_api.ApplySignedUrlAsCommunityResp, error)
 }
 
 type StsService struct {
@@ -28,6 +31,9 @@ var StsServiceSet = wire.NewSet(
 )
 
 func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq, user *basic.UserMeta) (*core_api.ApplySignedUrlResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.ApplySignedUrlResp)
 	userId := user.GetUserId()
 	data, err := s.PlatformSts.GenCosSts(ctx, &sts.GenCosStsReq{Path: "users/" + userId + "/*"})
@@ -48,7 +54,10 @@ func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySign
 	return resp, nil
 }
 
-func (s *StsService) ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq) (*core_api.ApplySignedUrlAsCommunityResp, error) {
+func (s *StsService) ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq, user *basic.UserMeta) (*core_api.ApplySignedUrlAsCommunityResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.ApplySignedUrlAsCommunityResp)
 	data, err := s.PlatformSts.GenCosSts(ctx, &sts.GenCosStsReq{Path: "communities/" + req.CommunityId + "/*"})
 	if err != nil {

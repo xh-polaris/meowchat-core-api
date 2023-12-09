@@ -57,7 +57,7 @@ func NewCat(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CollectionService.NewCat(ctx, &req)
+	resp, err := p.CollectionService.NewCat(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -73,7 +73,7 @@ func DeleteCat(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CollectionService.DeleteCat(ctx, &req)
+	resp, err := p.CollectionService.DeleteCat(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -121,7 +121,7 @@ func DeleteImage(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CollectionService.DeleteImage(ctx, &req)
+	resp, err := p.CollectionService.DeleteImage(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 

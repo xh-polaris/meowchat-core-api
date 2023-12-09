@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -81,6 +82,9 @@ func generateJwtToken(req *core_api.SignInReq, resp *sts.SignInResp, secret stri
 }
 
 func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPasswordReq, user *basic.UserMeta) (*core_api.SetPasswordResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.SetPasswordResp)
 	_, err := s.Sts.SetPassword(ctx, &sts.SetPasswordReq{
 		UserId:   user.UserId,

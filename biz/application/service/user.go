@@ -15,6 +15,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
@@ -55,6 +56,8 @@ func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfo
 	var userId string
 	if req.GetUserId() != "" {
 		userId = *req.UserId
+	} else if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
 	} else {
 		userId = user.GetUserId()
 	}
@@ -125,6 +128,9 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error) {
 	resp := new(core_api.UpdateUserInfoResp)
 
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	if req.GetNickname() != "" {
 		r, err := s.PlatformSts.TextCheck(ctx, &sts.TextCheckReq{
 			Text:  *req.Nickname,
@@ -180,18 +186,20 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 }
 
 func (s *UserService) CheckIn(ctx context.Context, req *core_api.CheckInReq, user *basic.UserMeta) (*core_api.CheckInResp, error) {
-
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.CheckInResp)
 
 	rpcResp, err := s.MeowchatUser.CheckIn(ctx, &genuser.CheckInReq{
-		UserId: user.UserId,
+		UserId: user.GetUserId(),
 	})
 	if err != nil {
 		return nil, err
 	}
 	if rpcResp.GetGetFish() == true {
 		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
-			UserId: user.UserId,
+			UserId: user.GetUserId(),
 			Fish:   s.Config.Fish.SignIn[rpcResp.GetFishTimes-1],
 		})
 		if err == nil {

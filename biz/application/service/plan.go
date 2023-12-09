@@ -11,6 +11,7 @@ import (
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
 	content2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/content"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
@@ -27,7 +28,7 @@ import (
 )
 
 type IPlanService interface {
-	DeletePlan(ctx context.Context, req *core_api.DeletePlanReq) (*core_api.DeletePlanResp, error)
+	DeletePlan(ctx context.Context, req *core_api.DeletePlanReq, user *basic.UserMeta) (*core_api.DeletePlanResp, error)
 	GetPlanDetail(ctx context.Context, req *core_api.GetPlanDetailReq) (*core_api.GetPlanDetailResp, error)
 	GetPlanPreviews(ctx context.Context, req *core_api.GetPlanPreviewsReq) (*core_api.GetPlanPreviewsResp, error)
 	NewPlan(ctx context.Context, req *core_api.NewPlanReq, user *basic.UserMeta) (*core_api.NewPlanResp, error)
@@ -52,6 +53,9 @@ var PlanServiceSet = wire.NewSet(
 )
 
 func (s *PlanService) DonateFish(ctx context.Context, req *core_api.DonateFishReq, user *basic.UserMeta) (*core_api.DonateFishResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DonateFishResp)
 	_, err := s.Plan.DonateFish(ctx, &content.DonateFishReq{
 		UserId: user.UserId,
@@ -197,7 +201,10 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 	return resp, nil
 }
 
-func (s *PlanService) DeletePlan(ctx context.Context, req *core_api.DeletePlanReq) (*core_api.DeletePlanResp, error) {
+func (s *PlanService) DeletePlan(ctx context.Context, req *core_api.DeletePlanReq, user *basic.UserMeta) (*core_api.DeletePlanResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeletePlanResp)
 	_, err := s.Plan.DeletePlan(ctx, &content.DeletePlanReq{
 		PlanId: req.PlanId,
@@ -285,28 +292,42 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 
 	util.ParallelRun(lo.Map(data.Plans, func(plan *content.Plan, i int) func() {
 		return func() {
-			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: plan.InitiatorId})
-			if err == nil {
-				resp.Plans[i].User = &user1.UserPreview{
-					Id:        user.User.Id,
-					Nickname:  user.User.Nickname,
-					AvatarUrl: user.User.AvatarUrl,
-				}
-			}
-			_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: plan.CatId})
-			if err == nil {
-				c := new(content2.Cat)
-				err = copier.Copy(c, _cat.Cat)
-				if err == nil {
-					resp.Plans[i].Cat = c
-				}
-			}
+			util.ParallelRun([]func(){
+				func() {
+					user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: plan.InitiatorId})
+					if err != nil {
+						return
+					}
+					resp.Plans[i].User = &user1.UserPreview{
+						Id:        user.User.Id,
+						Nickname:  user.User.Nickname,
+						AvatarUrl: user.User.AvatarUrl,
+					}
+				},
+				func() {
+					if plan.GetCatId() == "" {
+						return
+					}
+					_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: plan.CatId})
+					if err != nil {
+						return
+					}
+					c := new(content2.Cat)
+					err = copier.Copy(c, _cat.Cat)
+					if err == nil {
+						resp.Plans[i].Cat = c
+					}
+				},
+			})
 		}
 	}))
 	return resp, nil
 }
 
 func (s *PlanService) NewPlan(ctx context.Context, req *core_api.NewPlanReq, user *basic.UserMeta) (*core_api.NewPlanResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewPlanResp)
 	m := new(content.Plan)
 

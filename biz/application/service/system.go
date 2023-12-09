@@ -16,6 +16,7 @@ import (
 	system2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/system"
 	user1 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
@@ -23,28 +24,28 @@ import (
 
 type ISystemService interface {
 	CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *genbasic.UserMeta) (*core_api.CreateApplyResp, error)
-	DeleteAdmin(ctx context.Context, req *core_api.DeleteAdminReq) (*core_api.DeleteAdminResp, error)
-	DeleteCommunity(ctx context.Context, req *core_api.DeleteCommunityReq) (*core_api.DeleteCommunityResp, error)
-	DeleteNews(ctx context.Context, req *core_api.DeleteNewsReq) (*core_api.DeleteNewsResp, error)
-	DeleteNotice(ctx context.Context, req *core_api.DeleteNoticeReq) (*core_api.DeleteNoticeResp, error)
+	DeleteAdmin(ctx context.Context, req *core_api.DeleteAdminReq, user *genbasic.UserMeta) (*core_api.DeleteAdminResp, error)
+	DeleteCommunity(ctx context.Context, req *core_api.DeleteCommunityReq, user *genbasic.UserMeta) (*core_api.DeleteCommunityResp, error)
+	DeleteNews(ctx context.Context, req *core_api.DeleteNewsReq, user *genbasic.UserMeta) (*core_api.DeleteNewsResp, error)
+	DeleteNotice(ctx context.Context, req *core_api.DeleteNoticeReq, user *genbasic.UserMeta) (*core_api.DeleteNoticeResp, error)
 	GetAdmins(ctx context.Context, req *core_api.GetAdminsReq) (*core_api.GetAdminsResp, error)
 	GetNews(ctx context.Context, req *core_api.GetNewsReq) (*core_api.GetNewsResp, error)
 	GetNotices(ctx context.Context, req *core_api.GetNoticesReq) (*core_api.GetNoticesResp, error)
 	GetUserByRole(ctx context.Context, req *core_api.RetrieveUserPreviewReq) (*core_api.RetrieveUserPreviewResp, error)
 	GetUserRoles(ctx context.Context, req *core_api.GetUserRolesReq, user *genbasic.UserMeta) (*core_api.GetUserRolesResp, error)
-	HandleApply(ctx context.Context, req *core_api.HandleApplyReq) (*core_api.HandleApplyResp, error)
+	HandleApply(ctx context.Context, req *core_api.HandleApplyReq, user *genbasic.UserMeta) (*core_api.HandleApplyResp, error)
 	ListApply(ctx context.Context, req *core_api.ListApplyReq) (*core_api.ListApplyResp, error)
 	ListCommunity(ctx context.Context, req *core_api.ListCommunityReq) (*core_api.ListCommunityResp, error)
-	NewAdmin(ctx context.Context, req *core_api.NewAdminReq) (*core_api.NewAdminResp, error)
-	NewCommunity(ctx context.Context, req *core_api.NewCommunityReq) (*core_api.NewCommunityResp, error)
-	NewNews(ctx context.Context, req *core_api.NewNewsReq) (*core_api.NewNewsResp, error)
-	NewNotice(ctx context.Context, req *core_api.NewNoticeReq) (*core_api.NewNoticeResp, error)
-	UpdateCommunityAdmin(ctx context.Context, req *core_api.UpdateCommunityAdminReq) (*core_api.UpdateCommunityAdminResp, error)
-	UpdateSuperAdmin(ctx context.Context, req *core_api.UpdateSuperAdminReq) (*core_api.UpdateSuperAdminResp, error)
-	UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq) (*core_api.UpdateRoleResp, error)
+	NewAdmin(ctx context.Context, req *core_api.NewAdminReq, user *genbasic.UserMeta) (*core_api.NewAdminResp, error)
+	NewCommunity(ctx context.Context, req *core_api.NewCommunityReq, user *genbasic.UserMeta) (*core_api.NewCommunityResp, error)
+	NewNews(ctx context.Context, req *core_api.NewNewsReq, user *genbasic.UserMeta) (*core_api.NewNewsResp, error)
+	NewNotice(ctx context.Context, req *core_api.NewNoticeReq, user *genbasic.UserMeta) (*core_api.NewNoticeResp, error)
+	UpdateCommunityAdmin(ctx context.Context, req *core_api.UpdateCommunityAdminReq, user *genbasic.UserMeta) (*core_api.UpdateCommunityAdminResp, error)
+	UpdateSuperAdmin(ctx context.Context, req *core_api.UpdateSuperAdminReq, user *genbasic.UserMeta) (*core_api.UpdateSuperAdminResp, error)
+	UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq, user *genbasic.UserMeta) (*core_api.UpdateRoleResp, error)
 	GetMinVersion(ctx context.Context, req *core_api.GetMinVersionReq) (*core_api.GetMinVersionResp, error)
 	ListNotification(ctx context.Context, req *core_api.ListNotificationReq, user *genbasic.UserMeta) (*core_api.ListNotificationResp, error)
-	ReadNotification(ctx context.Context, req *core_api.ReadNotificationReq) (*core_api.ReadNotificationResp, error)
+	ReadNotification(ctx context.Context, req *core_api.ReadNotificationReq, user *genbasic.UserMeta) (*core_api.ReadNotificationResp, error)
 	CountNotification(ctx context.Context, req *core_api.CountNotificationReq, user *genbasic.UserMeta) (*core_api.CountNotificationResp, error)
 	CleanNotification(ctx context.Context, req *core_api.CleanNotificationReq, user *genbasic.UserMeta) (*core_api.CleanNotificationResp, error)
 }
@@ -110,7 +111,10 @@ func (s *SystemService) ListNotification(ctx context.Context, req *core_api.List
 	return resp, nil
 }
 
-func (s *SystemService) ReadNotification(ctx context.Context, req *core_api.ReadNotificationReq) (*core_api.ReadNotificationResp, error) {
+func (s *SystemService) ReadNotification(ctx context.Context, req *core_api.ReadNotificationReq, user *genbasic.UserMeta) (*core_api.ReadNotificationResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	_, err := s.System.ReadNotification(ctx, &system.ReadNotificationReq{
 		NotificationId: req.NotificationId,
 	})
@@ -133,6 +137,9 @@ func (s *SystemService) CountNotification(ctx context.Context, req *core_api.Cou
 }
 
 func (s *SystemService) CleanNotification(ctx context.Context, req *core_api.CleanNotificationReq, user *genbasic.UserMeta) (*core_api.CleanNotificationResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	_, err := s.System.CleanNotification(ctx, &system.CleanNotificationReq{
 		UserId: user.UserId,
 	})
@@ -143,6 +150,9 @@ func (s *SystemService) CleanNotification(ctx context.Context, req *core_api.Cle
 }
 
 func (s *SystemService) CreateApply(ctx context.Context, req *core_api.CreateApplyReq, user *genbasic.UserMeta) (*core_api.CreateApplyResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.CreateApplyResp)
 	ApplicantId := user.UserId
 	_, err := s.System.CreateApply(ctx, &system.CreateApplyReq{
@@ -155,7 +165,10 @@ func (s *SystemService) CreateApply(ctx context.Context, req *core_api.CreateApp
 	return resp, nil
 }
 
-func (s *SystemService) DeleteAdmin(ctx context.Context, req *core_api.DeleteAdminReq) (*core_api.DeleteAdminResp, error) {
+func (s *SystemService) DeleteAdmin(ctx context.Context, req *core_api.DeleteAdminReq, user *genbasic.UserMeta) (*core_api.DeleteAdminResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteAdminResp)
 	_, err := s.System.DeleteAdmin(ctx, &system.DeleteAdminReq{Id: req.Id})
 	if err != nil {
@@ -164,7 +177,10 @@ func (s *SystemService) DeleteAdmin(ctx context.Context, req *core_api.DeleteAdm
 	return resp, nil
 }
 
-func (s *SystemService) DeleteCommunity(ctx context.Context, req *core_api.DeleteCommunityReq) (*core_api.DeleteCommunityResp, error) {
+func (s *SystemService) DeleteCommunity(ctx context.Context, req *core_api.DeleteCommunityReq, user *genbasic.UserMeta) (*core_api.DeleteCommunityResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteCommunityResp)
 
 	_, err := s.System.DeleteCommunity(ctx, &system.DeleteCommunityReq{Id: req.Id})
@@ -175,7 +191,10 @@ func (s *SystemService) DeleteCommunity(ctx context.Context, req *core_api.Delet
 	return resp, nil
 }
 
-func (s *SystemService) DeleteNews(ctx context.Context, req *core_api.DeleteNewsReq) (*core_api.DeleteNewsResp, error) {
+func (s *SystemService) DeleteNews(ctx context.Context, req *core_api.DeleteNewsReq, user *genbasic.UserMeta) (*core_api.DeleteNewsResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteNewsResp)
 
 	_, err := s.System.DeleteNews(ctx, &system.DeleteNewsReq{Id: req.Id})
@@ -186,7 +205,10 @@ func (s *SystemService) DeleteNews(ctx context.Context, req *core_api.DeleteNews
 	return resp, nil
 }
 
-func (s *SystemService) DeleteNotice(ctx context.Context, req *core_api.DeleteNoticeReq) (*core_api.DeleteNoticeResp, error) {
+func (s *SystemService) DeleteNotice(ctx context.Context, req *core_api.DeleteNoticeReq, user *genbasic.UserMeta) (*core_api.DeleteNoticeResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteNoticeResp)
 
 	_, err := s.System.DeleteNotice(ctx, &system.DeleteNoticeReq{Id: req.Id})
@@ -313,7 +335,10 @@ func (s *SystemService) GetUserRoles(ctx context.Context, req *core_api.GetUserR
 	return resp, nil
 }
 
-func (s *SystemService) HandleApply(ctx context.Context, req *core_api.HandleApplyReq) (*core_api.HandleApplyResp, error) {
+func (s *SystemService) HandleApply(ctx context.Context, req *core_api.HandleApplyReq, user *genbasic.UserMeta) (*core_api.HandleApplyResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.HandleApplyResp)
 	_, err := s.System.HandleApply(ctx, &system.HandleApplyReq{
 		ApplyId:    req.ApplyId,
@@ -366,7 +391,10 @@ func (s *SystemService) ListCommunity(ctx context.Context, req *core_api.ListCom
 	return resp, nil
 }
 
-func (s *SystemService) NewAdmin(ctx context.Context, req *core_api.NewAdminReq) (*core_api.NewAdminResp, error) {
+func (s *SystemService) NewAdmin(ctx context.Context, req *core_api.NewAdminReq, user *genbasic.UserMeta) (*core_api.NewAdminResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewAdminResp)
 	if req.GetId() == "" {
 		data, err := s.System.CreateAdmin(ctx, &system.CreateAdminReq{
@@ -399,7 +427,10 @@ func (s *SystemService) NewAdmin(ctx context.Context, req *core_api.NewAdminReq)
 	return resp, nil
 }
 
-func (s *SystemService) NewCommunity(ctx context.Context, req *core_api.NewCommunityReq) (*core_api.NewCommunityResp, error) {
+func (s *SystemService) NewCommunity(ctx context.Context, req *core_api.NewCommunityReq, user *genbasic.UserMeta) (*core_api.NewCommunityResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewCommunityResp)
 
 	if req.GetId() == "" {
@@ -425,8 +456,10 @@ func (s *SystemService) NewCommunity(ctx context.Context, req *core_api.NewCommu
 	return resp, nil
 }
 
-func (s *SystemService) NewNews(ctx context.Context, req *core_api.NewNewsReq) (*core_api.NewNewsResp, error) {
-
+func (s *SystemService) NewNews(ctx context.Context, req *core_api.NewNewsReq, user *genbasic.UserMeta) (*core_api.NewNewsResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewNewsResp)
 
 	if req.GetId() == "" {
@@ -457,7 +490,10 @@ func (s *SystemService) NewNews(ctx context.Context, req *core_api.NewNewsReq) (
 	return resp, nil
 }
 
-func (s *SystemService) NewNotice(ctx context.Context, req *core_api.NewNoticeReq) (*core_api.NewNoticeResp, error) {
+func (s *SystemService) NewNotice(ctx context.Context, req *core_api.NewNoticeReq, user *genbasic.UserMeta) (*core_api.NewNoticeResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewNoticeResp)
 
 	if req.GetId() == "" {
@@ -483,7 +519,10 @@ func (s *SystemService) NewNotice(ctx context.Context, req *core_api.NewNoticeRe
 	return resp, nil
 }
 
-func (s *SystemService) UpdateCommunityAdmin(ctx context.Context, req *core_api.UpdateCommunityAdminReq) (*core_api.UpdateCommunityAdminResp, error) {
+func (s *SystemService) UpdateCommunityAdmin(ctx context.Context, req *core_api.UpdateCommunityAdminReq, user *genbasic.UserMeta) (*core_api.UpdateCommunityAdminResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.UpdateCommunityAdminResp)
 	data, err := s.System.RetrieveUserRole(ctx, &system.RetrieveUserRoleReq{UserId: req.UserId})
 	if err != nil {
@@ -528,7 +567,10 @@ func (s *SystemService) UpdateCommunityAdmin(ctx context.Context, req *core_api.
 	return resp, nil
 }
 
-func (s *SystemService) UpdateSuperAdmin(ctx context.Context, req *core_api.UpdateSuperAdminReq) (*core_api.UpdateSuperAdminResp, error) {
+func (s *SystemService) UpdateSuperAdmin(ctx context.Context, req *core_api.UpdateSuperAdminReq, user *genbasic.UserMeta) (*core_api.UpdateSuperAdminResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.UpdateSuperAdminResp)
 	data, err := s.System.RetrieveUserRole(ctx, &system.RetrieveUserRoleReq{UserId: req.UserId})
 	if err != nil {
@@ -572,7 +614,7 @@ func (s *SystemService) UpdateSuperAdmin(ctx context.Context, req *core_api.Upda
 	return resp, nil
 }
 
-func (s *SystemService) UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq) (*core_api.UpdateRoleResp, error) {
+func (s *SystemService) UpdateRole(ctx context.Context, req *core_api.UpdateRoleReq, user *genbasic.UserMeta) (*core_api.UpdateRoleResp, error) {
 	resp := new(core_api.UpdateRoleResp)
 
 	roles := make([]*system.Role, 0, len(req.Roles))

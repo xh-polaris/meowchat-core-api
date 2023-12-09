@@ -23,10 +23,10 @@ import (
 type ICollectionService interface {
 	GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error)
 	GetCatDetail(ctx context.Context, req *core_api.GetCatDetailReq) (*core_api.GetCatDetailResp, error)
-	NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error)
-	DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error)
+	NewCat(ctx context.Context, req *core_api.NewCatReq, user *genbasic.UserMeta) (*core_api.NewCatResp, error)
+	DeleteCat(ctx context.Context, req *core_api.DeleteCatReq, user *genbasic.UserMeta) (*core_api.DeleteCatResp, error)
 	CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *genbasic.UserMeta) (*core_api.CreateImageResp, error)
-	DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error)
+	DeleteImage(ctx context.Context, req *core_api.DeleteImageReq, user *genbasic.UserMeta) (*core_api.DeleteImageResp, error)
 	GetImageByCat(ctx context.Context, req *core_api.GetImageByCatReq) (*core_api.GetImageByCatResp, error)
 }
 
@@ -111,7 +111,10 @@ func (s *CollectionService) GetCatDetail(ctx context.Context, req *core_api.GetC
 	return resp, nil
 }
 
-func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error) {
+func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq, user *genbasic.UserMeta) (*core_api.NewCatResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewCatResp)
 	cat := new(gencontent.Cat)
 
@@ -147,7 +150,10 @@ func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq)
 	return resp, nil
 }
 
-func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error) {
+func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteCatReq, user *genbasic.UserMeta) (*core_api.DeleteCatResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteCatResp)
 	_, err := s.Collection.DeleteCat(ctx, &gencontent.DeleteCatReq{CatId: req.CatId})
 	if err != nil {
@@ -158,6 +164,9 @@ func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteC
 }
 
 func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *genbasic.UserMeta) (*core_api.CreateImageResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.CreateImageResp)
 
 	for i := 0; i < len(req.Images); i++ {
@@ -200,7 +209,10 @@ func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.Creat
 	return resp, nil
 }
 
-func (s *CollectionService) DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error) {
+func (s *CollectionService) DeleteImage(ctx context.Context, req *core_api.DeleteImageReq, user *genbasic.UserMeta) (*core_api.DeleteImageResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteImageResp)
 	data := gencontent.DeleteImageReq{ImageId: req.ImageId}
 	_, err := s.Collection.DeleteImage(ctx, &data)

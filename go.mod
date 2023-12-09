@@ -13,7 +13,7 @@ require (
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/jinzhu/copier v0.3.5
 	github.com/samber/lo v1.38.1
-	github.com/xh-polaris/gopkg v0.0.0-20231013165226-76f4d7108b9d
+	github.com/xh-polaris/gopkg v0.0.0-20231209114554-9d8e6728c279
 	github.com/xh-polaris/service-idl-gen-go v0.0.0-20231203175527-87a00e851322
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0
@@ -49,6 +49,7 @@ require (
 	github.com/henrylee2cn/ameda v1.5.1 // indirect
 	github.com/jhump/protoreflect v1.15.1 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/kitex-contrib/monitor-prometheus v0.2.0 // indirect
 	github.com/kitex-contrib/obs-opentelemetry v0.2.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect

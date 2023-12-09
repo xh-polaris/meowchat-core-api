@@ -10,7 +10,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/server/binding"
 	"github.com/cloudwego/hertz/pkg/common/json"
 	"github.com/cloudwego/hertz/pkg/protocol"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	hertz "github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/golang-jwt/jwt/v4"
 	bizerrors "github.com/xh-polaris/gopkg/errors"
 	"go.opentelemetry.io/contrib/propagators/b3"
@@ -18,6 +18,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 	"github.com/xh-polaris/meowchat-core-api/provider"
@@ -82,9 +83,13 @@ func PostProcess(ctx context.Context, c *app.RequestContext, req, resp any, err 
 	log.CtxInfo(ctx, "[%s] req=%s, resp=%s, err=%v", c.Path(), util.JSONF(req), util.JSONF(resp), err)
 	b3.New().Inject(ctx, &headerProvider{headers: &c.Response.Header})
 
-	switch err.(type) {
+	switch err {
 	case nil:
-		c.JSON(consts.StatusOK, resp)
+		c.JSON(hertz.StatusOK, resp)
+	case consts.ErrNotAuthentication:
+		c.JSON(hertz.StatusUnauthorized, err.Error())
+	case consts.ErrForbidden:
+		c.JSON(hertz.StatusForbidden, err.Error())
 	default:
 		if s, ok := status.FromError(err); ok {
 			c.JSON(http.StatusBadRequest, &bizerrors.BizError{
@@ -93,8 +98,8 @@ func PostProcess(ctx context.Context, c *app.RequestContext, req, resp any, err 
 			})
 		} else {
 			log.CtxError(ctx, "internal error, err=%s", err.Error())
-			code := consts.StatusInternalServerError
-			c.String(code, consts.StatusMessage(code))
+			code := hertz.StatusInternalServerError
+			c.String(code, hertz.StatusMessage(code))
 		}
 	}
 }

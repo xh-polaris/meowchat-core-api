@@ -15,6 +15,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/platform/comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
@@ -24,7 +25,7 @@ import (
 type ICommentService interface {
 	GetComments(ctx context.Context, req *core_api.GetCommentsReq, user *basic.UserMeta) (*core_api.GetCommentsResp, error)
 	NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error)
-	DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq) (*core_api.DeleteCommentResp, error)
+	DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq, user *basic.UserMeta) (*core_api.DeleteCommentResp, error)
 }
 
 type CommentService struct {
@@ -92,6 +93,9 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 }
 
 func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewCommentResp)
 	r, err := s.PlatformSts.TextCheck(ctx, &sts.TextCheckReq{
 		Text:  req.Text,
@@ -141,7 +145,10 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	return resp, nil
 }
 
-func (s *CommentService) DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq) (*core_api.DeleteCommentResp, error) {
+func (s *CommentService) DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq, user *basic.UserMeta) (*core_api.DeleteCommentResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteCommentResp)
 	_, err := s.PlatformComment.DeleteComment(ctx, &gencomment.DeleteCommentByIdReq{Id: req.CommentId})
 	if err != nil {

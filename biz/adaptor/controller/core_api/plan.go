@@ -74,7 +74,7 @@ func DeletePlan(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PlanService.DeletePlan(ctx, &req)
+	resp, err := p.PlanService.DeletePlan(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 

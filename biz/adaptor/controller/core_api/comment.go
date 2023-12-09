@@ -58,6 +58,6 @@ func DeleteComment(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CommentService.DeleteComment(ctx, &req)
+	resp, err := p.CommentService.DeleteComment(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

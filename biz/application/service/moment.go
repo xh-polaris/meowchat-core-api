@@ -16,6 +16,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
@@ -24,7 +25,7 @@ import (
 )
 
 type IMomentService interface {
-	DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error)
+	DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq, user *genbasic.UserMeta) (*core_api.DeleteMomentResp, error)
 	GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetMomentDetailResp, error)
 	GetMomentPreviews(ctx context.Context, req *core_api.GetMomentPreviewsReq) (*core_api.GetMomentPreviewsResp, error)
 	NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *genbasic.UserMeta) (*core_api.NewMomentResp, error)
@@ -46,7 +47,10 @@ var MomentServiceSet = wire.NewSet(
 
 var PageSize int64 = 10
 
-func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error) {
+func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq, user *genbasic.UserMeta) (*core_api.DeleteMomentResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DeleteMomentResp)
 	_, err := s.MeowchatContent.DeleteMoment(ctx, &content.DeleteMomentReq{
 		MomentId: req.MomentId,
@@ -162,6 +166,9 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 }
 
 func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *genbasic.UserMeta) (*core_api.NewMomentResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.NewMomentResp)
 	m := new(content.Moment)
 

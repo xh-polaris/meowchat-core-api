@@ -16,6 +16,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/user"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
@@ -47,6 +48,9 @@ var LikeServiceSet = wire.NewSet(
 )
 
 func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user *genbasic.UserMeta) (*core_api.DoLikeResp, error) {
+	if user.GetUserId() == "" {
+		return nil, consts.ErrNotAuthentication
+	}
 	resp := new(core_api.DoLikeResp)
 
 	userId := user.UserId

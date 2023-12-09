@@ -50,7 +50,7 @@ func NewAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewAdmin(ctx, &req)
+	resp, err := p.SystemService.NewAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -66,7 +66,7 @@ func DeleteAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteAdmin(ctx, &req)
+	resp, err := p.SystemService.DeleteAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -98,7 +98,7 @@ func HandleApply(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.HandleApply(ctx, &req)
+	resp, err := p.SystemService.HandleApply(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -130,7 +130,7 @@ func NewNews(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewNews(ctx, &req)
+	resp, err := p.SystemService.NewNews(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -146,7 +146,7 @@ func DeleteNews(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteNews(ctx, &req)
+	resp, err := p.SystemService.DeleteNews(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -178,7 +178,7 @@ func NewNotice(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewNotice(ctx, &req)
+	resp, err := p.SystemService.NewNotice(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -194,7 +194,7 @@ func DeleteNotice(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteNotice(ctx, &req)
+	resp, err := p.SystemService.DeleteNotice(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -226,7 +226,7 @@ func NewCommunity(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewCommunity(ctx, &req)
+	resp, err := p.SystemService.NewCommunity(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -242,7 +242,7 @@ func DeleteCommunity(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteCommunity(ctx, &req)
+	resp, err := p.SystemService.DeleteCommunity(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -274,7 +274,7 @@ func UpdateCommunityAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.UpdateCommunityAdmin(ctx, &req)
+	resp, err := p.SystemService.UpdateCommunityAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -290,7 +290,7 @@ func UpdateSuperAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.UpdateSuperAdmin(ctx, &req)
+	resp, err := p.SystemService.UpdateSuperAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -338,7 +338,7 @@ func UpdateRole(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.UpdateRole(ctx, &req)
+	resp, err := p.SystemService.UpdateRole(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -517,6 +517,6 @@ func ReadNotification(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.ReadNotification(ctx, &req)
+	resp, err := p.SystemService.ReadNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

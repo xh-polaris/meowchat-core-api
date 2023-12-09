@@ -298,6 +298,8 @@ github.com/jung-kurt/gofpdf v1.0.0/go.mod h1:7Id9E/uU8ce6rXgefFLlgrJj/GYY22cpxn+
 github.com/jung-kurt/gofpdf v1.0.3-0.20190309125859-24315acbbda5/go.mod h1:7Id9E/uU8ce6rXgefFLlgrJj/GYY22cpxn+r32jIOes=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
+github.com/kitex-contrib/monitor-prometheus v0.2.0 h1:cgu8UMn1lpwLD/6rQZnf3jX98rqazTkY/ATmN9DsCwY=
+github.com/kitex-contrib/monitor-prometheus v0.2.0/go.mod h1:ZHWQOKRHnN1Bw+PgVYeOXmB9l4+k8dlOJ9wx2xz76NU=
 github.com/kitex-contrib/obs-opentelemetry v0.2.3 h1:uuxN+4SY98x6Z35TXBIHHOXnLWRUIsyYQbxr4FrriTE=
 github.com/kitex-contrib/obs-opentelemetry v0.2.3/go.mod h1:pTXgnFrhyEGwSSYF4kpbELPgjoz0XBmhl54PaPjCH/w=
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
@@ -430,8 +432,8 @@ github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2
 github.com/v2pro/plz v0.0.0-20221028024117-e5f9aec5b631/go.mod h1:3gacX+hQo+xvl0vtLqCMufzxuNCwt4geAVOMt2LQYfE=
 github.com/v2pro/quokka v0.0.0-20171201153428-382cb39c6ee6/go.mod h1:0VP5W9AFNVWU8C1QLNeVg8TvzoEkIHWZ4vxtxEVFWUY=
 github.com/v2pro/wombat v0.0.0-20180402055224-a56dbdcddef2/go.mod h1:wen8nMxrRrUmXnRwH+3wGAW+hyYTHcOrTNhMpxyp/i0=
-github.com/xh-polaris/gopkg v0.0.0-20231013165226-76f4d7108b9d h1:YnQOM/FdJQFfQ2aZyeeXyDvqQBm8eETXFiXWBhaaB10=
-github.com/xh-polaris/gopkg v0.0.0-20231013165226-76f4d7108b9d/go.mod h1:eFkuwj6uq1k4hbDa66TijCWGL4PrNeWaNmAnxfWDeU0=
+github.com/xh-polaris/gopkg v0.0.0-20231209114554-9d8e6728c279 h1:ppE3H8hCYnZl0Xwj0C3y7iqoe7eKqm44kg0fUzAKbKw=
+github.com/xh-polaris/gopkg v0.0.0-20231209114554-9d8e6728c279/go.mod h1:wfDSHgcCm4EaNoVZJy6uumUknqbXRpcI8KuVraA/bEg=
 github.com/xh-polaris/service-idl-gen-go v0.0.0-20231203175527-87a00e851322 h1:U5c/p5XcNODbgFtRbE0qzHZatBcPUb1ix4F2G67pWT8=
 github.com/xh-polaris/service-idl-gen-go v0.0.0-20231203175527-87a00e851322/go.mod h1:KjBt4ZOfugCsdAbFlrniKMDrpJAJobm8KEezTvKVnJM=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
