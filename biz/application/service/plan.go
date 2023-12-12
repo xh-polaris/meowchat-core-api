@@ -232,22 +232,33 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 	if err != nil {
 		return nil, err
 	}
-	_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: data.Plan.CatId})
-	if err == nil {
-		c := new(content2.Cat)
-		err = copier.Copy(c, _cat.Cat)
-		if err == nil {
-			resp.Plan.Cat = c
-		}
-	}
-	user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Plan.InitiatorId})
-	if err == nil {
-		resp.Plan.User = &user1.UserPreview{
-			Id:        user.User.Id,
-			Nickname:  user.User.Nickname,
-			AvatarUrl: user.User.AvatarUrl,
-		}
-	}
+	util.ParallelRun([]func(){
+		func() {
+			if data.GetPlan().GetCatId() == "" {
+				return
+			}
+			_cat, err := s.Plan.RetrieveCat(ctx, &content.RetrieveCatReq{CatId: data.Plan.CatId})
+			if err != nil {
+				return
+			}
+			c := new(content2.Cat)
+			err = copier.Copy(c, _cat.Cat)
+			if err == nil {
+				resp.Plan.Cat = c
+			}
+		},
+		func() {
+			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Plan.InitiatorId})
+			if err != nil {
+				return
+			}
+			resp.Plan.User = &user1.UserPreview{
+				Id:        user.User.Id,
+				Nickname:  user.User.Nickname,
+				AvatarUrl: user.User.AvatarUrl,
+			}
+		},
+	})
 	return resp, nil
 }
 
