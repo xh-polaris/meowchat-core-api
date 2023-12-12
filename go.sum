@@ -432,12 +432,10 @@ github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2
 github.com/v2pro/plz v0.0.0-20221028024117-e5f9aec5b631/go.mod h1:3gacX+hQo+xvl0vtLqCMufzxuNCwt4geAVOMt2LQYfE=
 github.com/v2pro/quokka v0.0.0-20171201153428-382cb39c6ee6/go.mod h1:0VP5W9AFNVWU8C1QLNeVg8TvzoEkIHWZ4vxtxEVFWUY=
 github.com/v2pro/wombat v0.0.0-20180402055224-a56dbdcddef2/go.mod h1:wen8nMxrRrUmXnRwH+3wGAW+hyYTHcOrTNhMpxyp/i0=
-github.com/xh-polaris/gopkg v0.0.0-20231209125612-6182be2009e7 h1:mcqn0rbsCce1GoncKeRUhS/T+a9PvsMFieoVCODHHiE=
-github.com/xh-polaris/gopkg v0.0.0-20231209125612-6182be2009e7/go.mod h1:wfDSHgcCm4EaNoVZJy6uumUknqbXRpcI8KuVraA/bEg=
 github.com/xh-polaris/gopkg v0.0.0-20231209130217-cd07835dcd83 h1:pFqAGM4BW3M8dEzD6mtQjIxltloqILYBEI62v8gwxwQ=
 github.com/xh-polaris/gopkg v0.0.0-20231209130217-cd07835dcd83/go.mod h1:wfDSHgcCm4EaNoVZJy6uumUknqbXRpcI8KuVraA/bEg=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20231203175527-87a00e851322 h1:U5c/p5XcNODbgFtRbE0qzHZatBcPUb1ix4F2G67pWT8=
-github.com/xh-polaris/service-idl-gen-go v0.0.0-20231203175527-87a00e851322/go.mod h1:KjBt4ZOfugCsdAbFlrniKMDrpJAJobm8KEezTvKVnJM=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20231212160102-c4c7c85eadbd h1:skkAs+53oYD9MwZUldbBhZAlvtjpBSpIaGPa5t05DyY=
+github.com/xh-polaris/service-idl-gen-go v0.0.0-20231212160102-c4c7c85eadbd/go.mod h1:KjBt4ZOfugCsdAbFlrniKMDrpJAJobm8KEezTvKVnJM=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

@@ -55,16 +55,17 @@ func NewProvider() (*Provider, error) {
 		MeowchatUser:     meowchatUser,
 		PlatformCommment: platformComment,
 	}
+	systemrpcClient := meowchat_system.NewMeowchatSystem(configConfig)
+	meowchatSystem := &meowchat_system.MeowchatSystem{
+		Client: systemrpcClient,
+	}
 	commentService := &service.CommentService{
 		Config:               configConfig,
 		CommentDomainService: commentDomainService,
 		PlatformComment:      platformComment,
 		PlatformSts:          platformSts,
 		MeowchatContent:      meowchatContent,
-	}
-	systemrpcClient := meowchat_system.NewMeowchatSystem(configConfig)
-	meowchatSystem := &meowchat_system.MeowchatSystem{
-		Client: systemrpcClient,
+		MeowchatSystem:       meowchatSystem,
 	}
 	userDomainService := &service2.UserDomainService{
 		MeowchatUser:    meowchatUser,
@@ -109,6 +110,7 @@ func NewProvider() (*Provider, error) {
 		PostDomainService:    postDomainService,
 		MomentDomainService:  momentDomainService,
 		CommentDomainService: commentDomainService,
+		MeowchatSystem:       meowchatSystem,
 	}
 	stsService := &service.StsService{
 		PlatformSts: platformSts,

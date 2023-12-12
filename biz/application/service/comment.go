@@ -8,6 +8,7 @@ import (
 	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
@@ -17,6 +18,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
@@ -34,6 +36,7 @@ type CommentService struct {
 	PlatformComment      platform_comment.IPlatformCommment
 	PlatformSts          platform_sts.IPlatformSts
 	MeowchatContent      meowchat_content.IMeowchatContent
+	MeowchatSystem       meowchat_system.IMeowchatSystem
 }
 
 var CommentServiceSet = wire.NewSet(
@@ -126,11 +129,44 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 		AuthorId:     user.UserId,
 		ReplyTo:      replyToId,
 		Type:         gencomment.CommentType(req.Type),
-		ParentId:     *req.Id,
+		ParentId:     req.GetId(),
 	})
 	if err != nil {
 		return nil, err
 	}
+
+	message := &system.Notification{
+		TargetUserId:    replyToId,
+		SourceUserId:    user.UserId,
+		SourceContentId: req.GetId(),
+		Type:            0,
+		Text:            req.Text,
+		IsRead:          false,
+	}
+	if req.GetFirstLevelId() != "" {
+		message.Type = system.NotificationType_TypeComment
+	} else {
+		if req.Type == 2 {
+			message.Type = system.NotificationType_TypePost
+			post, err := s.MeowchatContent.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.GetId()})
+			if err != nil {
+				return nil, err
+			}
+			message.TargetUserId = post.Post.UserId
+		} else if req.Type == 3 {
+			moment, err := s.MeowchatContent.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.GetId()})
+			if err != nil {
+				return nil, err
+			}
+			message.TargetUserId = moment.Moment.UserId
+			message.Type = system.NotificationType_TypeMoment
+		}
+	}
+	_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})
+	if err != nil {
+		return nil, err
+	}
+
 	if data.GetGetFish() == true {
 		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
 			UserId: user.UserId,

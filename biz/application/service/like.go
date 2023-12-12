@@ -7,6 +7,7 @@ import (
 	"github.com/samber/lo"
 	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -18,6 +19,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
@@ -40,6 +42,7 @@ type LikeService struct {
 	PostDomainService    service.IPostDomainService
 	MomentDomainService  service.IMomentDomainService
 	CommentDomainService service.ICommentDomainService
+	MeowchatSystem       meowchat_system.IMeowchatSystem
 }
 
 var LikeServiceSet = wire.NewSet(
@@ -47,13 +50,13 @@ var LikeServiceSet = wire.NewSet(
 	wire.Bind(new(ILikeService), new(*LikeService)),
 )
 
-func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user *genbasic.UserMeta) (*core_api.DoLikeResp, error) {
-	if user.GetUserId() == "" {
+func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, _user *genbasic.UserMeta) (*core_api.DoLikeResp, error) {
+	if _user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
 	resp := new(core_api.DoLikeResp)
 
-	userId := user.UserId
+	userId := _user.UserId
 	associatedId := ""
 	likedUserId := ""
 
@@ -94,9 +97,36 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq, user 
 	if err != nil {
 		return nil, err
 	}
+
+	if r.Liked == true {
+		message := &system.Notification{
+			TargetUserId:    likedUserId,
+			SourceUserId:    userId,
+			SourceContentId: req.TargetId,
+			Type:            0,
+			Text:            "",
+			IsRead:          false,
+		}
+		if req.GetTargetType() == user.LikeType_Post {
+			message.Type = 1
+		} else if req.GetTargetType() == user.LikeType_Comment {
+			message.Type = 3
+		} else if req.GetTargetType() == user.LikeType_Moment {
+			message.Type = 2
+		} else if req.GetTargetType() == user.LikeType_User {
+			message.Type = 4
+		} else {
+			message.Type = 0
+		}
+		_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	if r.GetGetFish() == true {
 		_, err = s.Content.AddUserFish(ctx, &content.AddUserFishReq{
-			UserId: user.UserId,
+			UserId: _user.UserId,
 			Fish:   s.Config.Fish.Like[r.GetFishTimes-1],
 		})
 		if err == nil {
