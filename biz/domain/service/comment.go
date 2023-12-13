@@ -38,7 +38,7 @@ var CommentDomainServiceSet = wire.NewSet(
 func (s *CommentDomainService) LoadAuthor(ctx context.Context, comment *core_api.Comment, userId string) error {
 	author := &core_api.User{}
 	author.Id = userId
-	rpcResp, err := s.MeowchatUser.GetUser(ctx, &genuser.GetUserReq{
+	rpcResp, err := s.MeowchatUser.GetUserDetail(ctx, &genuser.GetUserDetailReq{
 		UserId: userId,
 	})
 	if err != nil {
@@ -100,7 +100,7 @@ func (s *CommentDomainService) LoadIsCurrentUserLiked(ctx context.Context, comme
 func (s *CommentDomainService) LoadReplyUser(ctx context.Context, comment *core_api.Comment, userId string) error {
 	author := &core_api.User{}
 	author.Id = userId
-	rpcResp, err := s.MeowchatUser.GetUser(ctx, &genuser.GetUserReq{
+	rpcResp, err := s.MeowchatUser.GetUserDetail(ctx, &genuser.GetUserDetailReq{
 		UserId: userId,
 	})
 	if err != nil {

@@ -118,7 +118,7 @@ func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFish
 
 	users := make([]*user1.UserPreview, 0, len(data.UserIds))
 	for _, userId := range data.UserIds {
-		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: userId})
+		user, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: userId})
 		if err == nil {
 			users = append(users, &user1.UserPreview{
 				Id:        user.User.Id,
@@ -182,7 +182,7 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 				}
 			}
 		}
-		user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: _donation.Plan.InitiatorId})
+		user, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: _donation.Plan.InitiatorId})
 		if err == nil {
 			temp.User = &user1.UserPreview{
 				Id:        user.User.Id,
@@ -248,7 +248,7 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 			}
 		},
 		func() {
-			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: data.Plan.InitiatorId})
+			user, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: data.Plan.InitiatorId})
 			if err != nil {
 				return
 			}
@@ -309,7 +309,7 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 		return func() {
 			util.ParallelRun([]func(){
 				func() {
-					user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: plan.InitiatorId})
+					user, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: plan.InitiatorId})
 					if err != nil {
 						return
 					}

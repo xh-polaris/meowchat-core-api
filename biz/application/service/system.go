@@ -97,7 +97,7 @@ func (s *SystemService) ListNotification(ctx context.Context, req *core_api.List
 
 	util.ParallelRun(lo.Map(data.Notifications, func(notification *system.Notification, i int) func() {
 		return func() {
-			user, err := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: notification.SourceUserId})
+			user, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: notification.SourceUserId})
 			if err == nil {
 				resp.Notifications[i].User = &user1.UserPreview{
 					Id:        user.User.Id,
@@ -304,10 +304,10 @@ func (s *SystemService) GetUserByRole(ctx context.Context, req *core_api.Retriev
 
 func (s *SystemService) GetOneUser(userid string, wg *sync.WaitGroup, i int, Users []*user1.UserPreview, chan1 chan error, ctx context.Context) (err error) {
 	defer wg.Done()
-	request := &genuser.GetUserReq{
+	request := &genuser.GetUserDetailReq{
 		UserId: userid,
 	}
-	data, err := s.User.GetUser(ctx, request)
+	data, err := s.User.GetUserDetail(ctx, request)
 	if err != nil {
 		chan1 <- err
 		return err
@@ -358,7 +358,7 @@ func (s *SystemService) ListApply(ctx context.Context, req *core_api.ListApplyRe
 	}
 	applyInfo := make([]*core_api.ApplyInfo, 0, len(apply.Apply))
 	for _, x := range apply.Apply {
-		user, _ := s.User.GetUser(ctx, &genuser.GetUserReq{UserId: x.ApplicantId})
+		user, _ := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: x.ApplicantId})
 		userPreview := user1.UserPreview{
 			Id:        user.User.Id,
 			Nickname:  user.User.Nickname,

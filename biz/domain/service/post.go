@@ -40,7 +40,7 @@ func (s *PostDomainService) LoadAuthor(ctx context.Context, post *core_api.Post,
 	post.User = &user.UserPreview{
 		Id: userId,
 	}
-	rpcResp, err := s.MeowchatUser.GetUser(ctx, &genuser.GetUserReq{UserId: userId})
+	rpcResp, err := s.MeowchatUser.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: userId})
 	if err == nil {
 		post.User.Nickname = rpcResp.User.GetNickname()
 		post.User.AvatarUrl = rpcResp.User.GetAvatarUrl()

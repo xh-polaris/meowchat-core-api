@@ -165,7 +165,7 @@ func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedU
 	}
 	resp.Users = make([]*user.UserPreview, 0, len(data.UserIds))
 	for _, userId := range data.UserIds {
-		res, err := s.User.GetUser(ctx, &genlike.GetUserReq{UserId: userId})
+		res, err := s.User.GetUserDetail(ctx, &genlike.GetUserDetailReq{UserId: userId})
 		if err != nil {
 			logx.Error(err)
 		}

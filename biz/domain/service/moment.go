@@ -112,7 +112,7 @@ func (s *MomentDomainService) LoadAuthor(ctx context.Context, moment *core_api.M
 	moment.User = &user.UserPreview{
 		Id: userId,
 	}
-	rpcResp, err := s.MeowchatUser.GetUser(ctx, &genuser.GetUserReq{UserId: userId})
+	rpcResp, err := s.MeowchatUser.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: userId})
 	if err == nil {
 		moment.User.Nickname = rpcResp.User.GetNickname()
 		moment.User.AvatarUrl = rpcResp.User.GetAvatarUrl()
