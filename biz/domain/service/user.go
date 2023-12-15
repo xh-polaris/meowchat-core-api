@@ -39,7 +39,7 @@ var UserDomainServiceSet = wire.NewSet(
 )
 
 func (s *UserDomainService) LoadFollower(ctx context.Context, u *core_api.User) error {
-	follower, err := s.MeowchatUser.GetTargetLikes(ctx, &genuser.GetTargetLikesReq{
+	resp, err := s.MeowchatUser.GetTargetLikes(ctx, &genuser.GetTargetLikesReq{
 		TargetId: u.Id,
 		Type:     genuser.LikeType_User,
 	})
@@ -47,12 +47,12 @@ func (s *UserDomainService) LoadFollower(ctx context.Context, u *core_api.User) 
 		log.CtxError(ctx, "[LoadFollower] fail, err=%v", err)
 		return err
 	}
-	u.Follower = lo.ToPtr(follower.GetCount())
+	u.Follower = lo.ToPtr(resp.GetCount())
 	return nil
 }
 
 func (s *UserDomainService) LoadFollowing(ctx context.Context, u *core_api.User) error {
-	followee, err := s.MeowchatUser.GetUserLikes(ctx, &genuser.GetUserLikesReq{
+	resp, err := s.MeowchatUser.GetUserLikes(ctx, &genuser.GetUserLikesReq{
 		UserId: u.Id,
 		Type:   genuser.LikeType_User,
 	})
@@ -60,7 +60,7 @@ func (s *UserDomainService) LoadFollowing(ctx context.Context, u *core_api.User)
 		log.CtxError(ctx, "[LoadFollowing] fail, err=%v", err)
 		return err
 	}
-	u.Following = lo.ToPtr(int64(len(followee.GetLikes())))
+	u.Following = lo.ToPtr(resp.GetTotal())
 	return nil
 }
 

@@ -81,6 +81,7 @@ func DeleteMoment(ctx context.Context, c *app.RequestContext) {
 // SearchMoment .
 // @router /moment/search_moment [GET]
 func SearchMoment(ctx context.Context, c *app.RequestContext) {
+	// Deprecated
 	var err error
 	var req core_api.GetMomentPreviewsReq
 	err = c.BindAndValidate(&req)
