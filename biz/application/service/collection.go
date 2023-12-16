@@ -6,34 +6,38 @@ import (
 
 	"github.com/google/wire"
 	"github.com/jinzhu/copier"
+	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
-	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	gencontent "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/content"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
+	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 )
 
 type ICollectionService interface {
 	GetCatPreviews(ctx context.Context, req *core_api.GetCatPreviewsReq) (*core_api.GetCatPreviewsResp, error)
 	GetCatDetail(ctx context.Context, req *core_api.GetCatDetailReq) (*core_api.GetCatDetailResp, error)
-	NewCat(ctx context.Context, req *core_api.NewCatReq, user *genbasic.UserMeta) (*core_api.NewCatResp, error)
-	DeleteCat(ctx context.Context, req *core_api.DeleteCatReq, user *genbasic.UserMeta) (*core_api.DeleteCatResp, error)
-	CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *genbasic.UserMeta) (*core_api.CreateImageResp, error)
-	DeleteImage(ctx context.Context, req *core_api.DeleteImageReq, user *genbasic.UserMeta) (*core_api.DeleteImageResp, error)
+	NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error)
+	DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error)
+	CreateImage(ctx context.Context, req *core_api.CreateImageReq) (*core_api.CreateImageResp, error)
+	DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error)
 	GetImageByCat(ctx context.Context, req *core_api.GetImageByCatReq) (*core_api.GetImageByCatResp, error)
 }
 
 type CollectionService struct {
-	Collection meowchat_content.IMeowchatContent
-	Config     *config.Config
-	Sts        platform_sts.IPlatformSts
+	MeowchatContent       meowchat_content.IMeowchatContent
+	Config                *config.Config
+	PlatformSts           platform_sts.IPlatformSts
+	CatImageDomainService service.ICatImageDomainService
 }
 
 var CollectionServiceSet = wire.NewSet(
@@ -48,7 +52,7 @@ func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.Ge
 		req.PaginationOption = &basic.PaginationOptions{}
 	}
 	if req.GetKeyword() == "" {
-		data, err := s.Collection.ListCat(ctx, &gencontent.ListCatReq{
+		data, err := s.MeowchatContent.ListCat(ctx, &gencontent.ListCatReq{
 			CommunityId: req.CommunityId,
 			Count:       pageSize,
 			Skip:        req.PaginationOption.GetPage() * pageSize,
@@ -68,7 +72,7 @@ func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.Ge
 			}
 		}
 	} else {
-		data, err := s.Collection.SearchCat(ctx, &gencontent.SearchCatReq{
+		data, err := s.MeowchatContent.SearchCat(ctx, &gencontent.SearchCatReq{
 			CommunityId: req.CommunityId,
 			Count:       pageSize,
 			Skip:        *req.PaginationOption.Page * pageSize,
@@ -95,7 +99,7 @@ func (s *CollectionService) GetCatPreviews(ctx context.Context, req *core_api.Ge
 
 func (s *CollectionService) GetCatDetail(ctx context.Context, req *core_api.GetCatDetailReq) (*core_api.GetCatDetailResp, error) {
 	resp := new(core_api.GetCatDetailResp)
-	data, err := s.Collection.RetrieveCat(ctx, &gencontent.RetrieveCatReq{
+	data, err := s.MeowchatContent.RetrieveCat(ctx, &gencontent.RetrieveCatReq{
 		CatId: req.CatId,
 	})
 	if err != nil {
@@ -111,7 +115,8 @@ func (s *CollectionService) GetCatDetail(ctx context.Context, req *core_api.GetC
 	return resp, nil
 }
 
-func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq, user *genbasic.UserMeta) (*core_api.NewCatResp, error) {
+func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq) (*core_api.NewCatResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -134,13 +139,13 @@ func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq,
 
 	if req.GetId() == "" {
 		var data *gencontent.CreateCatResp
-		data, err = s.Collection.CreateCat(ctx, &gencontent.CreateCatReq{Cat: cat})
+		data, err = s.MeowchatContent.CreateCat(ctx, &gencontent.CreateCatReq{Cat: cat})
 		if err != nil {
 			return nil, err
 		}
 		resp.CatId = data.CatId
 	} else {
-		_, err = s.Collection.UpdateCat(ctx, &gencontent.UpdateCatReq{Cat: cat})
+		_, err = s.MeowchatContent.UpdateCat(ctx, &gencontent.UpdateCatReq{Cat: cat})
 		if err != nil {
 			return nil, err
 		}
@@ -150,12 +155,13 @@ func (s *CollectionService) NewCat(ctx context.Context, req *core_api.NewCatReq,
 	return resp, nil
 }
 
-func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteCatReq, user *genbasic.UserMeta) (*core_api.DeleteCatResp, error) {
+func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteCatReq) (*core_api.DeleteCatResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
 	resp := new(core_api.DeleteCatResp)
-	_, err := s.Collection.DeleteCat(ctx, &gencontent.DeleteCatReq{CatId: req.CatId})
+	_, err := s.MeowchatContent.DeleteCat(ctx, &gencontent.DeleteCatReq{CatId: req.CatId})
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +169,8 @@ func (s *CollectionService) DeleteCat(ctx context.Context, req *core_api.DeleteC
 	return resp, nil
 }
 
-func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.CreateImageReq, user *genbasic.UserMeta) (*core_api.CreateImageResp, error) {
+func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.CreateImageReq) (*core_api.CreateImageResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -181,7 +188,7 @@ func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.Creat
 	for key, image := range req.Images {
 		i[key] = image.Url
 	}
-	r, err := s.Sts.PhotoCheck(ctx, &sts.PhotoCheckReq{
+	r, err := s.PlatformSts.PhotoCheck(ctx, &sts.PhotoCheckReq{
 		User: user,
 		Url:  i,
 	})
@@ -198,7 +205,7 @@ func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.Creat
 		return nil, err
 	}
 
-	res, err := s.Collection.CreateImage(ctx, rpcReq)
+	res, err := s.MeowchatContent.CreateImage(ctx, rpcReq)
 	if err != nil {
 		return nil, err
 	}
@@ -209,13 +216,14 @@ func (s *CollectionService) CreateImage(ctx context.Context, req *core_api.Creat
 	return resp, nil
 }
 
-func (s *CollectionService) DeleteImage(ctx context.Context, req *core_api.DeleteImageReq, user *genbasic.UserMeta) (*core_api.DeleteImageResp, error) {
+func (s *CollectionService) DeleteImage(ctx context.Context, req *core_api.DeleteImageReq) (*core_api.DeleteImageResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
 	resp := new(core_api.DeleteImageResp)
 	data := gencontent.DeleteImageReq{ImageId: req.ImageId}
-	_, err := s.Collection.DeleteImage(ctx, &data)
+	_, err := s.MeowchatContent.DeleteImage(ctx, &data)
 	if err != nil {
 		return nil, err
 	}
@@ -223,6 +231,7 @@ func (s *CollectionService) DeleteImage(ctx context.Context, req *core_api.Delet
 }
 
 func (s *CollectionService) GetImageByCat(ctx context.Context, req *core_api.GetImageByCatReq) (*core_api.GetImageByCatResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	resp := new(core_api.GetImageByCatResp)
 	data := gencontent.ListImageReq{
 		CatId:    req.CatId,
@@ -232,19 +241,33 @@ func (s *CollectionService) GetImageByCat(ctx context.Context, req *core_api.Get
 	if req.GetPrevId() != "" {
 		data.PrevId = req.PrevId
 	}
-	res, err := s.Collection.ListImage(ctx, &data)
+	res, err := s.MeowchatContent.ListImage(ctx, &data)
 	if err != nil {
 		return nil, err
 	}
 
 	resp.Total = res.Total
-	resp.Images = make([]*content.Image, len(res.Images))
-	for i, image := range res.Images {
-		resp.Images[i] = &content.Image{
-			Id:    image.Id,
-			Url:   image.Url,
-			CatId: image.CatId,
+	resp.Images = make([]*core_api.Image, len(res.GetImages()))
+	util.ParallelRun(lo.Map(res.GetImages(), func(image *gencontent.Image, i int) func() {
+		return func() {
+			img := &core_api.Image{
+				Id:    image.Id,
+				Url:   image.Url,
+				CatId: image.CatId,
+			}
+			util.ParallelRun([]func(){
+				func() {
+					if user.GetUserId() == "" {
+						return
+					}
+					_ = s.CatImageDomainService.LoadIsCurrentUserLiked(ctx, img, user.GetUserId())
+				},
+				func() {
+					_ = s.CatImageDomainService.LoadLikeCount(ctx, img)
+				},
+			})
+			resp.Images[i] = img
 		}
-	}
+	}))
 	return resp, nil
 }

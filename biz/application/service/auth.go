@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 
@@ -21,7 +22,7 @@ import (
 
 type IAuthService interface {
 	SignIn(ctx context.Context, req *core_api.SignInReq) (*core_api.SignInResp, error)
-	SetPassword(ctx context.Context, req *core_api.SetPasswordReq, user *basic.UserMeta) (*core_api.SetPasswordResp, error)
+	SetPassword(ctx context.Context, req *core_api.SetPasswordReq) (*core_api.SetPasswordResp, error)
 	SendVerifyCode(ctx context.Context, req *core_api.SendVerifyCodeReq) (*core_api.SendVerifyCodeResp, error)
 }
 
@@ -81,7 +82,8 @@ func generateJwtToken(req *core_api.SignInReq, resp *sts.SignInResp, secret stri
 	return tokenString, exp, nil
 }
 
-func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPasswordReq, user *basic.UserMeta) (*core_api.SetPasswordResp, error) {
+func (s *AuthService) SetPassword(ctx context.Context, req *core_api.SetPasswordReq) (*core_api.SetPasswordResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}

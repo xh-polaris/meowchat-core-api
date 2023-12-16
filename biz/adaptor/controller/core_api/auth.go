@@ -57,6 +57,6 @@ func SetPassword(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.AuthService.SetPassword(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.AuthService.SetPassword(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

@@ -12,7 +12,6 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/kitex/client"
-	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
@@ -50,7 +49,7 @@ func NewAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.NewAdmin(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -66,7 +65,7 @@ func DeleteAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.DeleteAdmin(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -98,7 +97,7 @@ func HandleApply(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.HandleApply(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.HandleApply(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -130,7 +129,7 @@ func NewNews(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewNews(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.NewNews(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -146,7 +145,7 @@ func DeleteNews(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteNews(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.DeleteNews(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -178,7 +177,7 @@ func NewNotice(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewNotice(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.NewNotice(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -194,7 +193,7 @@ func DeleteNotice(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteNotice(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.DeleteNotice(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -226,7 +225,7 @@ func NewCommunity(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.NewCommunity(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.NewCommunity(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -242,7 +241,7 @@ func DeleteCommunity(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.DeleteCommunity(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.DeleteCommunity(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -258,7 +257,7 @@ func GetUserRoles(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.GetUserRoles(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.GetUserRoles(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -274,7 +273,7 @@ func UpdateCommunityAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.UpdateCommunityAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.UpdateCommunityAdmin(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -290,7 +289,7 @@ func UpdateSuperAdmin(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.UpdateSuperAdmin(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.UpdateSuperAdmin(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -322,7 +321,7 @@ func CreateApply(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.CreateApply(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.CreateApply(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -338,7 +337,7 @@ func UpdateRole(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.UpdateRole(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.UpdateRole(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -386,7 +385,7 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 					log.CtxError(ctx, "[Prefetch] sign in failed, err=%v", err)
 					return
 				}
-				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(resp.GetSignInResp().GetUserId())}, &genbasic.UserMeta{})
+				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(resp.GetSignInResp().GetUserId())})
 				if err != nil {
 					log.CtxError(ctx, "[Prefetch] get user info failed, err=%v", err)
 				}
@@ -400,7 +399,7 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 		},
 		func() {
 			if params.UserId != "" {
-				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(params.UserId)}, &genbasic.UserMeta{})
+				resp.GetUserInfoResp, err = p.UserService.GetUserInfo(ctx, &core_api.GetUserInfoReq{UserId: lo.ToPtr(params.UserId)})
 				if err != nil {
 					log.CtxError(ctx, "[Prefetch] get user info failed, err=%v", err)
 				}
@@ -453,7 +452,7 @@ func ListNotification(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.ListNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.ListNotification(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -469,7 +468,7 @@ func CleanNotification(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.CleanNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.CleanNotification(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -485,7 +484,7 @@ func CountNotification(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.CountNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.CountNotification(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -517,6 +516,6 @@ func ReadNotification(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.SystemService.ReadNotification(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.SystemService.ReadNotification(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

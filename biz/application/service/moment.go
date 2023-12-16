@@ -12,6 +12,7 @@ import (
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
@@ -25,10 +26,10 @@ import (
 )
 
 type IMomentService interface {
-	DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq, user *genbasic.UserMeta) (*core_api.DeleteMomentResp, error)
-	GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetMomentDetailResp, error)
+	DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error)
+	GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq) (*core_api.GetMomentDetailResp, error)
 	GetMomentPreviews(ctx context.Context, req *core_api.GetMomentPreviewsReq) (*core_api.GetMomentPreviewsResp, error)
-	NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *genbasic.UserMeta) (*core_api.NewMomentResp, error)
+	NewMoment(ctx context.Context, req *core_api.NewMomentReq) (*core_api.NewMomentResp, error)
 }
 
 type MomentService struct {
@@ -47,7 +48,8 @@ var MomentServiceSet = wire.NewSet(
 
 var PageSize int64 = 10
 
-func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq, user *genbasic.UserMeta) (*core_api.DeleteMomentResp, error) {
+func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -62,8 +64,9 @@ func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMo
 	return resp, nil
 }
 
-func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetMomentDetailResp, error) {
+func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMomentDetailReq) (*core_api.GetMomentDetailResp, error) {
 	resp := new(core_api.GetMomentDetailResp)
+	userMeta := adaptor.ExtractUserMeta(ctx)
 	data, err := s.MeowchatContent.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.MomentId})
 	if err != nil {
 		return nil, err
@@ -165,7 +168,8 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 	return resp, nil
 }
 
-func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq, user *genbasic.UserMeta) (*core_api.NewMomentResp, error) {
+func (s *MomentService) NewMoment(ctx context.Context, req *core_api.NewMomentReq) (*core_api.NewMomentResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}

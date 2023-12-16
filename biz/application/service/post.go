@@ -11,6 +11,7 @@ import (
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
@@ -22,11 +23,11 @@ import (
 )
 
 type IPostService interface {
-	DeletePost(ctx context.Context, req *core_api.DeletePostReq, user *genbasic.UserMeta) (*core_api.DeletePostResp, error)
-	GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetPostDetailResp, error)
+	DeletePost(ctx context.Context, req *core_api.DeletePostReq) (*core_api.DeletePostResp, error)
+	GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq) (*core_api.GetPostDetailResp, error)
 	GetPostPreviews(ctx context.Context, req *core_api.GetPostPreviewsReq) (*core_api.GetPostPreviewsResp, error)
-	NewPost(ctx context.Context, req *core_api.NewPostReq, user *genbasic.UserMeta) (*core_api.NewPostResp, error)
-	SetOfficial(ctx context.Context, req *core_api.SetOfficialReq, user *genbasic.UserMeta) (*core_api.SetOfficialResp, error)
+	NewPost(ctx context.Context, req *core_api.NewPostReq) (*core_api.NewPostResp, error)
+	SetOfficial(ctx context.Context, req *core_api.SetOfficialReq) (*core_api.SetOfficialResp, error)
 }
 
 type PostService struct {
@@ -41,7 +42,8 @@ var PostServiceSet = wire.NewSet(
 	wire.Bind(new(IPostService), new(*PostService)),
 )
 
-func (s *PostService) DeletePost(ctx context.Context, req *core_api.DeletePostReq, user *genbasic.UserMeta) (*core_api.DeletePostResp, error) {
+func (s *PostService) DeletePost(ctx context.Context, req *core_api.DeletePostReq) (*core_api.DeletePostResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -57,9 +59,9 @@ func (s *PostService) DeletePost(ctx context.Context, req *core_api.DeletePostRe
 	return resp, nil
 }
 
-func (s *PostService) GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq, userMeta *genbasic.UserMeta) (*core_api.GetPostDetailResp, error) {
+func (s *PostService) GetPostDetail(ctx context.Context, req *core_api.GetPostDetailReq) (*core_api.GetPostDetailResp, error) {
 	resp := new(core_api.GetPostDetailResp)
-
+	userMeta := adaptor.ExtractUserMeta(ctx)
 	data, err := s.MeowchatContent.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.PostId})
 	if err != nil {
 		return nil, err
@@ -131,7 +133,8 @@ func (s *PostService) GetPostPreviews(ctx context.Context, req *core_api.GetPost
 	return resp, nil
 }
 
-func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, user *genbasic.UserMeta) (*core_api.NewPostResp, error) {
+func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq) (*core_api.NewPostResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -213,7 +216,8 @@ func (s *PostService) NewPost(ctx context.Context, req *core_api.NewPostReq, use
 	return resp, nil
 }
 
-func (s *PostService) SetOfficial(ctx context.Context, req *core_api.SetOfficialReq, user *genbasic.UserMeta) (*core_api.SetOfficialResp, error) {
+func (s *PostService) SetOfficial(ctx context.Context, req *core_api.SetOfficialReq) (*core_api.SetOfficialResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}

@@ -42,7 +42,7 @@ func GetPostDetail(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PostService.GetPostDetail(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PostService.GetPostDetail(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -58,7 +58,7 @@ func NewPost(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PostService.NewPost(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PostService.NewPost(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -74,7 +74,7 @@ func DeletePost(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PostService.DeletePost(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PostService.DeletePost(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -90,6 +90,6 @@ func SetOfficial(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PostService.SetOfficial(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PostService.SetOfficial(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

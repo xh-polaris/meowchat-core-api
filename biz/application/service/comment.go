@@ -6,12 +6,12 @@ import (
 	"github.com/google/wire"
 	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/platform/comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
@@ -25,9 +25,9 @@ import (
 )
 
 type ICommentService interface {
-	GetComments(ctx context.Context, req *core_api.GetCommentsReq, user *basic.UserMeta) (*core_api.GetCommentsResp, error)
-	NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error)
-	DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq, user *basic.UserMeta) (*core_api.DeleteCommentResp, error)
+	GetComments(ctx context.Context, req *core_api.GetCommentsReq) (*core_api.GetCommentsResp, error)
+	NewComment(ctx context.Context, req *core_api.NewCommentReq) (*core_api.NewCommentResp, error)
+	DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq) (*core_api.DeleteCommentResp, error)
 }
 
 type CommentService struct {
@@ -44,9 +44,10 @@ var CommentServiceSet = wire.NewSet(
 	wire.Bind(new(ICommentService), new(*CommentService)),
 )
 
-func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetCommentsReq, userMeta *basic.UserMeta) (*core_api.GetCommentsResp, error) {
+func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetCommentsReq) (*core_api.GetCommentsResp, error) {
 	resp := new(core_api.GetCommentsResp)
 
+	userMeta := adaptor.ExtractUserMeta(ctx)
 	pageSize := int64(10)
 	data, err := s.PlatformComment.ListCommentByParent(ctx, &gencomment.ListCommentByParentReq{
 		Id:             req.Id,
@@ -95,7 +96,8 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 	return resp, nil
 }
 
-func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommentReq, user *basic.UserMeta) (*core_api.NewCommentResp, error) {
+func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommentReq) (*core_api.NewCommentResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -181,7 +183,8 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	return resp, nil
 }
 
-func (s *CommentService) DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq, user *basic.UserMeta) (*core_api.DeleteCommentResp, error) {
+func (s *CommentService) DeleteComment(ctx context.Context, req *core_api.DeleteCommentReq) (*core_api.DeleteCommentResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}

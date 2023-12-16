@@ -68,6 +68,7 @@ var DomainSet = wire.NewSet(
 	domainservice.CommentDomainServiceSet,
 	domainservice.MomentDomainServiceSet,
 	domainservice.PostDomainServiceSet,
+	domainservice.CatImageDomainServiceSet,
 )
 
 var InfrastructureSet = wire.NewSet(

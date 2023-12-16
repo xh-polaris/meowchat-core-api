@@ -4,21 +4,20 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/google/wire"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
-
 	"github.com/google/uuid"
+	"github.com/google/wire"
 
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 )
 
 type IStsService interface {
-	ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq, user *basic.UserMeta) (*core_api.ApplySignedUrlResp, error)
-	ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq, user *basic.UserMeta) (*core_api.ApplySignedUrlAsCommunityResp, error)
+	ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq) (*core_api.ApplySignedUrlResp, error)
+	ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq) (*core_api.ApplySignedUrlAsCommunityResp, error)
 }
 
 type StsService struct {
@@ -30,7 +29,8 @@ var StsServiceSet = wire.NewSet(
 	wire.Bind(new(IStsService), new(*StsService)),
 )
 
-func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq, user *basic.UserMeta) (*core_api.ApplySignedUrlResp, error) {
+func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySignedUrlReq) (*core_api.ApplySignedUrlResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -54,7 +54,8 @@ func (s *StsService) ApplySignedUrl(ctx context.Context, req *core_api.ApplySign
 	return resp, nil
 }
 
-func (s *StsService) ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq, user *basic.UserMeta) (*core_api.ApplySignedUrlAsCommunityResp, error) {
+func (s *StsService) ApplySignedUrlAsCommunity(ctx context.Context, req *core_api.ApplySignedUrlAsCommunityReq) (*core_api.ApplySignedUrlAsCommunityResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}

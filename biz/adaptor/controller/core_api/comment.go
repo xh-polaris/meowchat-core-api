@@ -26,7 +26,7 @@ func GetComments(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CommentService.GetComments(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.CommentService.GetComments(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -42,7 +42,7 @@ func NewComment(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CommentService.NewComment(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.CommentService.NewComment(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -58,6 +58,6 @@ func DeleteComment(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.CommentService.DeleteComment(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.CommentService.DeleteComment(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

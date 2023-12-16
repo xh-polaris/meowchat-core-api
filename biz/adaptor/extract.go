@@ -9,26 +9,44 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
-	"github.com/xh-polaris/meowchat-core-api/provider"
 )
 
-func ExtractMeta(ctx context.Context, c *app.RequestContext) (*basic.UserMeta, *basic.Extra) {
-	return ExtractUserMeta(ctx, c), ExtractExtra(ctx, c)
+const hertzContext = "hertz_context"
+
+func InjectContext(ctx context.Context, c *app.RequestContext) context.Context {
+	return context.WithValue(ctx, hertzContext, c)
 }
 
-func ExtractUserMeta(ctx context.Context, c *app.RequestContext) (user *basic.UserMeta) {
+func ExtractContext(ctx context.Context) (*app.RequestContext, error) {
+	c, ok := ctx.Value(hertzContext).(*app.RequestContext)
+	if !ok {
+		return nil, errors.New("hertz context not found")
+	}
+	return c, nil
+}
+
+func ExtractMeta(ctx context.Context) (*basic.UserMeta, *basic.Extra) {
+	return ExtractUserMeta(ctx), ExtractExtra(ctx)
+}
+
+func ExtractUserMeta(ctx context.Context) (user *basic.UserMeta) {
 	user = new(basic.UserMeta)
 	var err error
 	defer func() {
 		if err != nil {
-			log.CtxError(ctx, "extract user meta fail, err=%v", err)
+			log.CtxInfo(ctx, "extract user meta fail, err=%v", err)
 		}
 	}()
+	c, err := ExtractContext(ctx)
+	if err != nil {
+		return
+	}
 	tokenString := c.GetHeader("Authorization")
 	token, err := jwt.Parse(string(tokenString), func(_ *jwt.Token) (interface{}, error) {
-		return []byte(provider.Get().Config.Auth.AccessSecret), nil
+		return []byte(config.GetConfig().Auth.AccessSecret), nil
 	})
 	if err != nil {
 		return
@@ -58,14 +76,23 @@ func ExtractUserMeta(ctx context.Context, c *app.RequestContext) (user *basic.Us
 	return
 }
 
-func ExtractExtra(ctx context.Context, c *app.RequestContext) *basic.Extra {
-	extra := new(basic.Extra)
-	extra.ClientIP = c.ClientIP()
-	err := c.Bind(extra)
+func ExtractExtra(ctx context.Context) (extra *basic.Extra) {
+	extra = new(basic.Extra)
+	var err error
+	defer func() {
+		if err != nil {
+			log.CtxInfo(ctx, "extract extra fail, err=%v", err)
+		}
+	}()
+	c, err := ExtractContext(ctx)
 	if err != nil {
-		log.CtxError(ctx, "extract extra fail, err=%v", err)
-		return nil
+		return
+	}
+	extra.ClientIP = c.ClientIP()
+	err = c.Bind(extra)
+	if err != nil {
+		return
 	}
 	log.CtxInfo(ctx, "extra=%s", util.JSONF(extra))
-	return extra
+	return
 }

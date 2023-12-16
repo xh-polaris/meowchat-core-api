@@ -429,7 +429,6 @@ var file_meowchat_core_api_auth_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_meowchat_core_api_auth_proto_init() }
 func file_meowchat_core_api_auth_proto_init() {
 	if File_meowchat_core_api_auth_proto != nil {
 		return

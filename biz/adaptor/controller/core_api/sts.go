@@ -26,7 +26,7 @@ func ApplySignedUrl(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.StsService.ApplySignedUrl(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.StsService.ApplySignedUrl(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -42,6 +42,6 @@ func ApplySignedUrlAsCommunity(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.StsService.ApplySignedUrlAsCommunity(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.StsService.ApplySignedUrlAsCommunity(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

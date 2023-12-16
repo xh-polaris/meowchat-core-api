@@ -7,11 +7,11 @@ import (
 	"github.com/google/wire"
 	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
@@ -23,10 +23,10 @@ import (
 )
 
 type IUserService interface {
-	GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq, user *basic.UserMeta) (*core_api.GetUserInfoResp, error)
+	GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq) (*core_api.GetUserInfoResp, error)
 	SearchUser(ctx context.Context, req *core_api.SearchUserReq) (*core_api.SearchUserResp, error)
-	UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error)
-	CheckIn(ctx context.Context, req *core_api.CheckInReq, user *basic.UserMeta) (*core_api.CheckInResp, error)
+	UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq) (*core_api.UpdateUserInfoResp, error)
+	CheckIn(ctx context.Context, req *core_api.CheckInReq) (*core_api.CheckInResp, error)
 }
 
 type UserService struct {
@@ -42,9 +42,10 @@ var UserServiceSet = wire.NewSet(
 	wire.Bind(new(IUserService), new(*UserService)),
 )
 
-func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq, user *basic.UserMeta) (*core_api.GetUserInfoResp, error) {
+func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq) (*core_api.GetUserInfoResp, error) {
 	resp := new(core_api.GetUserInfoResp)
 
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.WechatUserMeta != nil {
 		_, _ = s.PlatformSts.AddUserAuth(ctx, &sts.AddUserAuthReq{
 			UserId:  user.UserId,
@@ -125,9 +126,10 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 	return resp, nil
 }
 
-func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq, user *basic.UserMeta) (*core_api.UpdateUserInfoResp, error) {
+func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq) (*core_api.UpdateUserInfoResp, error) {
 	resp := new(core_api.UpdateUserInfoResp)
 
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -185,7 +187,8 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 	return resp, nil
 }
 
-func (s *UserService) CheckIn(ctx context.Context, req *core_api.CheckInReq, user *basic.UserMeta) (*core_api.CheckInResp, error) {
+func (s *UserService) CheckIn(ctx context.Context, req *core_api.CheckInReq) (*core_api.CheckInResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}

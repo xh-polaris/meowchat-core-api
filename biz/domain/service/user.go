@@ -23,6 +23,7 @@ type IUserDomainService interface {
 	LoadFollower(ctx context.Context, u *core_api.User) error
 	LoadFollowing(ctx context.Context, u *core_api.User) error
 	LoadRoles(ctx context.Context, u *core_api.User) error
+	LoadIsFollowing(ctx context.Context, u *core_api.User, userId string) error
 	LoadEnableDebug(ctx context.Context, u *core_api.User) error
 	LoadArticle(ctx context.Context, u *core_api.User) error
 }
@@ -89,6 +90,19 @@ func (s *UserDomainService) LoadEnableDebug(ctx context.Context, u *core_api.Use
 			u.EnableDebug = lo.ToPtr(true)
 		}
 	}
+	return nil
+}
+
+func (s *UserDomainService) LoadIsFollowing(ctx context.Context, u *core_api.User, userId string) error {
+	resp, err := s.MeowchatUser.GetUserLike(ctx, &genuser.GetUserLikedReq{
+		UserId:   userId,
+		TargetId: u.GetId(),
+		Type:     genuser.LikeType_User,
+	})
+	if err != nil {
+		return err
+	}
+	u.IsFollowing = lo.ToPtr(resp.GetLiked())
 	return nil
 }
 

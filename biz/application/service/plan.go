@@ -10,6 +10,7 @@ import (
 	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	content2 "github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
@@ -28,16 +29,16 @@ import (
 )
 
 type IPlanService interface {
-	DeletePlan(ctx context.Context, req *core_api.DeletePlanReq, user *basic.UserMeta) (*core_api.DeletePlanResp, error)
+	DeletePlan(ctx context.Context, req *core_api.DeletePlanReq) (*core_api.DeletePlanResp, error)
 	GetPlanDetail(ctx context.Context, req *core_api.GetPlanDetailReq) (*core_api.GetPlanDetailResp, error)
 	GetPlanPreviews(ctx context.Context, req *core_api.GetPlanPreviewsReq) (*core_api.GetPlanPreviewsResp, error)
-	NewPlan(ctx context.Context, req *core_api.NewPlanReq, user *basic.UserMeta) (*core_api.NewPlanResp, error)
-	DonateFish(ctx context.Context, req *core_api.DonateFishReq, user *basic.UserMeta) (*core_api.DonateFishResp, error)
-	GetUserFish(ctx context.Context, req *core_api.GetUserFishReq, user *basic.UserMeta) (*core_api.GetUserFishResp, error)
+	NewPlan(ctx context.Context, req *core_api.NewPlanReq) (*core_api.NewPlanResp, error)
+	DonateFish(ctx context.Context, req *core_api.DonateFishReq) (*core_api.DonateFishResp, error)
+	GetUserFish(ctx context.Context, req *core_api.GetUserFishReq) (*core_api.GetUserFishResp, error)
 	ListFishByPlan(ctx context.Context, req *core_api.ListFishByPlanReq) (*core_api.ListFishByPlanResp, error)
-	ListDonateByUser(ctx context.Context, req *core_api.ListDonateByUserReq, user *basic.UserMeta) (*core_api.ListDonateByUserResp, error)
+	ListDonateByUser(ctx context.Context, req *core_api.ListDonateByUserReq) (*core_api.ListDonateByUserResp, error)
 	CountDonateByPlan(ctx context.Context, req *core_api.CountDonateByPlanReq) (*core_api.CountDonateByPlanResp, error)
-	CountDonateByUser(ctx context.Context, req *core_api.CountDonateByUserReq, user *basic.UserMeta) (*core_api.CountDonateByUserResp, error)
+	CountDonateByUser(ctx context.Context, req *core_api.CountDonateByUserReq) (*core_api.CountDonateByUserResp, error)
 }
 
 type PlanService struct {
@@ -52,7 +53,8 @@ var PlanServiceSet = wire.NewSet(
 	wire.Bind(new(IPlanService), new(*PlanService)),
 )
 
-func (s *PlanService) DonateFish(ctx context.Context, req *core_api.DonateFishReq, user *basic.UserMeta) (*core_api.DonateFishResp, error) {
+func (s *PlanService) DonateFish(ctx context.Context, req *core_api.DonateFishReq) (*core_api.DonateFishResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -69,8 +71,9 @@ func (s *PlanService) DonateFish(ctx context.Context, req *core_api.DonateFishRe
 	return resp, nil
 }
 
-func (s *PlanService) GetUserFish(ctx context.Context, req *core_api.GetUserFishReq, user *basic.UserMeta) (*core_api.GetUserFishResp, error) {
+func (s *PlanService) GetUserFish(ctx context.Context, req *core_api.GetUserFishReq) (*core_api.GetUserFishResp, error) {
 	resp := new(core_api.GetUserFishResp)
+	user := adaptor.ExtractUserMeta(ctx)
 	var uid string
 	if req.GetUserId() != "" {
 		uid = req.GetUserId()
@@ -133,9 +136,9 @@ func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFish
 	return resp, nil
 }
 
-func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDonateByUserReq, user *basic.UserMeta) (*core_api.ListDonateByUserResp, error) {
+func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDonateByUserReq) (*core_api.ListDonateByUserResp, error) {
 	resp := new(core_api.ListDonateByUserResp)
-
+	user := adaptor.ExtractUserMeta(ctx)
 	if req.PaginationOption == nil {
 		req.PaginationOption = &basic2.PaginationOptions{}
 	}
@@ -205,7 +208,8 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 	return resp, nil
 }
 
-func (s *PlanService) DeletePlan(ctx context.Context, req *core_api.DeletePlanReq, user *basic.UserMeta) (*core_api.DeletePlanResp, error) {
+func (s *PlanService) DeletePlan(ctx context.Context, req *core_api.DeletePlanReq) (*core_api.DeletePlanResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -339,7 +343,8 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 	return resp, nil
 }
 
-func (s *PlanService) NewPlan(ctx context.Context, req *core_api.NewPlanReq, user *basic.UserMeta) (*core_api.NewPlanResp, error) {
+func (s *PlanService) NewPlan(ctx context.Context, req *core_api.NewPlanReq) (*core_api.NewPlanResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {
 		return nil, consts.ErrNotAuthentication
 	}
@@ -416,7 +421,8 @@ func (s *PlanService) CountDonateByPlan(ctx context.Context, req *core_api.Count
 	return &core_api.CountDonateByPlanResp{Total: total.Total}, nil
 }
 
-func (s *PlanService) CountDonateByUser(ctx context.Context, req *core_api.CountDonateByUserReq, user *basic.UserMeta) (*core_api.CountDonateByUserResp, error) {
+func (s *PlanService) CountDonateByUser(ctx context.Context, req *core_api.CountDonateByUserReq) (*core_api.CountDonateByUserResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
 	userId := ""
 	if req.GetUserId() != "" {
 		userId = req.GetUserId()

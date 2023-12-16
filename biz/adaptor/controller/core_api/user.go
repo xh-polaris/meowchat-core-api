@@ -26,7 +26,7 @@ func GetUserInfo(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.UserService.GetUserInfo(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.UserService.GetUserInfo(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -42,7 +42,7 @@ func UpdateUserInfo(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.UserService.UpdateUserInfo(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.UserService.UpdateUserInfo(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -74,6 +74,6 @@ func CheckIn(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.UserService.CheckIn(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.UserService.CheckIn(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

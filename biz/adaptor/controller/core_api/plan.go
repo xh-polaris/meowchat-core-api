@@ -58,7 +58,7 @@ func NewPlan(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PlanService.NewPlan(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PlanService.NewPlan(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -74,7 +74,7 @@ func DeletePlan(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PlanService.DeletePlan(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PlanService.DeletePlan(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -90,7 +90,7 @@ func DonateFish(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PlanService.DonateFish(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PlanService.DonateFish(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -106,7 +106,7 @@ func GetUserFish(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PlanService.GetUserFish(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PlanService.GetUserFish(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -138,7 +138,7 @@ func ListDonateByUser(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PlanService.ListDonateByUser(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PlanService.ListDonateByUser(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 
@@ -154,7 +154,7 @@ func CountDonateByUser(ctx context.Context, c *app.RequestContext) {
 	}
 
 	p := provider.Get()
-	resp, err := p.PlanService.CountDonateByUser(ctx, &req, adaptor.ExtractUserMeta(ctx, c))
+	resp, err := p.PlanService.CountDonateByUser(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
 

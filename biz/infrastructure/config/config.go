@@ -8,6 +8,8 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 )
 
+var config *Config
+
 type Auth struct {
 	AccessSecret string
 	AccessExpire int64
@@ -44,5 +46,10 @@ func NewConfig() (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	config = c
 	return c, nil
+}
+
+func GetConfig() *Config {
+	return config
 }
