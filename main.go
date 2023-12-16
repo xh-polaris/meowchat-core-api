@@ -39,7 +39,7 @@ func main() {
 		tracer,
 	)
 	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware, recovery.Recovery(), func(ctx context.Context, c *app.RequestContext) {
-		adaptor.InjectContext(ctx, c)
+		ctx = adaptor.InjectContext(ctx, c)
 		c.Next(ctx)
 	})
 
