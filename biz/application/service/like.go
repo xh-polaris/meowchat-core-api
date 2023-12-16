@@ -184,7 +184,7 @@ func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedU
 					u.AvatarUrl = res.GetUser().GetAvatarUrl()
 				},
 				func() {
-					if userMeta.GetUserId() != "" {
+					if userMeta.GetUserId() == "" {
 						return
 					}
 					_ = s.UserDomainService.LoadIsFollowing(ctx, u, userMeta.UserId)
@@ -384,9 +384,10 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 					return
 				}
 				u := &core_api.User{
-					Id:        _user.User.Id,
-					Nickname:  _user.User.Nickname,
-					AvatarUrl: _user.User.AvatarUrl,
+					Id:          _user.User.Id,
+					Nickname:    _user.User.Nickname,
+					AvatarUrl:   _user.User.AvatarUrl,
+					IsFollowing: lo.ToPtr(true),
 				}
 				resp.Users[i] = u
 			}
