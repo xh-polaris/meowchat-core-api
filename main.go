@@ -3,6 +3,9 @@
 package main
 
 import (
+	"context"
+
+	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
@@ -14,6 +17,7 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
 
+	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 	"github.com/xh-polaris/meowchat-core-api/provider"
 )
@@ -34,7 +38,9 @@ func main() {
 		server.WithTracer(prometheus.NewServerTracer(":9091", "/server/metrics")),
 		tracer,
 	)
-	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware, recovery.Recovery())
+	h.Use(tracing.ServerMiddleware(cfg), middleware.EnvironmentMiddleware, recovery.Recovery(), func(ctx context.Context, c *app.RequestContext) {
+		adaptor.InjectContext(ctx, c)
+	})
 
 	register(h)
 	log.Info("server start")
