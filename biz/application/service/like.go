@@ -252,6 +252,7 @@ func (s *LikeService) GetUserLikes(ctx context.Context, req *core_api.GetUserLik
 }
 
 func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.GetUserLikeContentsReq) (*core_api.GetUserLikeContentsResp, error) {
+	userMeta := adaptor.ExtractUserMeta(ctx)
 	resp := new(core_api.GetUserLikeContentsResp)
 	if req.PaginationOption == nil {
 		req.PaginationOption = &basic.PaginationOptions{}
@@ -379,16 +380,25 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 		resp.Users = make([]*core_api.User, len(data.Likes))
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
 			return func() {
-				_user, err := s.MeowchatUser.GetUserDetail(ctx, &genlike.GetUserDetailReq{UserId: like.TargetId})
-				if err != nil {
-					return
-				}
 				u := &core_api.User{
-					Id:          _user.User.Id,
-					Nickname:    _user.User.Nickname,
-					AvatarUrl:   _user.User.AvatarUrl,
-					IsFollowing: lo.ToPtr(true),
+					Id: like.GetTargetId(),
 				}
+				util.ParallelRun([]func(){
+					func() {
+						rpcResp, err := s.MeowchatUser.GetUserDetail(ctx, &genlike.GetUserDetailReq{UserId: like.TargetId})
+						if err != nil {
+							return
+						}
+						u.Nickname = rpcResp.GetUser().GetNickname()
+						u.AvatarUrl = rpcResp.GetUser().GetAvatarUrl()
+					},
+					func() {
+						if userMeta.GetUserId() == "" {
+							return
+						}
+						_ = s.UserDomainService.LoadIsFollowing(ctx, u, userMeta.GetUserId())
+					},
+				})
 				resp.Users[i] = u
 			}
 		}))
