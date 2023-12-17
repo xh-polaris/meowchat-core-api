@@ -8,7 +8,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 )
 
-type IPlatformCommment interface {
+type IPlatformComment interface {
 	comment.Client
 }
 
@@ -19,7 +19,7 @@ type PlatformComment struct {
 var PlatformCommentSet = wire.NewSet(
 	NewPlatformComment,
 	wire.Struct(new(PlatformComment), "*"),
-	wire.Bind(new(IPlatformCommment), new(*PlatformComment)),
+	wire.Bind(new(IPlatformComment), new(*PlatformComment)),
 )
 
 func NewPlatformComment(config *config.Config) comment.Client {

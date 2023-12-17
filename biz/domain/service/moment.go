@@ -28,9 +28,9 @@ type IMomentDomainService interface {
 }
 
 type MomentDomainService struct {
-	MeowchatContent  meowchat_content.IMeowchatContent
-	MeowchatUser     meowchat_user.IMeowchatUser
-	PlatformCommment platform_comment.IPlatformCommment
+	MeowchatContent meowchat_content.IMeowchatContent
+	MeowchatUser    meowchat_user.IMeowchatUser
+	PlatformComment platform_comment.IPlatformComment
 }
 
 var MomentDomainServiceSet = wire.NewSet(
@@ -82,7 +82,7 @@ func (s *MomentDomainService) LoadIsCurrentUserLiked(ctx context.Context, moment
 }
 
 func (s *MomentDomainService) LoadCommentCount(ctx context.Context, moment *core_api.Moment) error {
-	rpcResp, err := s.PlatformCommment.CountCommentByParent(ctx, &gencomment.CountCommentByParentReq{
+	rpcResp, err := s.PlatformComment.CountCommentByParent(ctx, &gencomment.CountCommentByParentReq{
 		ParentId: moment.Id,
 		Type:     gencomment.CommentType_CommentType_Moment,
 	})

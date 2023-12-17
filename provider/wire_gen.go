@@ -56,9 +56,9 @@ func NewProvider() (*Provider, error) {
 		Client: commentserviceClient,
 	}
 	commentDomainService := &service.CommentDomainService{
-		MeowchatContent:  meowchatContent,
-		MeowchatUser:     meowchatUser,
-		PlatformCommment: platformComment,
+		MeowchatContent: meowchatContent,
+		MeowchatUser:    meowchatUser,
+		PlatformComment: platformComment,
 	}
 	systemrpcClient := meowchat_system.NewMeowchatSystem(configConfig)
 	meowchatSystem := &meowchat_system.MeowchatSystem{
@@ -78,28 +78,26 @@ func NewProvider() (*Provider, error) {
 		MeowchatSystem:  meowchatSystem,
 	}
 	userService := &service2.UserService{
-		Config:          configConfig,
-		UserService:     userDomainService,
-		MeowchatUser:    meowchatUser,
-		PlatformSts:     platformSts,
-		MeowchatContent: meowchatContent,
+		Config:       configConfig,
+		UserService:  userDomainService,
+		MeowchatUser: meowchatUser,
+		PlatformSts:  platformSts,
 	}
 	momentDomainService := &service.MomentDomainService{
-		MeowchatContent:  meowchatContent,
-		MeowchatUser:     meowchatUser,
-		PlatformCommment: platformComment,
+		MeowchatContent: meowchatContent,
+		MeowchatUser:    meowchatUser,
+		PlatformComment: platformComment,
 	}
 	momentService := &service2.MomentService{
 		Config:              configConfig,
 		MomentDomainService: momentDomainService,
 		MeowchatContent:     meowchatContent,
 		MeowchatUser:        meowchatUser,
-		PlatformCommment:    platformComment,
 		PlatformSts:         platformSts,
 	}
 	postDomainService := &service.PostDomainService{
-		MeowchatUser:     meowchatUser,
-		PlatformCommment: platformComment,
+		MeowchatUser:    meowchatUser,
+		PlatformComment: platformComment,
 	}
 	postService := &service2.PostService{
 		Config:            configConfig,
@@ -132,6 +130,10 @@ func NewProvider() (*Provider, error) {
 		User:   meowchatUser,
 		Sts:    platformSts,
 	}
+	incentiveService := &service2.IncentiveService{
+		Config:          configConfig,
+		MeowchatContent: meowchatContent,
+	}
 	providerProvider := &Provider{
 		Config:            configConfig,
 		CollectionService: collectionService,
@@ -144,6 +146,7 @@ func NewProvider() (*Provider, error) {
 		StsService:        stsService,
 		SystemService:     systemService,
 		PlanService:       planService,
+		IncentiveService:  incentiveService,
 	}
 	return providerProvider, nil
 }

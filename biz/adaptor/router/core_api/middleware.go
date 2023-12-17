@@ -445,3 +445,13 @@ func _getuserlikecontentsMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _incentiveMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _getmissionMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

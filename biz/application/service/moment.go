@@ -20,7 +20,6 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 )
@@ -37,7 +36,6 @@ type MomentService struct {
 	MomentDomainService service.IMomentDomainService
 	MeowchatContent     meowchat_content.IMeowchatContent
 	MeowchatUser        meowchat_user.IMeowchatUser
-	PlatformCommment    platform_comment.IPlatformCommment
 	PlatformSts         platform_sts.IPlatformSts
 }
 

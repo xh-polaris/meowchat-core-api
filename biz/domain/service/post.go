@@ -24,8 +24,8 @@ type IPostDomainService interface {
 }
 
 type PostDomainService struct {
-	MeowchatUser     meowchat_user.IMeowchatUser
-	PlatformCommment platform_comment.IPlatformCommment
+	MeowchatUser    meowchat_user.IMeowchatUser
+	PlatformComment platform_comment.IPlatformComment
 }
 
 var PostDomainServiceSet = wire.NewSet(
@@ -49,7 +49,7 @@ func (s *PostDomainService) LoadAuthor(ctx context.Context, post *core_api.Post,
 }
 
 func (s *PostDomainService) LoadCommentCount(ctx context.Context, post *core_api.Post) error {
-	rpcResp, err := s.PlatformCommment.CountCommentByParent(ctx, &gencomment.CountCommentByParentReq{
+	rpcResp, err := s.PlatformComment.CountCommentByParent(ctx, &gencomment.CountCommentByParentReq{
 		ParentId: post.Id,
 		Type:     gencomment.CommentType_CommentType_Post,
 	})

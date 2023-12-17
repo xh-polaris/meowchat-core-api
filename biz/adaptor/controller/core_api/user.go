@@ -61,19 +61,3 @@ func SearchUser(ctx context.Context, c *app.RequestContext) {
 	resp, err := p.UserService.SearchUser(ctx, &req)
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }
-
-// CheckIn .
-// @router /user/check_in [GET]
-func CheckIn(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req core_api.CheckInReq
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	p := provider.Get()
-	resp, err := p.UserService.CheckIn(ctx, &req)
-	adaptor.PostProcess(ctx, c, &req, resp, err)
-}

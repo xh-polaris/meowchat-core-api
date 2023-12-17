@@ -3,8 +3,9 @@ package meowchat_system
 import (
 	"github.com/google/wire"
 	"github.com/xh-polaris/gopkg/kitex/client"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	system "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system/systemrpc"
+
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 )
 
 type IMeowchatSystem interface {

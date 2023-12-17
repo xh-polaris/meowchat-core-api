@@ -7,7 +7,6 @@ import (
 	"github.com/google/wire"
 	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
-	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
@@ -16,7 +15,6 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
-	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
@@ -26,15 +24,13 @@ type IUserService interface {
 	GetUserInfo(ctx context.Context, req *core_api.GetUserInfoReq) (*core_api.GetUserInfoResp, error)
 	SearchUser(ctx context.Context, req *core_api.SearchUserReq) (*core_api.SearchUserResp, error)
 	UpdateUserInfo(ctx context.Context, req *core_api.UpdateUserInfoReq) (*core_api.UpdateUserInfoResp, error)
-	CheckIn(ctx context.Context, req *core_api.CheckInReq) (*core_api.CheckInResp, error)
 }
 
 type UserService struct {
-	Config          *config.Config
-	UserService     service.IUserDomainService
-	MeowchatUser    meowchat_user.IMeowchatUser
-	PlatformSts     platform_sts.IPlatformSts
-	MeowchatContent meowchat_content.IMeowchatContent
+	Config       *config.Config
+	UserService  service.IUserDomainService
+	MeowchatUser meowchat_user.IMeowchatUser
+	PlatformSts  platform_sts.IPlatformSts
 }
 
 var UserServiceSet = wire.NewSet(
@@ -184,32 +180,5 @@ func (s *UserService) UpdateUserInfo(ctx context.Context, req *core_api.UpdateUs
 		return nil, err
 	}
 
-	return resp, nil
-}
-
-func (s *UserService) CheckIn(ctx context.Context, req *core_api.CheckInReq) (*core_api.CheckInResp, error) {
-	user := adaptor.ExtractUserMeta(ctx)
-	if user.GetUserId() == "" {
-		return nil, consts.ErrNotAuthentication
-	}
-	resp := new(core_api.CheckInResp)
-
-	rpcResp, err := s.MeowchatUser.CheckIn(ctx, &genuser.CheckInReq{
-		UserId: user.GetUserId(),
-	})
-	if err != nil {
-		return nil, err
-	}
-	if rpcResp.GetGetFish() == true {
-		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{
-			UserId: user.GetUserId(),
-			Fish:   s.Config.Fish.SignIn[rpcResp.GetFishTimes-1],
-		})
-		if err == nil {
-			resp.GetFishNum = s.Config.Fish.SignIn[rpcResp.GetFishTimes-1]
-			resp.GetFishTimes = rpcResp.GetFishTimes
-		}
-	}
-	resp.GetFish = rpcResp.GetGetFish()
 	return resp, nil
 }

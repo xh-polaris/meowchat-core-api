@@ -24,9 +24,9 @@ type ICommentDomainService interface {
 }
 
 type CommentDomainService struct {
-	MeowchatContent  meowchat_content.IMeowchatContent
-	MeowchatUser     meowchat_user.IMeowchatUser
-	PlatformCommment platform_comment.IPlatformCommment
+	MeowchatContent meowchat_content.IMeowchatContent
+	MeowchatUser    meowchat_user.IMeowchatUser
+	PlatformComment platform_comment.IPlatformComment
 }
 
 var CommentDomainServiceSet = wire.NewSet(
@@ -53,7 +53,7 @@ func (s *CommentDomainService) LoadAuthor(ctx context.Context, comment *core_api
 }
 
 func (s *CommentDomainService) LoadCommentCount(ctx context.Context, comment *core_api.Comment) error {
-	rpcResp, err := s.PlatformCommment.CountCommentByParent(ctx, &gencomment.CountCommentByParentReq{
+	rpcResp, err := s.PlatformComment.CountCommentByParent(ctx, &gencomment.CountCommentByParentReq{
 		Type:     gencomment.CommentType_CommentType_Comment,
 		ParentId: comment.Id,
 	})

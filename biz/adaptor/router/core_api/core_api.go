@@ -49,6 +49,11 @@ func Register(r *server.Hertz) {
 		_community.POST("/new_community", append(_newcommunityMw(), core_api.NewCommunity)...)
 	}
 	{
+		_incentive := root.Group("/incentive", _incentiveMw()...)
+		_incentive.GET("/check_in", append(_checkinMw(), core_api.CheckIn)...)
+		_incentive.GET("/get_mission", append(_getmissionMw(), core_api.GetMission)...)
+	}
+	{
 		_like := root.Group("/like", _likeMw()...)
 		_like.POST("/do_like", append(_dolikeMw(), core_api.DoLike)...)
 		_like.GET("/get_count", append(_getlikedcountMw(), core_api.GetLikedCount)...)
@@ -123,7 +128,6 @@ func Register(r *server.Hertz) {
 	}
 	{
 		_user := root.Group("/user", _userMw()...)
-		_user.GET("/check_in", append(_checkinMw(), core_api.CheckIn)...)
 		_user.GET("/get_user_info", append(_getuserinfoMw(), core_api.GetUserInfo)...)
 		_user.GET("/search_user", append(_searchuserMw(), core_api.SearchUser)...)
 		_user.POST("/update_user_info", append(_updateuserinfoMw(), core_api.UpdateUserInfo)...)

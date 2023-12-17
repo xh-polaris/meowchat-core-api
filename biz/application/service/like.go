@@ -39,7 +39,7 @@ type LikeService struct {
 	Config               *config.Config
 	MeowchatUser         meowchat_user.IMeowchatUser
 	MeowchatContent      meowchat_content.IMeowchatContent
-	PlatformComment      platform_comment.IPlatformCommment
+	PlatformComment      platform_comment.IPlatformComment
 	UserDomainService    service.IUserDomainService
 	PostDomainService    service.IPostDomainService
 	MomentDomainService  service.IMomentDomainService

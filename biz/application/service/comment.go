@@ -33,7 +33,7 @@ type ICommentService interface {
 type CommentService struct {
 	Config               *config.Config
 	CommentDomainService service.ICommentDomainService
-	PlatformComment      platform_comment.IPlatformCommment
+	PlatformComment      platform_comment.IPlatformComment
 	PlatformSts          platform_sts.IPlatformSts
 	MeowchatContent      meowchat_content.IMeowchatContent
 	MeowchatSystem       meowchat_system.IMeowchatSystem
