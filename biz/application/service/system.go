@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"net/url"
 	"sync"
 
 	"github.com/google/wire"
@@ -476,6 +477,14 @@ func (s *SystemService) NewNews(ctx context.Context, req *core_api.NewNewsReq) (
 		return nil, consts.ErrNotAuthentication
 	}
 	resp := new(core_api.NewNewsResp)
+
+	var u *url.URL
+	u, err := url.Parse(req.ImageUrl)
+	if err != nil {
+		return nil, err
+	}
+	u.Host = s.Config.CdnHost
+	req.ImageUrl = u.String()
 
 	if req.GetId() == "" {
 		data, err := s.System.CreateNews(ctx, &system.CreateNewsReq{
