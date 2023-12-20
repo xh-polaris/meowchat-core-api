@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
 	"github.com/google/wire"
 	"github.com/samber/lo"
@@ -29,9 +30,20 @@ var CatImageDomainServiceSet = wire.NewSet(
 )
 
 func (s *CatImageDomainService) LoadLikeCount(ctx context.Context, image *core_api.Image) error {
+	Page := int64(0)
+	Limit := int64(0)
+	Backward := false
+	Offset := int64(0)
 	rpcResp, err := s.MeowchatUser.GetLikedUsers(ctx, &genuser.GetLikedUsersReq{
 		TargetId: image.Id,
 		Type:     genuser.LikeType_CatPhoto,
+		PaginationOptions: &genbasic.PaginationOptions{
+			Page:      &Page,
+			Limit:     &Limit,
+			LastToken: nil,
+			Backward:  &Backward,
+			Offset:    &Offset,
+		},
 	})
 	if err != nil {
 		log.CtxError(ctx, "[LoadLikeCount] fail, err=%v", err)
