@@ -56,7 +56,7 @@ func (s *MomentDomainService) LoadCats(ctx context.Context, moment *core_api.Mom
 				}
 			}
 		}
-	}))
+	})...)
 	moment.Cats = lo.Reject(cats, func(cat *core_api.CatPreview, _ int) bool {
 		return cat == nil
 	})

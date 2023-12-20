@@ -11,7 +11,8 @@ import (
 var config *Config
 
 type Auth struct {
-	AccessSecret string
+	SecretKey    string
+	PublicKey    string
 	AccessExpire int64
 }
 

@@ -372,7 +372,7 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 		params.CommunityId = p.Config.DefaultCommunityId
 	}
 	ctx = metainfo.WithPersistentValue(ctx, client.EnvHeader, params.Env)
-	util.ParallelRun([]func(){
+	util.ParallelRun(
 		func() {
 			if req.Code != nil {
 				resp.SignInResp, err = p.AuthService.SignIn(ctx, &core_api.SignInReq{
@@ -434,8 +434,7 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 			if err != nil {
 				log.CtxError(ctx, "[Prefetch] get news failed, err=%v", err)
 			}
-		},
-	})
+		})
 
 	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

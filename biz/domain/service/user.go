@@ -109,7 +109,7 @@ func (s *UserDomainService) LoadIsFollowing(ctx context.Context, u *core_api.Use
 func (s *UserDomainService) LoadArticle(ctx context.Context, u *core_api.User) error {
 	momentCount := lo.Empty[*int64]()
 	postCount := lo.Empty[*int64]()
-	util.ParallelRun([]func(){
+	util.ParallelRun(
 		func() {
 			rpcResp, err := s.MeowchatContent.CountPost(ctx, &content.CountPostReq{
 				FilterOptions: &content.PostFilterOptions{
@@ -131,8 +131,7 @@ func (s *UserDomainService) LoadArticle(ctx context.Context, u *core_api.User) e
 				return
 			}
 			momentCount = lo.ToPtr(rpcResp.GetTotal())
-		},
-	})
+		})
 	if momentCount == nil || postCount == nil {
 		return errors.New("load article fail")
 	}

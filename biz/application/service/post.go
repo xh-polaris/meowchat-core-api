@@ -76,7 +76,7 @@ func (s *PostService) GetPostDetail(ctx context.Context, req *core_api.GetPostDe
 		Tags:       data.Post.Tags,
 		IsOfficial: data.Post.IsOfficial,
 	}
-	util.ParallelRun([]func(){
+	util.ParallelRun(
 		func() {
 			_ = s.PostDomainService.LoadAuthor(ctx, p, data.Post.UserId)
 		},
@@ -88,8 +88,7 @@ func (s *PostService) GetPostDetail(ctx context.Context, req *core_api.GetPostDe
 		},
 		func() {
 			_ = s.PostDomainService.LoadIsCurrentUserLiked(ctx, p, userMeta.UserId)
-		},
-	})
+		})
 	resp.Post = p
 	return resp, nil
 }
@@ -115,7 +114,7 @@ func (s *PostService) GetPostPreviews(ctx context.Context, req *core_api.GetPost
 				Tags:       data.Posts[i].Tags,
 				IsOfficial: data.Posts[i].IsOfficial,
 			}
-			util.ParallelRun([]func(){
+			util.ParallelRun(
 				func() {
 					_ = s.PostDomainService.LoadAuthor(ctx, p, data.Posts[i].UserId)
 				},
@@ -124,11 +123,10 @@ func (s *PostService) GetPostPreviews(ctx context.Context, req *core_api.GetPost
 				},
 				func() {
 					_ = s.PostDomainService.LoadCommentCount(ctx, p)
-				},
-			})
+				})
 			resp.Posts[i] = p
 		}
-	}))
+	})...)
 
 	return resp, nil
 }

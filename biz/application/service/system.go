@@ -109,7 +109,7 @@ func (s *SystemService) ListNotification(ctx context.Context, req *core_api.List
 				}
 			}
 		}
-	}))
+	})...)
 
 	return resp, nil
 }

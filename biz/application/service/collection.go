@@ -255,7 +255,7 @@ func (s *CollectionService) GetImageByCat(ctx context.Context, req *core_api.Get
 				Url:   image.Url,
 				CatId: image.CatId,
 			}
-			util.ParallelRun([]func(){
+			util.ParallelRun(
 				func() {
 					if user.GetUserId() == "" {
 						return
@@ -264,10 +264,9 @@ func (s *CollectionService) GetImageByCat(ctx context.Context, req *core_api.Get
 				},
 				func() {
 					_ = s.CatImageDomainService.LoadLikeCount(ctx, img)
-				},
-			})
+				})
 			resp.Images[i] = img
 		}
-	}))
+	})...)
 	return resp, nil
 }

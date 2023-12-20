@@ -236,7 +236,7 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 	if err != nil {
 		return nil, err
 	}
-	util.ParallelRun([]func(){
+	util.ParallelRun(
 		func() {
 			if data.GetPlan().GetCatId() == "" {
 				return
@@ -261,8 +261,7 @@ func (s *PlanService) GetPlanDetail(ctx context.Context, req *core_api.GetPlanDe
 				Nickname:  user.User.Nickname,
 				AvatarUrl: user.User.AvatarUrl,
 			}
-		},
-	})
+		})
 	return resp, nil
 }
 
@@ -311,7 +310,7 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 
 	util.ParallelRun(lo.Map(data.Plans, func(plan *content.Plan, i int) func() {
 		return func() {
-			util.ParallelRun([]func(){
+			util.ParallelRun(
 				func() {
 					user, err := s.User.GetUserDetail(ctx, &genuser.GetUserDetailReq{UserId: plan.InitiatorId})
 					if err != nil {
@@ -336,10 +335,9 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 					if err == nil {
 						resp.Plans[i].Cat = c
 					}
-				},
-			})
+				})
 		}
-	}))
+	})...)
 	return resp, nil
 }
 

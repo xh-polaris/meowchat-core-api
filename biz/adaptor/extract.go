@@ -46,7 +46,7 @@ func ExtractUserMeta(ctx context.Context) (user *basic.UserMeta) {
 	}
 	tokenString := c.GetHeader("Authorization")
 	token, err := jwt.Parse(string(tokenString), func(_ *jwt.Token) (interface{}, error) {
-		return []byte(config.GetConfig().Auth.AccessSecret), nil
+		return jwt.ParseECPublicKeyFromPEM([]byte(config.GetConfig().Auth.PublicKey))
 	})
 	if err != nil {
 		return

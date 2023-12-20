@@ -173,7 +173,7 @@ func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedU
 			u := &core_api.User{
 				Id: userId,
 			}
-			util.ParallelRun([]func(){
+			util.ParallelRun(
 				func() {
 					res, err := s.MeowchatUser.GetUserDetail(ctx, &genlike.GetUserDetailReq{UserId: userId})
 					if err != nil {
@@ -188,11 +188,10 @@ func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedU
 						return
 					}
 					_ = s.UserDomainService.LoadIsFollowing(ctx, u, userMeta.UserId)
-				},
-			})
+				})
 			resp.Users[i] = u
 		}
-	}))
+	})...)
 	return resp, nil
 }
 
@@ -294,7 +293,7 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 					Tags:       post.Post.Tags,
 					IsOfficial: post.Post.IsOfficial,
 				}
-				util.ParallelRun([]func(){
+				util.ParallelRun(
 					func() {
 						_ = s.PostDomainService.LoadAuthor(ctx, p, post.Post.UserId)
 					},
@@ -303,11 +302,10 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 					},
 					func() {
 						_ = s.PostDomainService.LoadCommentCount(ctx, p)
-					},
-				})
+					})
 				resp.Posts[i] = p
 			}
-		}))
+		})...)
 	} else if req.GetTargetType() == user.LikeType_Moment { //moment
 		resp.Moments = make([]*core_api.Moment, len(data.Likes))
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
@@ -324,7 +322,7 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 					Text:        moment.Moment.Text,
 					CommunityId: moment.Moment.CommunityId,
 				}
-				util.ParallelRun([]func(){
+				util.ParallelRun(
 					func() {
 						if moment.Moment.GetCatId() != "" {
 							_ = s.MomentDomainService.LoadCats(ctx, m, []string{moment.Moment.GetCatId()})
@@ -338,11 +336,10 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 					},
 					func() {
 						_ = s.MomentDomainService.LoadCommentCount(ctx, m)
-					},
-				})
+					})
 				resp.Moments[i] = m
 			}
-		}))
+		})...)
 	} else if req.GetTargetType() == user.LikeType_Comment { //comment
 		resp.Comments = make([]*core_api.Comment, len(data.Likes))
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
@@ -356,7 +353,7 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 					CreateAt: _comment.Comment.CreateAt,
 					Text:     _comment.Comment.Text,
 				}
-				util.ParallelRun([]func(){
+				util.ParallelRun(
 					func() {
 						if _comment.Comment.ReplyTo == "" {
 							return
@@ -371,11 +368,10 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 					},
 					func() {
 						_ = s.CommentDomainService.LoadAuthor(ctx, c, _comment.Comment.AuthorId)
-					},
-				})
+					})
 				resp.Comments[i] = c
 			}
-		}))
+		})...)
 	} else if req.GetTargetType() == user.LikeType_User { //user
 		resp.Users = make([]*core_api.User, len(data.Likes))
 		util.ParallelRun(lo.Map(data.Likes, func(like *genlike.Like, i int) func() {
@@ -383,7 +379,7 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 				u := &core_api.User{
 					Id: like.GetTargetId(),
 				}
-				util.ParallelRun([]func(){
+				util.ParallelRun(
 					func() {
 						rpcResp, err := s.MeowchatUser.GetUserDetail(ctx, &genlike.GetUserDetailReq{UserId: like.TargetId})
 						if err != nil {
@@ -397,11 +393,10 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 							return
 						}
 						_ = s.UserDomainService.LoadIsFollowing(ctx, u, userMeta.GetUserId())
-					},
-				})
+					})
 				resp.Users[i] = u
 			}
-		}))
+		})...)
 	}
 	resp.Total = data.GetTotal()
 	resp.Token = data.GetToken()

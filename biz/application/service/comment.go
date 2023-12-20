@@ -69,7 +69,7 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 				CreateAt: item.CreateAt,
 				Text:     item.Text,
 			}
-			util.ParallelRun([]func(){
+			util.ParallelRun(
 				func() {
 					_ = s.CommentDomainService.LoadIsCurrentUserLiked(ctx, c, userMeta.UserId)
 				},
@@ -87,11 +87,10 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 				},
 				func() {
 					_ = s.CommentDomainService.LoadAuthor(ctx, c, item.AuthorId)
-				},
-			})
+				})
 			resp.Comments[i] = c
 		}
-	}))
+	})...)
 
 	return resp, nil
 }

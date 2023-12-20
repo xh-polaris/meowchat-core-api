@@ -50,7 +50,7 @@ func (s *AuthService) SignIn(ctx context.Context, req *core_api.SignInReq) (*cor
 	}
 
 	auth := s.Config.Auth
-	resp.AccessToken, resp.AccessExpire, err = generateJwtToken(req, rpcResp, auth.AccessSecret, auth.AccessExpire)
+	resp.AccessToken, resp.AccessExpire, err = generateJwtToken(req, rpcResp, auth.SecretKey, auth.AccessExpire)
 	if err != nil {
 		log.CtxError(ctx, "[generateJwtToken] fail, err=%v, config=%s, resp=%s", err, util.JSONF(s.Config.Auth), util.JSONF(rpcResp))
 		return nil, err
@@ -60,6 +60,10 @@ func (s *AuthService) SignIn(ctx context.Context, req *core_api.SignInReq) (*cor
 }
 
 func generateJwtToken(req *core_api.SignInReq, resp *sts.SignInResp, secret string, expire int64) (string, int64, error) {
+	key, err := jwt.ParseECPrivateKeyFromPEM([]byte(secret))
+	if err != nil {
+		return "", 0, err
+	}
 	iat := time.Now().Unix()
 	exp := iat + expire
 	claims := make(jwt.MapClaims)
@@ -73,9 +77,9 @@ func generateJwtToken(req *core_api.SignInReq, resp *sts.SignInResp, secret stri
 		OpenId:  resp.GetOpenId(),
 		UnionId: resp.GetUnionId(),
 	}
-	token := jwt.New(jwt.SigningMethodHS256)
+	token := jwt.New(jwt.SigningMethodES256)
 	token.Claims = claims
-	tokenString, err := token.SignedString([]byte(secret))
+	tokenString, err := token.SignedString(key)
 	if err != nil {
 		return "", 0, err
 	}

@@ -26,7 +26,7 @@ func ParseInt(s string) int64 {
 	return i
 }
 
-func ParallelRun(fns []func()) {
+func ParallelRun(fns ...func()) {
 	wg := sync.WaitGroup{}
 	wg.Add(len(fns))
 	for _, fn := range fns {

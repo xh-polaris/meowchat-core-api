@@ -76,7 +76,7 @@ func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMo
 		return nil, err
 	}
 
-	util.ParallelRun([]func(){
+	util.ParallelRun(
 		func() {
 			if data.Moment.GetCatId() != "" {
 				_ = s.MomentDomainService.LoadCats(ctx, resp.Moment, []string{data.Moment.GetCatId()})
@@ -93,8 +93,7 @@ func (s *MomentService) GetMomentDetail(ctx context.Context, req *core_api.GetMo
 		},
 		func() {
 			_ = s.MomentDomainService.LoadIsCurrentUserLiked(ctx, resp.Moment, userMeta.UserId)
-		},
-	})
+		})
 
 	return resp, nil
 }
@@ -145,7 +144,7 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 	util.ParallelRun(lo.Map(data.Moments, func(moment *content.Moment, i int) func() {
 		return func() {
 			// 并发获取用户信息、点赞数、评论数
-			util.ParallelRun([]func(){
+			util.ParallelRun(
 				func() {
 					_ = s.MomentDomainService.LoadAuthor(ctx, resp.Moments[i], moment.UserId)
 				},
@@ -159,10 +158,9 @@ func (s *MomentService) GetMomentPreviews(ctx context.Context, req *core_api.Get
 					if moment.GetCatId() != "" {
 						_ = s.MomentDomainService.LoadCats(ctx, resp.Moments[i], []string{moment.GetCatId()})
 					}
-				},
-			})
+				})
 		}
-	}))
+	})...)
 	return resp, nil
 }
 

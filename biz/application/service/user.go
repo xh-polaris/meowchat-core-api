@@ -69,7 +69,7 @@ func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfo
 		AvatarUrl: data.User.AvatarUrl,
 		Motto:     lo.ToPtr(data.User.Motto),
 	}
-	util.ParallelRun([]func(){
+	util.ParallelRun(
 		func() {
 			_ = s.UserService.LoadArticle(ctx, resp.User)
 		},
@@ -81,8 +81,7 @@ func (s *UserService) GetUserInfo(ctx context.Context, req *core_api.GetUserInfo
 		},
 		func() {
 			_ = s.UserService.LoadEnableDebug(ctx, resp.User)
-		},
-	})
+		})
 
 	return resp, nil
 }
@@ -118,7 +117,7 @@ func (s *UserService) SearchUser(ctx context.Context, req *core_api.SearchUserRe
 			_ = s.UserService.LoadRoles(ctx, u)
 			resp.Users[i] = u
 		}
-	}))
+	})...)
 	return resp, nil
 }
 
