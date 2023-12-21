@@ -62,19 +62,15 @@ func (s *PostDomainService) LoadCommentCount(ctx context.Context, post *core_api
 }
 
 func (s *PostDomainService) LoadLikeCount(ctx context.Context, post *core_api.Post) error {
-	Page := int64(0)
-	Limit := int64(100)
-	Backward := false
-	Offset := int64(0)
 	rpcResp, err := s.MeowchatUser.GetLikedUsers(ctx, &genuser.GetLikedUsersReq{
 		TargetId: post.Id,
 		Type:     genuser.LikeType_Post,
 		PaginationOptions: &genbasic.PaginationOptions{
-			Page:      &Page,
-			Limit:     &Limit,
+			Page:      nil,
+			Limit:     lo.ToPtr(int64(0)),
 			LastToken: nil,
-			Backward:  &Backward,
-			Offset:    &Offset,
+			Backward:  nil,
+			Offset:    nil,
 		},
 	})
 	if err != nil {

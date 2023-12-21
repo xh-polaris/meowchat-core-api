@@ -30,19 +30,16 @@ var CatImageDomainServiceSet = wire.NewSet(
 )
 
 func (s *CatImageDomainService) LoadLikeCount(ctx context.Context, image *core_api.Image) error {
-	Page := int64(0)
-	Limit := int64(0)
-	Backward := false
-	Offset := int64(0)
+
 	rpcResp, err := s.MeowchatUser.GetLikedUsers(ctx, &genuser.GetLikedUsersReq{
 		TargetId: image.Id,
 		Type:     genuser.LikeType_CatPhoto,
 		PaginationOptions: &genbasic.PaginationOptions{
-			Page:      &Page,
-			Limit:     &Limit,
+			Page:      nil,
+			Limit:     lo.ToPtr(int64(0)),
 			LastToken: nil,
-			Backward:  &Backward,
-			Offset:    &Offset,
+			Backward:  nil,
+			Offset:    nil,
 		},
 	})
 	if err != nil {

@@ -95,19 +95,16 @@ func (s *MomentDomainService) LoadCommentCount(ctx context.Context, moment *core
 }
 
 func (s *MomentDomainService) LoadLikeCount(ctx context.Context, moment *core_api.Moment) error {
-	Page := int64(0)
-	Limit := int64(0)
-	Backward := false
-	Offset := int64(0)
+
 	rpcResp, err := s.MeowchatUser.GetLikedUsers(ctx, &genuser.GetLikedUsersReq{
 		TargetId: moment.Id,
 		Type:     genuser.LikeType_Moment,
 		PaginationOptions: &genbasic.PaginationOptions{
-			Page:      &Page,
-			Limit:     &Limit,
+			Page:      nil,
+			Limit:     lo.ToPtr(int64(0)),
 			LastToken: nil,
-			Backward:  &Backward,
-			Offset:    &Offset,
+			Backward:  nil,
+			Offset:    nil,
 		},
 	})
 	if err != nil {

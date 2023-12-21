@@ -160,14 +160,29 @@ func (s *LikeService) GetLikedCount(ctx context.Context, req *core_api.GetLikedC
 func (s *LikeService) GetLikedUsers(ctx context.Context, req *core_api.GetLikedUsersReq) (*core_api.GetLikedUsersResp, error) {
 	userMeta := adaptor.ExtractUserMeta(ctx)
 	resp := new(core_api.GetLikedUsersResp)
+	if req.PaginationOption == nil {
+		req.PaginationOption = &basic.PaginationOptions{}
+	}
+	if req.PaginationOption.Limit == nil {
+		req.PaginationOption.Limit = &consts.PageSize
+	}
 	data, err := s.MeowchatUser.GetLikedUsers(ctx, &genlike.GetLikedUsersReq{
 		TargetId: req.TargetId,
 		Type:     genlike.LikeType(req.TargetType),
+		PaginationOptions: &genbasic.PaginationOptions{
+			Page:      req.PaginationOption.Page,
+			Limit:     req.PaginationOption.Limit,
+			LastToken: req.PaginationOption.LastToken,
+			Backward:  req.PaginationOption.Backward,
+			Offset:    req.PaginationOption.Offset,
+		},
 	})
 	if err != nil {
 		return nil, err
 	}
 	resp.Users = make([]*core_api.User, len(data.UserIds))
+	resp.Token = data.Token
+	resp.Total = data.Total
 	util.ParallelRun(lo.Map(data.GetUserIds(), func(userId string, i int) func() {
 		return func() {
 			u := &core_api.User{
@@ -220,7 +235,7 @@ func (s *LikeService) GetUserLikes(ctx context.Context, req *core_api.GetUserLik
 		req.PaginationOption = &basic.PaginationOptions{}
 	}
 	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
+		req.PaginationOption.Limit = &consts.PageSize
 	}
 	request := &genlike.GetUserLikesReq{
 		UserId: req.UserId,
@@ -258,7 +273,7 @@ func (s *LikeService) GetUserLikeContents(ctx context.Context, req *core_api.Get
 		req.PaginationOption = &basic.PaginationOptions{}
 	}
 	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
+		req.PaginationOption.Limit = &consts.PageSize
 	}
 	request := &genlike.GetUserLikesReq{
 		UserId: req.UserId,
