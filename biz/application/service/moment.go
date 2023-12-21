@@ -44,8 +44,6 @@ var MomentServiceSet = wire.NewSet(
 	wire.Bind(new(IMomentService), new(*MomentService)),
 )
 
-var PageSize int64 = 10
-
 func (s *MomentService) DeleteMoment(ctx context.Context, req *core_api.DeleteMomentReq) (*core_api.DeleteMomentResp, error) {
 	user := adaptor.ExtractUserMeta(ctx)
 	if user.GetUserId() == "" {

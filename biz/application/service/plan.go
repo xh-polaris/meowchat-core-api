@@ -100,7 +100,7 @@ func (s *PlanService) ListFishByPlan(ctx context.Context, req *core_api.ListFish
 		req.PaginationOption = &basic2.PaginationOptions{}
 	}
 	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
+		req.PaginationOption.Limit = &consts.PageSize
 	}
 
 	request := &content.ListFishByPlanReq{
@@ -143,7 +143,7 @@ func (s *PlanService) ListDonateByUser(ctx context.Context, req *core_api.ListDo
 		req.PaginationOption = &basic2.PaginationOptions{}
 	}
 	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
+		req.PaginationOption.Limit = &consts.PageSize
 	}
 
 	request := &content.ListDonateByUserReq{
@@ -273,7 +273,7 @@ func (s *PlanService) GetPlanPreviews(ctx context.Context, req *core_api.GetPlan
 		req.PaginationOption = &basic2.PaginationOptions{}
 	}
 	if req.PaginationOption.Limit == nil {
-		req.PaginationOption.Limit = &PageSize
+		req.PaginationOption.Limit = &consts.PageSize
 	}
 	request := &content.ListPlanReq{
 		FilterOptions: &content.PlanFilterOptions{

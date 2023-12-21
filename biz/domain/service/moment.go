@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
 	"github.com/google/wire"
 	"github.com/samber/lo"
@@ -94,9 +95,17 @@ func (s *MomentDomainService) LoadCommentCount(ctx context.Context, moment *core
 }
 
 func (s *MomentDomainService) LoadLikeCount(ctx context.Context, moment *core_api.Moment) error {
+
 	rpcResp, err := s.MeowchatUser.GetLikedUsers(ctx, &genuser.GetLikedUsersReq{
 		TargetId: moment.Id,
 		Type:     genuser.LikeType_Moment,
+		PaginationOptions: &genbasic.PaginationOptions{
+			Page:      nil,
+			Limit:     lo.ToPtr(int64(0)),
+			LastToken: nil,
+			Backward:  nil,
+			Offset:    nil,
+		},
 	})
 	if err != nil {
 		return err

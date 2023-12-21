@@ -15,3 +15,4 @@ var APPMap = map[basic.APP]string{
 
 var ErrNotAuthentication = errors.New("not authentication")
 var ErrForbidden = errors.New("forbidden")
+var PageSize int64 = 10
