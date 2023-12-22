@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+
 	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
 	"github.com/google/wire"
@@ -66,17 +67,13 @@ func (s *PostDomainService) LoadLikeCount(ctx context.Context, post *core_api.Po
 		TargetId: post.Id,
 		Type:     genuser.LikeType_Post,
 		PaginationOptions: &genbasic.PaginationOptions{
-			Page:      nil,
-			Limit:     lo.ToPtr(int64(0)),
-			LastToken: nil,
-			Backward:  nil,
-			Offset:    nil,
+			Limit: lo.ToPtr(int64(0)),
 		},
 	})
 	if err != nil {
 		return err
 	}
-	post.Likes = lo.ToPtr(int64(len(rpcResp.UserIds)))
+	post.Likes = lo.ToPtr(rpcResp.GetTotal())
 	return nil
 }
 

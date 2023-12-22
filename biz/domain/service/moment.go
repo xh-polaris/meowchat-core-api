@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+
 	genbasic "github.com/xh-polaris/service-idl-gen-go/kitex_gen/basic"
 
 	"github.com/google/wire"
@@ -100,17 +101,13 @@ func (s *MomentDomainService) LoadLikeCount(ctx context.Context, moment *core_ap
 		TargetId: moment.Id,
 		Type:     genuser.LikeType_Moment,
 		PaginationOptions: &genbasic.PaginationOptions{
-			Page:      nil,
-			Limit:     lo.ToPtr(int64(0)),
-			LastToken: nil,
-			Backward:  nil,
-			Offset:    nil,
+			Limit: lo.ToPtr(int64(0)),
 		},
 	})
 	if err != nil {
 		return err
 	}
-	moment.LikeCount = lo.ToPtr(int64(len(rpcResp.UserIds)))
+	moment.LikeCount = lo.ToPtr(rpcResp.GetTotal())
 	return nil
 }
 
