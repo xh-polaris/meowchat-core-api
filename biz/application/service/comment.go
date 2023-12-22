@@ -13,7 +13,6 @@ import (
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/meowchat/core_api"
-	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/platform/comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/domain/service"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/config"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
@@ -71,10 +70,13 @@ func (s *CommentService) GetComments(ctx context.Context, req *core_api.GetComme
 			}
 			util.ParallelRun(
 				func() {
+					if userMeta.GetUserId() == "" {
+						return
+					}
 					_ = s.CommentDomainService.LoadIsCurrentUserLiked(ctx, c, userMeta.UserId)
 				},
 				func() {
-					if item.ReplyTo == "" {
+					if item.GetReplyTo() == "" {
 						return
 					}
 					_ = s.CommentDomainService.LoadReplyUser(ctx, c, item.ReplyTo)
@@ -116,7 +118,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 
 	//获取回复用户id
 	replyToId := ""
-	if req.Type == comment.CommentType_CommentType_Comment {
+	if req.GetFirstLevelId() != "" {
 		replyTo, err := s.PlatformComment.RetrieveCommentById(ctx, &gencomment.RetrieveCommentByIdReq{Id: *req.Id})
 		if err != nil {
 			return nil, err
