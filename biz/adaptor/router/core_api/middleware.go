@@ -455,3 +455,8 @@ func _getmissionMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _readrangenotificationMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

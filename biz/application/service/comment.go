@@ -116,21 +116,11 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 		return nil, errors.NewBizError(10001, "TextCheck don't pass")
 	}
 
-	//获取回复用户id
-	replyToId := ""
-	if req.GetFirstLevelId() != "" {
-		replyTo, err := s.PlatformComment.RetrieveCommentById(ctx, &gencomment.RetrieveCommentByIdReq{Id: *req.Id})
-		if err != nil {
-			return nil, err
-		}
-		replyToId = replyTo.Comment.AuthorId
-	}
-
 	data, err := s.PlatformComment.CreateComment(ctx, &gencomment.CreateCommentReq{
 		Text:         req.Text,
 		FirstLevelId: req.GetFirstLevelId(),
 		AuthorId:     user.UserId,
-		ReplyTo:      replyToId,
+		ReplyTo:      req.GetReplyToUserId(),
 		Type:         gencomment.CommentType(req.Type),
 		ParentId:     req.GetId(),
 	})
@@ -139,7 +129,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	}
 
 	message := &system.Notification{
-		TargetUserId:    replyToId,
+		TargetUserId:    req.GetReplyToUserId(),
 		SourceUserId:    user.UserId,
 		SourceContentId: req.GetId(),
 		Type:            0,
