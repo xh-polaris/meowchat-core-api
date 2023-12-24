@@ -530,7 +530,7 @@ func ReadRangeNotification(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(core_api.ReadRangeNotificationResp)
-
-	c.JSON(consts.StatusOK, resp)
+	p := provider.Get()
+	resp, err := p.SystemService.ReadRangeNotification(ctx, &req)
+	adaptor.PostProcess(ctx, c, &req, resp, err)
 }

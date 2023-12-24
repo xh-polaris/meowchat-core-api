@@ -50,6 +50,7 @@ type ISystemService interface {
 	ReadNotification(ctx context.Context, req *core_api.ReadNotificationReq) (*core_api.ReadNotificationResp, error)
 	CountNotification(ctx context.Context, req *core_api.CountNotificationReq) (*core_api.CountNotificationResp, error)
 	CleanNotification(ctx context.Context, req *core_api.CleanNotificationReq) (*core_api.CleanNotificationResp, error)
+	ReadRangeNotification(ctx context.Context, req *core_api.ReadRangeNotificationReq) (*core_api.ReadRangeNotificationResp, error)
 }
 
 type SystemService struct {
@@ -63,6 +64,23 @@ var SystemServiceSet = wire.NewSet(
 	wire.Bind(new(ISystemService), new(*SystemService)),
 )
 
+func (s *SystemService) ReadRangeNotification(ctx context.Context, req *core_api.ReadRangeNotificationReq) (*core_api.ReadRangeNotificationResp, error) {
+	user := adaptor.ExtractUserMeta(ctx)
+	request := &system.ReadRangeNotificationReq{
+		UserId:     &user.UserId,
+		Type:       (*system.NotificationType)(req.Type),
+		TargetType: (*system.NotificationTargetType)(req.TargetType),
+		FirstId:    req.GetFirstId(),
+		LastId:     req.GetLastId(),
+	}
+
+	data, err := s.System.ReadRangeNotification(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	return &core_api.ReadRangeNotificationResp{NotRead: data.NotRead}, nil
+}
+
 func (s *SystemService) ListNotification(ctx context.Context, req *core_api.ListNotificationReq) (*core_api.ListNotificationResp, error) {
 	resp := new(core_api.ListNotificationResp)
 
@@ -74,7 +92,9 @@ func (s *SystemService) ListNotification(ctx context.Context, req *core_api.List
 		req.PaginationOption.Limit = lo.ToPtr[int64](10)
 	}
 	request := &system.ListNotificationReq{
-		UserId: user.UserId,
+		UserId:     &user.UserId,
+		Type:       (*system.NotificationType)(req.Type),
+		TargetType: (*system.NotificationTargetType)(req.TargetType),
 		PaginationOptions: &genbasic.PaginationOptions{
 			Limit:     req.PaginationOption.Limit,
 			Backward:  req.PaginationOption.Backward,
@@ -83,6 +103,7 @@ func (s *SystemService) ListNotification(ctx context.Context, req *core_api.List
 	}
 	if req.PaginationOption.LastToken == nil {
 		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
+
 	}
 
 	data, err := s.System.ListNotification(ctx, request)
@@ -91,6 +112,7 @@ func (s *SystemService) ListNotification(ctx context.Context, req *core_api.List
 	}
 
 	resp.Total = data.Total
+	resp.Token = data.Token
 	resp.NotRead = data.NotRead
 	resp.Notifications = make([]*core_api.Notification, 0, len(data.Notifications))
 	err = copier.Copy(&resp.Notifications, data.Notifications)
@@ -130,9 +152,16 @@ func (s *SystemService) ReadNotification(ctx context.Context, req *core_api.Read
 
 func (s *SystemService) CountNotification(ctx context.Context, req *core_api.CountNotificationReq) (*core_api.CountNotificationResp, error) {
 	user := adaptor.ExtractUserMeta(ctx)
-	data, err := s.System.CountNotification(ctx, &system.CountNotificationReq{
+	request := &system.CountNotificationReq{
 		UserId: user.UserId,
-	})
+	}
+	if req.Type != nil {
+		request.Type = (*system.NotificationType)(req.Type)
+	}
+	if req.TargetType != nil {
+		request.TargetType = (*system.NotificationTargetType)(req.TargetType)
+	}
+	data, err := s.System.CountNotification(ctx, request)
 	if err != nil {
 		return nil, err
 	}

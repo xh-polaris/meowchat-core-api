@@ -132,15 +132,16 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 		TargetUserId:    req.GetReplyToUserId(),
 		SourceUserId:    user.UserId,
 		SourceContentId: req.GetId(),
-		Type:            0,
+		TargetType:      0,
+		Type:            system.NotificationType_TypeCommented,
 		Text:            req.Text,
 		IsRead:          false,
 	}
 	if req.GetFirstLevelId() != "" {
-		message.Type = system.NotificationType_TypeComment
+		message.TargetType = system.NotificationTargetType_TargetTypeComment
 	} else {
 		if req.Type == 2 {
-			message.Type = system.NotificationType_TypePost
+			message.TargetType = system.NotificationTargetType_TargetTypePost
 			post, err := s.MeowchatContent.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.GetId()})
 			if err != nil {
 				return nil, err
@@ -152,7 +153,7 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 				return nil, err
 			}
 			message.TargetUserId = moment.Moment.UserId
-			message.Type = system.NotificationType_TypeMoment
+			message.TargetType = system.NotificationTargetType_TargetTypeMoment
 		}
 	}
 	_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})

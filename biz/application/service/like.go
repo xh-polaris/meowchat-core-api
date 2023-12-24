@@ -106,20 +106,22 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq) (*cor
 			TargetUserId:    likedUserId,
 			SourceUserId:    userId,
 			SourceContentId: req.TargetId,
-			Type:            0,
+			TargetType:      0,
+			Type:            system.NotificationType_TypeLiked,
 			Text:            "",
 			IsRead:          false,
 		}
 		if req.GetTargetType() == user.LikeType_Post {
-			message.Type = 1
+			message.TargetType = system.NotificationTargetType_TargetTypePost
 		} else if req.GetTargetType() == user.LikeType_Comment {
-			message.Type = 3
+			message.TargetType = system.NotificationTargetType_TargetTypeComment
 		} else if req.GetTargetType() == user.LikeType_Moment {
-			message.Type = 2
+			message.TargetType = system.NotificationTargetType_TargetTypeMoment
 		} else if req.GetTargetType() == user.LikeType_User {
-			message.Type = 4
+			message.Type = system.NotificationType_TypeFollowed
+			message.TargetType = system.NotificationTargetType_TargetTypeUser
 		} else {
-			message.Type = 0
+			message.TargetType = 0
 		}
 		_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})
 		if err != nil {
