@@ -2,12 +2,14 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/wire"
 	"github.com/samber/lo"
 	"github.com/xh-polaris/gopkg/errors"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/content"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
+	genuser "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	gencomment "github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
@@ -18,9 +20,11 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/consts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_content"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 )
 
 type ICommentService interface {
@@ -36,6 +40,7 @@ type CommentService struct {
 	PlatformSts          platform_sts.IPlatformSts
 	MeowchatContent      meowchat_content.IMeowchatContent
 	MeowchatSystem       meowchat_system.IMeowchatSystem
+	MeowchatUser         meowchat_user.IMeowchatUser
 }
 
 var CommentServiceSet = wire.NewSet(
@@ -127,7 +132,15 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 	if err != nil {
 		return nil, err
 	}
-
+	wechatMessage := &sts.SendMessageReq{
+		MessageType:    3,
+		TargetUserId:   req.GetReplyToUserId(),
+		SourceUserName: "一名喵友",
+		SourceContent:  "一条你发过的信息",
+		CommentText:    req.Text,
+		CreateAt:       time.Now().Unix(),
+		User:           user,
+	}
 	message := &system.Notification{
 		TargetUserId:    req.GetReplyToUserId(),
 		SourceUserId:    user.UserId,
@@ -137,29 +150,67 @@ func (s *CommentService) NewComment(ctx context.Context, req *core_api.NewCommen
 		Text:            req.Text,
 		IsRead:          false,
 	}
-	if req.GetFirstLevelId() != "" {
-		message.TargetType = system.NotificationTargetType_TargetTypeComment
-	} else {
-		if req.Type == 2 {
-			message.TargetType = system.NotificationTargetType_TargetTypePost
-			post, err := s.MeowchatContent.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.GetId()})
+
+	util.ParallelRun(
+		func() {
+			u, err := s.MeowchatUser.GetUser(ctx, &genuser.GetUserReq{UserId: user.UserId})
 			if err != nil {
-				return nil, err
+				log.CtxError(ctx, "[GetUser] fail, err=%v", err)
+				return
 			}
-			message.TargetUserId = post.Post.UserId
-		} else if req.Type == 3 {
-			moment, err := s.MeowchatContent.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.GetId()})
+			wechatMessage.SourceUserName = u.User.Nickname
+		},
+		func() {
+			if req.GetFirstLevelId() != "" {
+				message.TargetType = system.NotificationTargetType_TargetTypeComment
+				comment, err := s.PlatformComment.RetrieveCommentById(ctx, &gencomment.RetrieveCommentByIdReq{Id: req.GetFirstLevelId()})
+				if err != nil {
+					log.CtxError(ctx, "[RetrieveCommentById] fail, err=%v", err)
+					return
+				}
+				wechatMessage.SourceContent = comment.Comment.Text
+			} else {
+				if req.Type == 2 {
+					message.TargetType = system.NotificationTargetType_TargetTypePost
+					post, err := s.MeowchatContent.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.GetId()})
+					if err != nil {
+						log.CtxError(ctx, "[RetrievePost] fail, err=%v", err)
+						return
+					}
+					message.TargetUserId = post.Post.UserId
+					wechatMessage.TargetUserId = post.Post.UserId
+					wechatMessage.SourceContent = post.Post.GetTitle()
+				} else if req.Type == 3 {
+					moment, err := s.MeowchatContent.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.GetId()})
+					if err != nil {
+						log.CtxError(ctx, "[RetrieveMoment] fail, err=%v", err)
+						return
+					}
+					message.TargetUserId = moment.Moment.UserId
+					wechatMessage.TargetUserId = moment.Moment.UserId
+					wechatMessage.SourceContent = moment.Moment.GetTitle()
+					message.TargetType = system.NotificationTargetType_TargetTypeMoment
+				}
+			}
+		},
+	)
+
+	util.ParallelRun(
+		func() {
+			_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})
 			if err != nil {
-				return nil, err
+				log.CtxError(ctx, "[AddNotification] Add notification failed, err=%v", err)
+				return
 			}
-			message.TargetUserId = moment.Moment.UserId
-			message.TargetType = system.NotificationTargetType_TargetTypeMoment
-		}
-	}
-	_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})
-	if err != nil {
-		return nil, err
-	}
+		},
+		func() {
+			_, err = s.PlatformSts.SendMessage(ctx, wechatMessage)
+			if err != nil {
+				log.CtxError(ctx, "[SendMessage] WechatMessage send failed, err=%v", err)
+				return
+			}
+		},
+	)
 
 	if data.GetGetFish() == true {
 		_, err = s.MeowchatContent.AddUserFish(ctx, &content.AddUserFishReq{

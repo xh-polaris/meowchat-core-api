@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/wire"
 	"github.com/samber/lo"
@@ -10,6 +11,7 @@ import (
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/system"
 	genlike "github.com/xh-polaris/service-idl-gen-go/kitex_gen/meowchat/user"
 	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/comment"
+	"github.com/xh-polaris/service-idl-gen-go/kitex_gen/platform/sts"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
@@ -22,6 +24,7 @@ import (
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_system"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/meowchat_user"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_comment"
+	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/rpc/platform_sts"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util"
 	"github.com/xh-polaris/meowchat-core-api/biz/infrastructure/util/log"
 )
@@ -45,6 +48,7 @@ type LikeService struct {
 	MomentDomainService  service.IMomentDomainService
 	CommentDomainService service.ICommentDomainService
 	MeowchatSystem       meowchat_system.IMeowchatSystem
+	PlatformSts          platform_sts.IPlatformSts
 }
 
 var LikeServiceSet = wire.NewSet(
@@ -101,7 +105,7 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq) (*cor
 		return nil, err
 	}
 
-	if r.Liked == true {
+	if r.Liked == true && likedUserId != "" {
 		message := &system.Notification{
 			TargetUserId:    likedUserId,
 			SourceUserId:    userId,
@@ -111,22 +115,74 @@ func (s *LikeService) DoLike(ctx context.Context, req *core_api.DoLikeReq) (*cor
 			Text:            "",
 			IsRead:          false,
 		}
-		if req.GetTargetType() == user.LikeType_Post {
-			message.TargetType = system.NotificationTargetType_TargetTypePost
-		} else if req.GetTargetType() == user.LikeType_Comment {
-			message.TargetType = system.NotificationTargetType_TargetTypeComment
-		} else if req.GetTargetType() == user.LikeType_Moment {
-			message.TargetType = system.NotificationTargetType_TargetTypeMoment
-		} else if req.GetTargetType() == user.LikeType_User {
-			message.Type = system.NotificationType_TypeFollowed
-			message.TargetType = system.NotificationTargetType_TargetTypeUser
-		} else {
-			message.TargetType = 0
+		wechatMessage := &sts.SendMessageReq{
+			MessageType:    2,
+			TargetUserId:   likedUserId,
+			SourceUserName: "一名喵友",
+			SourceContent:  "一条你发过的信息",
+			CreateAt:       time.Now().Unix(),
+			User:           userMeta,
 		}
-		_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})
-		if err != nil {
-			return nil, err
-		}
+		util.ParallelRun(
+			func() {
+				u, err := s.MeowchatUser.GetUser(ctx, &genlike.GetUserReq{UserId: userMeta.UserId})
+				if err != nil {
+					log.CtxError(ctx, "[GetUser] fail, err=%v", err)
+					return
+				}
+				wechatMessage.SourceUserName = u.User.Nickname
+			},
+			func() {
+				if req.GetTargetType() == user.LikeType_Post {
+					message.TargetType = system.NotificationTargetType_TargetTypePost
+					post, err := s.MeowchatContent.RetrievePost(ctx, &content.RetrievePostReq{PostId: req.TargetId})
+					if err != nil {
+						log.CtxError(ctx, "[RetrievePost] fail, err=%v", err)
+						return
+					}
+					wechatMessage.SourceContent = post.Post.GetTitle()
+				} else if req.GetTargetType() == user.LikeType_Comment {
+					message.TargetType = system.NotificationTargetType_TargetTypeComment
+					comment, err := s.PlatformComment.RetrieveCommentById(ctx, &comment.RetrieveCommentByIdReq{Id: req.TargetId})
+					if err != nil {
+						log.CtxError(ctx, "[RetrieveCommentById] fail, err=%v", err)
+						return
+					}
+					wechatMessage.SourceContent = comment.Comment.GetText()
+				} else if req.GetTargetType() == user.LikeType_Moment {
+					message.TargetType = system.NotificationTargetType_TargetTypeMoment
+					moment, err := s.MeowchatContent.RetrieveMoment(ctx, &content.RetrieveMomentReq{MomentId: req.TargetId})
+					if err != nil {
+						log.CtxError(ctx, "[RetrieveMoment] fail, err=%v", err)
+						return
+					}
+					wechatMessage.SourceContent = moment.Moment.GetTitle()
+				} else if req.GetTargetType() == user.LikeType_User {
+					message.Type = system.NotificationType_TypeFollowed
+					message.TargetType = system.NotificationTargetType_TargetTypeUser
+					wechatMessage.MessageType = 3
+				} else {
+					message.TargetType = 0
+				}
+			},
+		)
+		util.ParallelRun(
+			func() {
+				_, err = s.MeowchatSystem.AddNotification(ctx, &system.AddNotificationReq{Notification: message})
+				if err != nil {
+					log.CtxError(ctx, "[AddNotification] fail, err=%v\", err")
+					return
+				}
+			},
+			func() {
+				_, err = s.PlatformSts.SendMessage(ctx, wechatMessage)
+				if err != nil {
+					log.CtxError(ctx, "[SendMessage] fail, err=%v\", err")
+					return
+				}
+			},
+		)
+
 	}
 
 	if r.GetGetFish() == true {

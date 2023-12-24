@@ -103,7 +103,6 @@ func (s *SystemService) ListNotification(ctx context.Context, req *core_api.List
 	}
 	if req.PaginationOption.LastToken == nil {
 		request.PaginationOptions.Offset = lo.EmptyableToPtr(req.PaginationOption.GetLimit() * req.PaginationOption.GetPage())
-
 	}
 
 	data, err := s.System.ListNotification(ctx, request)
