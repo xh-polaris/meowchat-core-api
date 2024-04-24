@@ -6,12 +6,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/bytedance/gopkg/cloud/metainfo"
 	"github.com/bytedance/sonic"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/cloudwego/kitex/pkg/remote/trans/nphttp2/metadata"
 	"github.com/samber/lo"
-	"github.com/xh-polaris/gopkg/kitex/client"
+	consts2 "github.com/xh-polaris/gopkg/consts"
 
 	"github.com/xh-polaris/meowchat-core-api/biz/adaptor"
 	"github.com/xh-polaris/meowchat-core-api/biz/application/dto/basic"
@@ -371,7 +371,7 @@ func Prefetch(ctx context.Context, c *app.RequestContext) {
 	if params.CommunityId == "" {
 		params.CommunityId = p.Config.DefaultCommunityId
 	}
-	ctx = metainfo.WithPersistentValue(ctx, client.EnvHeader, params.Env)
+	ctx = metadata.AppendToOutgoingContext(ctx, consts2.EnvHeader, params.Env)
 	util.ParallelRun(
 		func() {
 			if req.Code != nil {

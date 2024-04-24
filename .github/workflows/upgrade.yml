@@ -7,8 +7,6 @@ name: Upgrade
 
 on:
   push:
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
@@ -75,10 +73,13 @@ jobs:
         with:
           version: ${{ vars.KUBE_VERSION }}
 
-      - name: Deploy
+      - name: Prepare Config
         run: |
           mkdir $HOME/.kube
           echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+
+      - name: Deploy
+        run: |
           kubectl get deployment ${{ env.IMAGE_NAME }} -n ${{ vars.BASE_TEST_NAMESPACE }} -o yaml |\
-          sed 's/^\(      - image: xhpolaris\/${{ env.IMAGE_NAME }}:\).*$/\1${{ needs.build.outputs.version }}/' |\
+          sed 's/^\(      - image: ${{ env.USERNAME }}\/${{ env.IMAGE_NAME }}:\).*$/\1${{ needs.build.outputs.version }}/' |\
           kubectl apply -f -
