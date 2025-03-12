@@ -6,6 +6,7 @@ require (
 	github.com/bytedance/gopkg v0.0.0-20240419070415-fefc805d4d2a
 	github.com/bytedance/sonic v1.11.2
 	github.com/cloudwego/hertz v0.8.1
+	github.com/cloudwego/kitex v0.9.1
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/google/uuid v1.3.0
 	github.com/google/wire v0.5.0
@@ -13,7 +14,7 @@ require (
 	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.2
 	github.com/jinzhu/copier v0.3.5
 	github.com/samber/lo v1.38.1
-	github.com/xh-polaris/gopkg v0.0.0-20240424152329-9162fdb0eef9
+	github.com/xh-polaris/gopkg v0.0.0-20241125135731-24b5774f1e40
 	github.com/xh-polaris/service-idl-gen-go v0.0.0-20231224085955-8aaa0836d2a4
 	github.com/zeromicro/go-zero v1.5.4
 	go.opentelemetry.io/contrib/propagators/b3 v1.17.0
@@ -37,7 +38,6 @@ require (
 	github.com/cloudwego/dynamicgo v0.2.0 // indirect
 	github.com/cloudwego/fastpb v0.0.4 // indirect
 	github.com/cloudwego/frugal v0.1.14 // indirect
-	github.com/cloudwego/kitex v0.9.1 // indirect
 	github.com/cloudwego/localsession v0.0.2 // indirect
 	github.com/cloudwego/netpoll v0.6.0 // indirect
 	github.com/cloudwego/thriftgo v0.3.6 // indirect
