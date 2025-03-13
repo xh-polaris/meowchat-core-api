@@ -4,6 +4,8 @@ package main
 
 import (
 	"context"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+	"net/http"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
@@ -26,6 +28,7 @@ func Init() {
 	provider.Init()
 	hlog.SetLogger(logx.NewHlogLogger())
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(b3.New(), propagation.Baggage{}, propagation.TraceContext{}))
+	http.DefaultTransport = otelhttp.NewTransport(http.DefaultTransport)
 }
 
 func main() {
